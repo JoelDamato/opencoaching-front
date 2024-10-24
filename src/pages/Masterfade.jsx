@@ -43,6 +43,14 @@ function Masterfade() {
             </Link>
           </div>
         </div>
+
+        <div className="mt-6">
+        <Link to="/Dashboard">
+          <button className="bg-black text-white py-2 px-4 rounded-lg">
+            Regresar al Dashboard
+          </button>
+        </Link>
+      </div>
       </div>
     </div>
   );

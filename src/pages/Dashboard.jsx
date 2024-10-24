@@ -20,22 +20,34 @@ function Dashboard() {
             <h3 className="text-2xl font-bold mb-4">Curso de Master Fade 2.0</h3>
             <p className="text-gray-700 mb-4">Aprende las técnicas avanzadas de barbería.</p>
             <Link to="/Masterfade" className="bg-blue-600 text-white py-2 px-4 rounded-lg">
-            <button className="bg-blue-600 text-white py-2 px-4 rounded-lg">Ver Curso</button>
+              <button className="bg-blue-600 text-white py-2 px-4 rounded-lg">Ver Curso</button>
             </Link>
           </div>
-          
-          {/* Curso 2 */}
+
+          {/* Curso 2 (Deshabilitado) */}
           <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
             <h3 className="text-2xl font-bold mb-4">Curso de Focus</h3>
             <p className="text-gray-700 mb-4">Conviértete en un experto.</p>
-            <button className="bg-blue-600 text-white py-2 px-4 rounded-lg">Ver Curso</button>
+            <button
+              className="bg-gray-400 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed opacity-50"
+              disabled
+              style={{ pointerEvents: 'none' }}
+            >
+              Ver Curso
+            </button>
           </div>
 
-          {/* Curso 3 */}
+          {/* Curso 3 (Deshabilitado) */}
           <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
             <h3 className="text-2xl font-bold mb-4">Curso de Cutting Mastery</h3>
-            <p className="text-gray-700 mb-4">Conoce las herramientas .</p>
-            <button className="bg-blue-600 text-white py-2 px-4 rounded-lg">Ver Curso</button>
+            <p className="text-gray-700 mb-4">Conoce las herramientas.</p>
+            <button
+              className="bg-gray-400 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed opacity-50"
+              disabled
+              style={{ pointerEvents: 'none' }}
+            >
+              Ver Curso
+            </button>
           </div>
         </div>
       </div>
