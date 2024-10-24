@@ -1,4 +1,5 @@
 import '../App.css'
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
@@ -50,12 +51,16 @@ function Home() {
           </div>
 
           {/* Botón de inicio de sesión */}
+
+          <Link to="/Dashboard" className="bg-blue-600 text-white py-2 px-4 rounded-lg">
           <button
             className="bg-black rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-white"
             type="submit"
           >
             SIGN IN
           </button>
+            </Link>
+          
         </form>
       </div>
     </div>
