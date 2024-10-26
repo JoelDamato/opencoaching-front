@@ -52,7 +52,7 @@ function Masterfade() {
 
   // Función para regresar al índice principal
   const goToMainPage = () => {
-    navigate('/Masterfade');
+    navigate('/Dashboard/1');
   };
 
   return (
