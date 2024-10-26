@@ -1,5 +1,5 @@
 import '../App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
@@ -8,26 +8,45 @@ function Home() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const API_BASE_URL = process.env.NODE_ENV === 'production'
+    ? 'https://back-cursos.onrender.com'
+    : 'http://localhost:5000';
+
+  // Agregar lógica para redirigir si el token ya existe
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/Dashboard');  // Redirige automáticamente si ya hay un token almacenado
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const response = await fetch('https://back-cursos.onrender.com/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
+      console.log(data); // Verificar la respuesta del servidor
 
-    if (data.success) {
-      navigate('/Dashboard');  // Redirige al Dashboard en caso de éxito
-    } else {
-      setError('Login fallido. Por favor, verifica tus credenciales.');
+      if (response.ok && data.token) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('email', email);
+        navigate('/Dashboard');  // Redirige al Dashboard en caso de éxito
+      } else {
+        setError(data.message || 'Login fallido. Por favor, verifica tus credenciales.');
+      }
+    } catch (error) {
+      console.error('Error durante el login:', error);
+      setError('Error en el servidor. Por favor, intenta nuevamente más tarde.');
     }
   };
 
