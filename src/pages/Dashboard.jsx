@@ -121,22 +121,24 @@ function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full">
           {/* Curso Master Fade */}
           <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
+            <img src="https://static-media.hotmart.com/t5z1vptNxASKG05RR5hoT0sWJ2I=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/6bbf43d8-5568-4130-ba5d-fc2abd6345ad/HOTMARTLOGOMF.jpg" alt="Master Fade" className="w-full h-auto rounded-lg shadow-md mb-4" />
             <h3 className="text-2xl font-bold mb-4">Curso de Master Fade 2.0</h3>
             <p className="text-gray-700 mb-4">Aprende las técnicas avanzadas de barbería.</p>
             <Link to={`/Dashboard/1`}>
-  <button
-    className={`${
-      hasCourse("Master Fade") ? "bg-blue-600 text-white" : "bg-gray-400 text-gray-500 cursor-not-allowed opacity-50"
-    } py-2 px-4 rounded-lg`}
-    disabled={!hasCourse("Master Fade")}
-  >
-    Ver Curso
-  </button>
-</Link>
+              <button
+                className={`${
+                  hasCourse("Master Fade") ? "bg-blue-600 text-white" : "bg-gray-400 text-gray-500 cursor-not-allowed opacity-50"
+                } py-2 px-4 rounded-lg`}
+                disabled={!hasCourse("Master Fade")}
+              >
+                Ver Curso
+              </button>
+            </Link>
           </div>
 
           {/* Curso Focus */}
           <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
+            <img src="https://static-media.hotmart.com/8oVC6TuSWy7l-3hZVi0dQ79GDLU=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/1a504a49-f92c-4012-9f26-a829e52943f8/efa4dcda01b643a885e2557cc27b43d9.jpg" alt="Focus" className="w-full h-auto rounded-lg shadow-md mb-4" />
             <h3 className="text-2xl font-bold mb-4">Curso de Focus</h3>
             <p className="text-gray-700 mb-4">Conviértete en un experto.</p>
             <Link to={`/Dashboard/2`}>
@@ -153,19 +155,18 @@ function Dashboard() {
 
           {/* Curso Cutting Mastery */}
           <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
+            <img src="https://static-media.hotmart.com/QgNQqIxbuWZocAtf9w0ddxVJGAY=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/9cd6b195-3481-4a65-ad2e-b3f5906070a3/LogoCursoCuttingMastery.jpg" alt="Cutting Mastery" className="w-full h-auto rounded-lg shadow-md mb-4" />
             <h3 className="text-2xl font-bold mb-4">Curso de Cutting Mastery</h3>
             <p className="text-gray-700 mb-4">Conoce las herramientas.</p>
-
-
-       <Link to={`/Dashboard/3`}>
-            <button
-              className={`${
-                hasCourse("Cutting Mastery") ? "bg-blue-600 text-white" : "bg-gray-400 text-gray-500 cursor-not-allowed opacity-50"
-              } py-2 px-4 rounded-lg`}
-              disabled={!hasCourse("Cutting Mastery")}
-            >
-              Ver Curso
-            </button>
+            <Link to={`/Dashboard/3`}>
+              <button
+                className={`${
+                  hasCourse("Cutting Mastery") ? "bg-blue-600 text-white" : "bg-gray-400 text-gray-500 cursor-not-allowed opacity-50"
+                } py-2 px-4 rounded-lg`}
+                disabled={!hasCourse("Cutting Mastery")}
+              >
+                Ver Curso
+              </button>
             </Link>
           </div>
         </div>

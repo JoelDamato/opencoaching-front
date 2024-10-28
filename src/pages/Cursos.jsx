@@ -1,7 +1,22 @@
-import { Link, useParams } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
+import useUserStore from '../store/users'; // Ajusta la ruta según la ubicación del archivo userStore
+
+
+// Resto del componente...
+
 
 function Cursos() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Obtener el estado del usuario y el perfil desde Zustand
+  const user = useUserStore((state) => state.user);
+  const setUserData = useUserStore((state) => state.setUserData);
+  const clearUserData = useUserStore((state) => state.clearUserData);
+  const showProfile = useUserStore((state) => state.showProfile);
+  const setShowProfile = useUserStore((state) => state.setShowProfile);
   const { cursoId } = useParams();
 
   useEffect(() => {
@@ -33,22 +48,42 @@ function Cursos() {
     ],
     '2': [
       {
-        title: 'Capítulo 1: Introducción al Focus Cutting',
+        title: 'Capítulo 1',
         description: 'Aprende cómo empezar con la técnica Focus Cutting y prepararte adecuadamente.',
         link: '/focus/1',
       },
       {
-        title: 'Capítulo 2: Herramientas y Setup',
+        title: 'Capítulo 2',
         description: 'Configuración adecuada de herramientas para Focus Cutting.',
         link: '/focus/2',
       },
       {
-        title: 'Capítulo 3: Estrategias de Corte',
+        title: 'Capítulo 3',
         description: 'Explora las estrategias que te ayudarán a dominar el corte Focus.',
         link: '/focus/3',
       },
       {
-        title: 'Capítulo 4: Pulido Final y Detalles',
+        title: 'Capítulo 4',
+        description: 'Detalles finales para un Focus Cutting impecable.',
+        link: '/focus/4',
+      },
+      {
+        title: 'Capítulo 5',
+        description: 'Aprende cómo empezar con la técnica Focus Cutting y prepararte adecuadamente.',
+        link: '/focus/1',
+      },
+      {
+        title: 'Capítulo 6',
+        description: 'Configuración adecuada de herramientas para Focus Cutting.',
+        link: '/focus/2',
+      },
+      {
+        title: 'Capítulo 7',
+        description: 'Explora las estrategias que te ayudarán a dominar el corte Focus.',
+        link: '/focus/3',
+      },
+      {
+        title: 'Capítulo 8',
         description: 'Detalles finales para un Focus Cutting impecable.',
         link: '/focus/4',
       },
@@ -79,15 +114,52 @@ function Cursos() {
 
   const selectedCourse = courseContent[cursoId] || [];
 
+   // Restablecer el estado del perfil al montar el componente
+   useEffect(() => {
+    setShowProfile(false);
+  }, [setShowProfile]);
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    clearUserData(); // Limpiar los datos del usuario en Zustand
+    navigate('/');
+  };
+
+  // Función para verificar si el usuario tiene un curso específico
+  const hasCourse = (courseName) => {
+    return user?.cursos?.includes(courseName);
+  };
+
+  // Función para mostrar/ocultar el perfil
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+    setIsMenuOpen(false);
+  };
+
+  // Función para mostrar/ocultar el menú (en móvil)
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+
   return (
+    
     <div className="h-screen w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
+        <Navbar
+        toggleProfile={toggleProfile}
+        handleLogout={handleLogout}
+        toggleMenu={toggleMenu}
+        isMenuOpen={isMenuOpen}
+      />
       <h1 className="text-4xl font-bold mb-6 text-white text-shadow-xl">
-        {cursoId === '1' ? 'Master Fade 2.0' : cursoId === '2' ? 'Focus Cutting Mastery' : cursoId === '3' ? 'Cutting Mastery' : 'Curso Desconocido'}
+        {cursoId === '1' ? 'Master Fade 2.0' : cursoId === '2' ? 'Focus ' : cursoId === '3' ? 'Cutting Mastery' : 'Curso Desconocido'}
       </h1>
 
       <div className="bg-white h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         <h2 className="flex justify-center text-black text-3xl tracking-wide font-bold py-4 sm:text-4xl">
-          {cursoId === '1' ? 'Curso Master Fade 2.0 - Capítulos' : cursoId === '2' ? 'Curso Focus Cutting - Capítulos' : cursoId === '3' ? 'Curso Cutting Mastery - Capítulos' : 'Contenido no disponible'}
+          {cursoId === '1' ? 'Curso Master Fade 2.0 - Capítulos' : cursoId === '2' ? 'Curso Focus - Capítulos' : cursoId === '3' ? 'Curso Cutting Mastery - Capítulos' : 'Contenido no disponible'}
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">

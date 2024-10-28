@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(localStorage.getItem('savedEmail') || '');
+  const [password, setPassword] = useState(localStorage.getItem('savedPassword') || '');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Estado para manejar el loading
   const navigate = useNavigate();
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
@@ -21,7 +22,10 @@ function Home() {
   }, [navigate]);
 
   const handleSubmit = async (e) => {
+    localStorage.setItem('savedEmail', email);
+    localStorage.setItem('savedPassword', password);
     e.preventDefault();
+    setIsLoading(true); // Mostrar el estado de loading
     try {
       const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
@@ -47,6 +51,8 @@ function Home() {
     } catch (error) {
       console.error('Error durante el login:', error);
       setError('Error en el servidor. Por favor, intenta nuevamente más tarde.');
+    } finally {
+      setIsLoading(false); // Dejar de mostrar el estado de loading
     }
   };
 
@@ -69,6 +75,7 @@ function Home() {
                 <input
                   className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -89,6 +96,7 @@ function Home() {
                 <input
                   className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="password"
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -103,10 +111,13 @@ function Home() {
           </div>
 
           <button
-            className="bg-black rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-white"
+            className={`${
+              isLoading ? 'bg-gray-600' : 'bg-black hover:bg-gray-800'
+            } rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-white transition-all duration-300`}
             type="submit"
+            disabled={isLoading}
           >
-            SIGN IN
+            {isLoading ? 'Cargando...' : 'SIGN IN'}
           </button>
         </form>
       </div>
