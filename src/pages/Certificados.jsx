@@ -111,7 +111,7 @@ function Certificados() {
 
 
   return (
-    <div className="h-screen w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
+    <div className="h-screen w-screen bg-gradient-to-b from-blue-900 to-black  flex flex-col items-center">
       {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}
@@ -122,7 +122,7 @@ function Certificados() {
 
       {/* Cartel de felicitaciones */}
       {user && user.nombre && (
-        <div className="bg-white p-6 rounded-lg shadow-lg mt-10">
+        <div className="bg-gradient-to-b from-blue-900 to-black p-6 rounded-lg shadow-lg mt-10">
           <h2 className="text-3xl font-bold text-blue-800">Felicitaciones, {user.nombre}!</h2>
           <p className="text-lg mt-2">Has completado el curso con éxito.</p>
         </div>

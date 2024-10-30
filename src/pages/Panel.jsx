@@ -116,7 +116,7 @@ function PanelControl() {
   };
 
   return (
-    <div className="h-screen w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
+    <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
       {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}
@@ -129,18 +129,20 @@ function PanelControl() {
       <h1 className="text-4xl font-bold mb-6 text-white text-shadow-xl mt-6">Panel de Control</h1>
 
       {/* Mini navegador */}
-      <div className="bg-white w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex justify-center p-4 shadow-lg mb-8">
+      <div className="bg-black w-50% sm:w-11/12 rounded-xl sm:rounded-2xl flex justify-center p-4 shadow-lg mb-1">
         <button className={`mx-4 px-4 py-2 rounded ${activeSection === 'crear' ? 'bg-blue-700 text-white' : 'bg-gray-200'}`} onClick={() => setActiveSection('crear')}>Crear</button>
         <button className={`mx-4 px-4 py-2 rounded ${activeSection === 'editar' ? 'bg-blue-700 text-white' : 'bg-gray-200'}`} onClick={() => setActiveSection('editar')}>Editar</button>
       </div>
 
       {/* Sección activa */}
       {activeSection === 'crear' && (
-        <div className="bg-white h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+        <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-4 shadow-lg">
+             <h2 className="text-2xl font-bold  text-white">Crear Usuario</h2>
           <form className="flex flex-col w-full items-center gap-5" onSubmit={handleSubmit}>
             {/* Formulario de creación de usuario */}
             <div className="w-4/5">
-              <label className="block text-black font-semibold tracking-wide mb-2">
+              
+              <label className="block text-white font-semibold tracking-wide mb-2">
                 Nombre:
                 <input
                   className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
@@ -152,7 +154,7 @@ function PanelControl() {
               </label>
             </div>
             <div className="w-4/5">
-              <label className="block text-black font-semibold tracking-wide mb-2">
+              <label className="block text-white font-semibold tracking-wide mb-2">
                 Email:
                 <input
                   className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
@@ -164,7 +166,7 @@ function PanelControl() {
               </label>
             </div>
             <div className="w-4/5">
-              <label className="block text-black font-semibold tracking-wide mb-2">
+              <label className="block text-white font-semibold tracking-wide mb-2">
                 Contraseña:
                 <input
                   className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
@@ -176,7 +178,7 @@ function PanelControl() {
               </label>
             </div>
             <div className="w-4/5">
-              <label className="block text-black font-semibold tracking-wide mb-2">
+              <label className="block text-white font-semibold tracking-wide mb-2">
                 Cursos:
                 <div className="flex flex-col mt-2">
                   <label>
@@ -191,11 +193,11 @@ function PanelControl() {
                   <label>
                     <input
                       type="checkbox"
-                      value="Master Fade"
-                      checked={cursos.includes('Master Fade')}
+                      value="Master Fade 2.0"
+                      checked={cursos.includes('Master Fade 2.0')}
                       onChange={handleCursoChange}
                     />{' '}
-                    Master Fade
+                    Master Fade 2.0
                   </label>
                   <label>
                     <input
@@ -211,7 +213,7 @@ function PanelControl() {
             </div>
 
             <button
-              className="bg-black rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-white"
+              className="bg-white rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-black"
               type="submit"
             >
               Crear Usuario
@@ -221,12 +223,12 @@ function PanelControl() {
       )}
 
       {activeSection === 'editar' && (
-        <div className="bg-white h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-          <h2 className="text-2xl font-bold mb-4">Editar Usuario</h2>
+        <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+          <h2 className="text-2xl font-bold mb-4 text-white">Editar Usuario</h2>
           <form className="flex flex-col w-full items-center gap-5" onSubmit={handleEditUser}>
             {/* Formulario de edición de usuario */}
             <div className="w-4/5">
-              <label className="block text-black font-semibold tracking-wide mb-2">
+              <label className="block text-white font-semibold tracking-wide mb-2">
                 Email del usuario a editar:
                 <input
                   className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
@@ -238,7 +240,7 @@ function PanelControl() {
               </label>
             </div>
             <div className="w-4/5">
-              <label className="block text-black font-semibold tracking-wide mb-2">
+              <label className="block text-white font-semibold tracking-wide mb-2">
                 Nombre:
                 <input
                   className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
@@ -249,7 +251,7 @@ function PanelControl() {
               </label>
             </div>
             <div className="w-4/5">
-              <label className="block text-black font-semibold tracking-wide mb-2">
+              <label className="block text-white font-semibold tracking-wide mb-2">
                 Cursos:
                 <div className="flex flex-col mt-2">
                   <label>
@@ -264,11 +266,11 @@ function PanelControl() {
                   <label>
                     <input
                       type="checkbox"
-                      value="Master Fade"
-                      checked={cursos.includes('Master Fade')}
+                      value="Master Fade 2.0"
+                      checked={cursos.includes('Master Fade 2.0')}
                       onChange={handleCursoChange}
                     />{' '}
-                    Master Fade
+                    Master Fade 2.0
                   </label>
                   <label>
                     <input
@@ -284,10 +286,10 @@ function PanelControl() {
             </div>
 
             <button
-              className="bg-blue-700 rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-white"
+              className="bg-white rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-black px-2"
               type="submit"
             >
-              Actualizar Usuario
+              Actualizar
             </button>
           </form>
         </div>

@@ -7,6 +7,7 @@ import useUserStore from '../store/users'; // Importar el store de Zustand
 
 function Dashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [courses, setCourses] = useState([]); // Estado para almacenar los cursos
   const navigate = useNavigate();
 
   // Obtener el estado del usuario y el perfil desde Zustand
@@ -39,6 +40,11 @@ function Dashboard() {
       .then(response => {
         // Guardar los datos del usuario en el estado global con Zustand
         setUserData(response.data);
+
+        // Guardar el nombre del usuario en localStorage
+        if (response.data.nombre) {
+          localStorage.setItem('nombre', response.data.nombre);
+        }
       })
       .catch(error => {
         console.error('Error fetching user data:', error);
@@ -54,17 +60,29 @@ function Dashboard() {
     setShowProfile(false);
   }, [setShowProfile]);
 
+  // Obtener los cursos desde la API
+  useEffect(() => {
+    axios.get(`${API_BASE_URL}/api/courses/getcourses`)
+      .then(response => {
+        setCourses(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching courses:', error);
+      });
+  }, [API_BASE_URL]);
+
   // Función para cerrar sesión
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    localStorage.removeItem('nombre'); // Limpiar el nombre del usuario
     clearUserData(); // Limpiar los datos del usuario en Zustand
     navigate('/');
   };
 
   // Función para verificar si el usuario tiene un curso específico
-  const hasCourse = (courseName) => {
-    return user?.cursos?.includes(courseName);
+  const hasCourse = (courseTitle) => {
+    return user?.cursos?.includes(courseTitle);
   };
 
   // Función para mostrar/ocultar el perfil
@@ -78,8 +96,13 @@ function Dashboard() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Función para sanitizar el título del curso y convertirlo en un slug seguro para URL
+  const sanitizeCourseTitle = (title) => {
+    return title.replace(/\s+/g, '-').toLowerCase();
+  };
+
   return (
-    <div className="h-screen w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
+    <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
       {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}
@@ -108,67 +131,34 @@ function Dashboard() {
         </div>
       )}
 
-      {/* Título del Dashboard */}
-      <h1 className="text-4xl font-bold mb-6 text-white text-shadow-xl mt-10">Dashboard</h1>
-
       {/* Contenedor de los cursos */}
-      <div className="bg-white h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-        <h2 className="flex justify-center text-black text-3xl tracking-wide font-bold py-4 sm:text-4xl">
-          Mis Cursos
-        </h2>
-
+      <div className="bg-gradient-to-r from-blue-950 to-blue-800 h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         {/* Tarjetas de los cursos */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full">
-          {/* Curso Master Fade */}
-          <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
-            <img src="https://static-media.hotmart.com/t5z1vptNxASKG05RR5hoT0sWJ2I=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/6bbf43d8-5568-4130-ba5d-fc2abd6345ad/HOTMARTLOGOMF.jpg" alt="Master Fade" className="w-full h-auto rounded-lg shadow-md mb-4" />
-            <h3 className="text-2xl font-bold mb-4">Curso de Master Fade 2.0</h3>
-            <p className="text-gray-700 mb-4">Aprende las técnicas avanzadas de barbería.</p>
-            <Link to={`/Dashboard/1`}>
-              <button
-                className={`${
-                  hasCourse("Master Fade") ? "bg-blue-600 text-white" : "bg-gray-400 text-gray-500 cursor-not-allowed opacity-50"
-                } py-2 px-4 rounded-lg`}
-                disabled={!hasCourse("Master Fade")}
-              >
-                Ver Curso
-              </button>
-            </Link>
-          </div>
-
-          {/* Curso Focus */}
-          <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
-            <img src="https://static-media.hotmart.com/8oVC6TuSWy7l-3hZVi0dQ79GDLU=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/1a504a49-f92c-4012-9f26-a829e52943f8/efa4dcda01b643a885e2557cc27b43d9.jpg" alt="Focus" className="w-full h-auto rounded-lg shadow-md mb-4" />
-            <h3 className="text-2xl font-bold mb-4">Curso de Focus</h3>
-            <p className="text-gray-700 mb-4">Conviértete en un experto.</p>
-            <Link to={`/Dashboard/2`}>
-              <button
-                className={`${
-                  hasCourse("Focus") ? "bg-blue-600 text-white" : "bg-gray-400 text-gray-500 cursor-not-allowed opacity-50"
-                } py-2 px-4 rounded-lg`}
-                disabled={!hasCourse("Focus")}
-              >
-                Ver Curso
-              </button>
-            </Link>
-          </div>
-
-          {/* Curso Cutting Mastery */}
-          <div className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
-            <img src="https://static-media.hotmart.com/QgNQqIxbuWZocAtf9w0ddxVJGAY=/300x300/smart/filters:format(webp):background_color(white)/hotmart/product_pictures/9cd6b195-3481-4a65-ad2e-b3f5906070a3/LogoCursoCuttingMastery.jpg" alt="Cutting Mastery" className="w-full h-auto rounded-lg shadow-md mb-4" />
-            <h3 className="text-2xl font-bold mb-4">Curso de Cutting Mastery</h3>
-            <p className="text-gray-700 mb-4">Conoce las herramientas.</p>
-            <Link to={`/Dashboard/3`}>
-              <button
-                className={`${
-                  hasCourse("Cutting Mastery") ? "bg-blue-600 text-white" : "bg-gray-400 text-gray-500 cursor-not-allowed opacity-50"
-                } py-2 px-4 rounded-lg`}
-                disabled={!hasCourse("Cutting Mastery")}
-              >
-                Ver Curso
-              </button>
-            </Link>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full shadow-1xl">
+          {courses.map((course, index) => (
+            <div key={index} className="bg-gradient-to-l from-blue-950 to-blue-800  rounded-lg shadow-lg p-6 flex flex-col items-center">
+              <img src={course.image} alt={course.courseTitle} className="w-full h-auto rounded-lg shadow-md mb-4" />
+              <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
+              <p className="text-white font-bold mb-4">{course.courseDescription}</p>
+              {hasCourse(course.courseTitle) ? (
+                <button
+                  onClick={() => navigate(`/${sanitizeCourseTitle(course.courseTitle)}`)}
+                  className="bg-blue-600 text-white py-2 px-4 rounded-lg"
+                >
+                  Ver Capítulo
+                </button>
+              ) : (
+                <a
+                  href={`https://wa.me/59891640623?text=Quiero%20adquirir%20el%20curso%20${encodeURIComponent(course.courseTitle)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-600 text-white py-2 px-4 rounded-lg"
+                >
+                  Adquirir
+                </a>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

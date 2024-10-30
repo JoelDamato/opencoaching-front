@@ -3,10 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import useUserStore from '../store/users'; // Ajusta la ruta según la ubicación del archivo userStore
 
-
-// Resto del componente...
-
-
 function Cursos() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -19,103 +15,34 @@ function Cursos() {
   const setShowProfile = useUserStore((state) => state.setShowProfile);
   const { cursoId } = useParams();
 
+  const [course, setCourse] = useState(null);
+
+  const sanitizeTitle = (title) => {
+    return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+  };
+  
+
   useEffect(() => {
-    console.log("Curso ID recibido: ", cursoId);
+    const fetchCourseData = async () => {
+      try {
+        // Fetch para obtener todos los cursos desde la API
+        const response = await fetch('http://localhost:5000/api/courses/getcourses');
+        const data = await response.json();
+        // Filtrar el curso especifico según el cursoId recibido desde la URL
+        const selectedCourse = data.find(course => course.courseTitle.toLowerCase().replace(/\s+/g, '-') === cursoId);
+        setCourse(selectedCourse);
+      } catch (error) {
+        console.error("Error al obtener el curso:", error);
+      }
+    };
+
+    if (cursoId) {
+      fetchCourseData();
+    }
   }, [cursoId]);
 
-  const courseContent = {
-    '1': [
-      {
-        title: 'Capítulo 1: Preparación',
-        description: 'Aprende cómo preparar el área de trabajo y las herramientas necesarias.',
-        link: '/masterfade/1',
-      },
-      {
-        title: 'Capítulo 2: Técnicas Básicas',
-        description: 'Dominando las técnicas básicas para lograr un fade perfecto.',
-        link: '/masterfade/2',
-      },
-      {
-        title: 'Capítulo 3: Técnicas Avanzadas',
-        description: 'Lleva tu fade al siguiente nivel con técnicas avanzadas.',
-        link: '/masterfade/3',
-      },
-      {
-        title: 'Capítulo 4: Finalización y Detalles',
-        description: 'Cómo finalizar un corte con precisión y atención a los detalles.',
-        link: '/masterfade/4',
-      },
-    ],
-    '2': [
-      {
-        title: 'Capítulo 1',
-        description: 'Aprende cómo empezar con la técnica Focus Cutting y prepararte adecuadamente.',
-        link: '/focus/1',
-      },
-      {
-        title: 'Capítulo 2',
-        description: 'Configuración adecuada de herramientas para Focus Cutting.',
-        link: '/focus/2',
-      },
-      {
-        title: 'Capítulo 3',
-        description: 'Explora las estrategias que te ayudarán a dominar el corte Focus.',
-        link: '/focus/3',
-      },
-      {
-        title: 'Capítulo 4',
-        description: 'Detalles finales para un Focus Cutting impecable.',
-        link: '/focus/4',
-      },
-      {
-        title: 'Capítulo 5',
-        description: 'Aprende cómo empezar con la técnica Focus Cutting y prepararte adecuadamente.',
-        link: '/focus/1',
-      },
-      {
-        title: 'Capítulo 6',
-        description: 'Configuración adecuada de herramientas para Focus Cutting.',
-        link: '/focus/2',
-      },
-      {
-        title: 'Capítulo 7',
-        description: 'Explora las estrategias que te ayudarán a dominar el corte Focus.',
-        link: '/focus/3',
-      },
-      {
-        title: 'Capítulo 8',
-        description: 'Detalles finales para un Focus Cutting impecable.',
-        link: '/focus/4',
-      },
-    ],
-    '3': [
-      {
-        title: 'Capítulo 1: Introducción a Cutting Mastery',
-        description: 'Aprende las bases para dominar Cutting Mastery y establecer un buen inicio.',
-        link: '/cuttingmastery/1',
-      },
-      {
-        title: 'Capítulo 2: Herramientas Especializadas',
-        description: 'Descubre las herramientas necesarias y cómo configurarlas correctamente.',
-        link: '/cuttingmastery/2',
-      },
-      {
-        title: 'Capítulo 3: Técnicas Avanzadas de Corte',
-        description: 'Domina técnicas avanzadas para realizar cortes de alta precisión.',
-        link: '/cuttingmastery/3',
-      },
-      {
-        title: 'Capítulo 4: Pulido y Acabado',
-        description: 'Perfecciona los detalles finales para lograr un acabado impecable.',
-        link: '/cuttingmastery/4',
-      },
-    ],
-};
-
-  const selectedCourse = courseContent[cursoId] || [];
-
-   // Restablecer el estado del perfil al montar el componente
-   useEffect(() => {
+  // Restablecer el estado del perfil al montar el componente
+  useEffect(() => {
     setShowProfile(false);
   }, [setShowProfile]);
 
@@ -143,33 +70,42 @@ function Cursos() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  if (!course) {
+    return <div className="text-white">Cargando curso...</div>;
+  }
 
   return (
-    
-    <div className="h-screen w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
-        <Navbar
+    <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
+      <Navbar
         toggleProfile={toggleProfile}
         handleLogout={handleLogout}
         toggleMenu={toggleMenu}
         isMenuOpen={isMenuOpen}
       />
-      <h1 className="text-4xl font-bold mb-6 text-white text-shadow-xl">
-        {cursoId === '1' ? 'Master Fade 2.0' : cursoId === '2' ? 'Focus ' : cursoId === '3' ? 'Cutting Mastery' : 'Curso Desconocido'}
+      <h1 className="pt-5 text-4xl font-bold mb-6 text-white text-shadow-xl">
+        {course.courseTitle}
       </h1>
 
-      <div className="bg-white h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-        <h2 className="flex justify-center text-black text-3xl tracking-wide font-bold py-4 sm:text-4xl">
-          {cursoId === '1' ? 'Curso Master Fade 2.0 - Capítulos' : cursoId === '2' ? 'Curso Focus - Capítulos' : cursoId === '3' ? 'Curso Cutting Mastery - Capítulos' : 'Contenido no disponible'}
-        </h2>
+      <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+      
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {selectedCourse.map((chapter, index) => (
-            <div key={index} className="bg-gray-200 rounded-lg shadow-lg p-6 flex flex-col items-center">
-              <h3 className="text-2xl font-bold mb-4">{chapter.title}</h3>
-              <p className="text-gray-700 mb-4">{chapter.description}</p>
-              <Link to={chapter.link} className="bg-blue-600 text-white py-2 px-4 rounded-lg">
+          {course.chapters.map((chapter, index) => (
+            <div key={index} className="bg-gradient-to-l from-blue-950 to-blue-800 rounded-lg shadow-lg p-6 flex flex-col items-center">
+              <h3 className="text-2xl text-white font-bold mb-4">{chapter.title}</h3>
+              <iframe
+                src={chapter.video}
+                className="w-full h-40 mb-4 rounded-lg"
+                allow="autoplay"
+                title={`Vista previa del video de ${chapter.title}`}
+              ></iframe>
+              <p className="text-gray-700 mb-4 text-white">{chapter.description}</p>
+              <button 
+                onClick={() => navigate(`/cursos/${sanitizeTitle(course.courseTitle)}/${index + 1}`)}
+                className="bg-blue-600 text-white py-2 px-4 rounded-lg"
+              >
                 Ver Capítulo
-              </Link>
+              </button>
             </div>
           ))}
         </div>
