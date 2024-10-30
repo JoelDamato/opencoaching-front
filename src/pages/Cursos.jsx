@@ -4,6 +4,11 @@ import Navbar from '../components/Navbar';
 import useUserStore from '../store/users'; // Ajusta la ruta según la ubicación del archivo userStore
 
 function Cursos() {
+
+  const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://back-cursos.onrender.com'
+  : 'http://localhost:5000';
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -26,7 +31,7 @@ function Cursos() {
     const fetchCourseData = async () => {
       try {
         // Fetch para obtener todos los cursos desde la API
-        const response = await fetch('http://localhost:5000/api/courses/getcourses');
+        const response = await fetch(`${API_BASE_URL}/api/courses/getcourses`);
         const data = await response.json();
         // Filtrar el curso especifico según el cursoId recibido desde la URL
         const selectedCourse = data.find(course => course.courseTitle.toLowerCase().replace(/\s+/g, '-') === cursoId);

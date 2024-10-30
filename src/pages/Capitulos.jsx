@@ -3,6 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 
 function Capitulos() {
+
+  const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://back-cursos.onrender.com'
+  : 'http://localhost:5000';
+  
   const { cursoId, chapterId } = useParams(); // Obtener cursoId y chapterId de la URL
   const navigate = useNavigate();
   const commentsEndRef = useRef(null);
@@ -22,7 +27,7 @@ function Capitulos() {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/courses/getcourses');
+        const response = await fetch(`${API_BASE_URL}/api/courses/getcourses`);
         const data = await response.json();
         const selectedCourse = data.find(course => sanitizeTitle(course.courseTitle) === cursoId);
         setCourse(selectedCourse);
@@ -38,7 +43,7 @@ function Capitulos() {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/comments/${cursoId}/${chapterId}`);
+      const response = await fetch(`${API_BASE_URL}/api/comments/${cursoId}/${chapterId}`);
       const data = await response.json();
       setComments(data);
     } catch (error) {
@@ -50,7 +55,7 @@ function Capitulos() {
     if (!newComment) return; 
     
     try {
-      const response = await fetch('http://localhost:5000/api/comments/add', {
+      const response = await fetch(`${API_BASE_URL}/api/comments/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -74,7 +79,7 @@ function Capitulos() {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/comments/${commentId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/comments/${commentId}`, {
         method: 'DELETE',
       });
 
