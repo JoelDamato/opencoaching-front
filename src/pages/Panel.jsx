@@ -145,7 +145,7 @@ function PanelControl() {
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Nombre:
                 <input
-                  className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="w-full h-12 text-black sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="text"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
@@ -157,7 +157,7 @@ function PanelControl() {
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Email:
                 <input
-                  className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="w-full  text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -169,7 +169,7 @@ function PanelControl() {
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Contraseña:
                 <input
-                  className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="w-full h-12 text-black sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -180,7 +180,7 @@ function PanelControl() {
             <div className="w-4/5">
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Cursos:
-                <div className="flex flex-col mt-2">
+                <div className="flex  flex-col mt-2">
                   <label>
                     <input
                       type="checkbox"
@@ -231,7 +231,7 @@ function PanelControl() {
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Email del usuario a editar:
                 <input
-                  className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -243,7 +243,7 @@ function PanelControl() {
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Nombre:
                 <input
-                  className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="text"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}

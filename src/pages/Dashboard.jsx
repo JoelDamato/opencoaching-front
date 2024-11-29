@@ -102,7 +102,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
+    <div className="h-full w-screen flex flex-col items-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
       {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}
@@ -132,12 +132,12 @@ function Dashboard() {
       )}
 
       {/* Contenedor de los cursos */}
-      <div className="bg-gradient-to-r from-blue-950 to-blue-800 h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+      <div className="bg-gradient-to-r from-blue-950/50 to-black h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         {/* Tarjetas de los cursos */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full shadow-1xl">
           {courses.map((course, index) => (
-            <div key={index} className="bg-gradient-to-l from-blue-950 to-blue-800  rounded-lg shadow-lg p-6 flex flex-col items-center">
-              <img src={course.image} alt={course.courseTitle} className="w-full h-auto rounded-lg shadow-md mb-4" />
+            <div key={index} className="bg-black/90  rounded-lg shadow-lg p-6 flex flex-col items-center">
+              <img src={course.image} alt={course.courseTitle} className="w-30 h-30 rounded-lg shadow-md mb-4" />
               <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
               <p className="text-white font-bold mb-4">{course.courseDescription}</p>
               {hasCourse(course.courseTitle) ? (

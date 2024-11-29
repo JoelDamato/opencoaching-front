@@ -1,6 +1,7 @@
 // Frontend Component
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import ReactPlayer from 'react-player';
 
 function Capitulos() {
 
@@ -17,6 +18,13 @@ function Capitulos() {
   const [userName, setUserName] = useState(localStorage.getItem("nombre") || ""); 
   const [showComments, setShowComments] = useState(false); // Estado para manejar el toggle de comentarios
   const [course, setCourse] = useState(null);
+
+  // Guardar el capítulo actual en el localStorage
+  useEffect(() => {
+    if (chapterId) {
+      localStorage.setItem("lastChapter", chapterId);
+    }
+  }, [chapterId]);
 
   // Función para sanitizar el título del curso (para coincidir con el formato de la URL)
   const sanitizeTitle = (title) => {
@@ -116,7 +124,7 @@ function Capitulos() {
   };
 
   const goToMainPage = () => {
-    navigate('/Dashboard');
+    navigate(`/${cursoId}`);
   };
 
   if (!course) {
@@ -133,7 +141,24 @@ function Capitulos() {
 
       <div className="bg-gradient-to-b from-blue-900 to-black h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         {chapter.video && (
-          <iframe className="rounded-lg mb-4" width="100%" height="480" src={chapter.video} allow="autoplay"></iframe>
+          <ReactPlayer
+          url={chapter.video}
+          width="100%"
+          height="480px"
+          controls
+          config={{
+            file: {
+              attributes: {
+                crossOrigin: "anonymous"  // Necesario para cargar subtítulos externos
+              },
+              tracks: [
+                { kind: "subtitles", src: "/subtitles/english.vtt", srcLang: "en", label: "English" },
+                { kind: "subtitles", src: "/subtitles/spanish.vtt", srcLang: "es", label: "Español" },
+                { kind: "subtitles", src: "/subtitles/french.vtt", srcLang: "fr", label: "Français" }
+              ]
+            }
+          }}
+        />
         )}
 
         {/* Toggle de Comentarios */}
@@ -187,14 +212,14 @@ function Capitulos() {
         )}
 
         <div className="flex justify-between w-full mt-6">
-          {chapterId === '1' && (
-            <button onClick={goToMainPage} className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-2 px-4 rounded-lg">Regresar</button>
-          )}
           {chapterId > 1 && (
-            <button onClick={goToPreviousChapter} className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-2 px-4 rounded-lg">Anterior</button>
+            <button onClick={goToPreviousChapter} className="bg-black text-white py-2 px-4 rounded-lg">Anterior</button>
           )}
+          <button onClick={goToMainPage} className="bg-black shadow-2xl text-white py-2 px-4 ">Regresar a {course.courseTitle}</button>
+
+
           {chapterId < course.chapters.length ? (
-            <button onClick={goToNextChapter} className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-2 px-4 rounded-lg">Siguiente</button>
+            <button onClick={goToNextChapter} className="bg-black text-white py-2 px-4 rounded-lg">Siguiente</button>
           ) : (
             <button onClick={() => window.location.href = "/certificados"} className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 px-4 rounded-lg">Finalizar</button>
           )}

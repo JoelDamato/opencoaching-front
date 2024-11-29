@@ -22,8 +22,6 @@ function Home() {
   }, [navigate]);
 
   const handleSubmit = async (e) => {
-    localStorage.setItem('savedEmail', email);
-    localStorage.setItem('savedPassword', password);
     e.preventDefault();
     setIsLoading(true); // Mostrar el estado de loading
     try {
@@ -57,11 +55,19 @@ function Home() {
   };
 
   return (
-    <div className="h-screen w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center justify-center"> 
-      <h1 className="text-4xl font-bold mb-6 text-white text-shadow-xl">Erick Gomez Academy</h1>
-      
-      <div className="bg-white h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-        <h1 className="flex justify-center text-black text-3xl tracking-wide font-bold py-4 sm:text-6xl">
+    <div
+      className="h-screen w-screen flex flex-col items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}
+    >
+      {/* Logo de la web */}
+      <img
+        src="https://i.ibb.co/GpQ6Lkw/cold-smooth-tasty-removebg-preview.png"
+        alt="Logo"
+        className="w-48 sm:w-64 mb-6"
+      />
+
+      <div className="bg-black/70  h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+        <h1 className="flex justify-center text-white text-3xl tracking-wide font-bold py-4 sm:text-6xl">
           INGRESAR
         </h1>
 
@@ -69,11 +75,11 @@ function Home() {
 
         <form className="flex flex-col w-full items-center gap-5" onSubmit={handleSubmit}>
           <div className="w-4/5">
-            <label className="block text-black font-semibold tracking-wide mb-2">
+            <label className="block text-white  font-semibold tracking-wide mb-2">
               EMAIL:
               <div className="flex items-center mt-1">
                 <input
-                  className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="text-black w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="email"
                   autoComplete="email"
                   value={email}
@@ -90,11 +96,11 @@ function Home() {
           </div>
 
           <div className="w-4/5">
-            <label className="block text-black font-semibold tracking-wide mb-2">
+            <label className="block text-white  font-semibold tracking-wide mb-2">
               CONTRASEÑA:
               <div className="flex items-center mt-1">
                 <input
-                  className="w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="text-black w-full h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="password"
                   autoComplete="current-password"
                   value={password}

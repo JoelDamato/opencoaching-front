@@ -111,7 +111,7 @@ function Certificados() {
 
 
   return (
-    <div className="h-screen w-screen bg-gradient-to-b from-blue-900 to-black  flex flex-col items-center">
+    <div className="h-screen w-screen  flex flex-col items-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
       {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}
@@ -122,9 +122,9 @@ function Certificados() {
 
       {/* Cartel de felicitaciones */}
       {user && user.nombre && (
-        <div className="bg-gradient-to-b from-blue-900 to-black p-6 rounded-lg shadow-lg mt-10">
-          <h2 className="text-3xl font-bold text-blue-800">Felicitaciones, {user.nombre}!</h2>
-          <p className="text-lg mt-2">Has completado el curso con éxito.</p>
+        <div className="bg-gradient-to-b from-blue-900/20 to-black p-6 rounded-lg shadow-lg mt-10">
+          <h2 className="text-3xl font-bold text-white">Felicitaciones, {user.nombre}!</h2>
+          <p className="text-lg mt-2 text-white">Has completado el curso con éxito.</p>
         </div>
       )}
 

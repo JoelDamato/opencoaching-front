@@ -1,13 +1,14 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
 import Navbar from '../components/Navbar';
 import useUserStore from '../store/users'; // Ajusta la ruta según la ubicación del archivo userStore
 
 function Cursos() {
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://back-cursos.onrender.com'
-  : 'http://localhost:5000';
+    ? 'https://back-cursos.onrender.com'
+    : 'http://localhost:5000';
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ function Cursos() {
     return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
   };
   
-
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
@@ -34,7 +34,7 @@ function Cursos() {
         const response = await fetch(`${API_BASE_URL}/api/courses/getcourses`);
         const data = await response.json();
         // Filtrar el curso especifico según el cursoId recibido desde la URL
-        const selectedCourse = data.find(course => course.courseTitle.toLowerCase().replace(/\s+/g, '-') === cursoId);
+        const selectedCourse = data.find(course => sanitizeTitle(course.courseTitle) === cursoId);
         setCourse(selectedCourse);
       } catch (error) {
         console.error("Error al obtener el curso:", error);
@@ -80,34 +80,38 @@ function Cursos() {
   }
 
   return (
-    <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
+    <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
       <Navbar
         toggleProfile={toggleProfile}
         handleLogout={handleLogout}
         toggleMenu={toggleMenu}
         isMenuOpen={isMenuOpen}
       />
-      <h1 className="pt-5 text-4xl font-bold mb-6 text-white text-shadow-xl">
-        {course.courseTitle}
-      </h1>
 
-      <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-      
+      <div className="h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+                      <img src={course.image} alt={course.courseTitle} className="w-40 h-40 rounded-lg shadow-md mb-4 pb-5" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
           {course.chapters.map((chapter, index) => (
-            <div key={index} className="bg-gradient-to-l from-blue-950 to-blue-800 rounded-lg shadow-lg p-6 flex flex-col items-center">
+            <div key={index} className="bg-gradient-to-r from-blue-950/50 to-black rounded-lg shadow-lg p-6 flex flex-col items-center">
               <h3 className="text-2xl text-white font-bold mb-4">{chapter.title}</h3>
-              <iframe
-                src={chapter.video}
-                className="w-full h-40 mb-4 rounded-lg"
-                allow="autoplay"
-                title={`Vista previa del video de ${chapter.title}`}
-              ></iframe>
+              
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=he_dPEEWeLY"
+                width="100%"
+                height="160px"
+                muted={true}
+                controls={false}
+                playing={false}
+                className="mb-4 rounded-lg"
+                onMouseEnter={(e) => e.target.play()}
+                onMouseLeave={(e) => e.target.pause()}
+              />
+
               <p className="text-gray-700 mb-4 text-white">{chapter.description}</p>
               <button 
                 onClick={() => navigate(`/cursos/${sanitizeTitle(course.courseTitle)}/${index + 1}`)}
-                className="bg-blue-600 text-white py-2 px-4 rounded-lg"
+                className="bg-black text-white py-2 px-4 rounded-lg"
               >
                 Ver Capítulo
               </button>
