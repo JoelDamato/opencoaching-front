@@ -155,35 +155,40 @@ function Dashboard() {
                 </button>
            
             </div>
-          {courses.map((course, index) => (
-            <div key={index} className="bg-black/90  rounded-lg shadow-lg p-6 flex flex-col items-center">
-<img
-  src={course.image}
-  alt={course.courseTitle}
-  className="w-full h-full max-w-[320px] max-h-[320px] rounded-lg shadow-md mb-4"
-/>
+            {courses.map((course, index) => (
+  // Solo muestra el curso si no es "Bonus" o si es "Bonus" pero el usuario tiene acceso
+  (course.courseTitle !== 'REGALO DE LANZAMIENTO' || hasCourse(course.courseTitle)) && (
+    <div key={index} className="bg-black/90 rounded-lg shadow-lg p-6 flex flex-col items-center">
+      <img
+        src={course.image}
+        alt={course.courseTitle}
+        className="w-full h-full max-w-[320px] max-h-[320px] rounded-lg shadow-md mb-4"
+      />
 
-              <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
-              <p className="text-white font-bold mb-4">{course.courseDescription}</p>
-              {hasCourse(course.courseTitle) ? (
-                <button
-                  onClick={() => navigate(`/${sanitizeCourseTitle(course.courseTitle)}`)}
-                  className="bg-blue-600 text-white py-2 px-4 rounded-lg"
-                >
-                  Ver Curso
-                </button>
-              ) : (
-                <a
-                href="#"
-                className="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed"
-                disabled
-              >
-                Bloqueado por lanzamiento
-              </a>
-              
-              )}
-            </div>
-          ))}
+      <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
+      <p className="text-white font-bold mb-4">{course.courseDescription}</p>
+
+      {hasCourse(course.courseTitle) ? (
+        <button
+          onClick={() => navigate(`/${sanitizeCourseTitle(course.courseTitle)}`)}
+          className="bg-blue-600 text-white py-2 px-4 rounded-lg"
+        >
+          Ver Curso
+        </button>
+      ) : (
+        <a
+          href="#"
+          className="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed"
+          disabled
+        >
+          Bloqueado por lanzamiento
+        </a>
+      )}
+    </div>
+  )
+))}
+
+
         </div>
       </div>
     </div>

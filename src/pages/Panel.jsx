@@ -302,6 +302,16 @@ const handlePasswordChange = async (e) => {
                       />{' '}
                       GROWTH BARBER
                     </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="REGALO DE LANZAMIENTO"
+                        checked={cursos.includes('REGALO DE LANZAMIENTO')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      REGALO DE LANZAMIENTO
+                    </label>
+                    
                 </div>
               </label>
             </div>
@@ -334,7 +344,9 @@ const handlePasswordChange = async (e) => {
                     className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
                     onClick={() =>
                       copyToClipboard(
-                        `Usuario: ${createdUser.email}\nContraseña: ${createdUser.password}`
+                        
+                        `https://plataforma.erickgomezacademy.com/ 
+                        Usuario: ${createdUser.email}\nContraseña: ${createdUser.password}`
                       )
                     }
                   >
@@ -423,6 +435,15 @@ const handlePasswordChange = async (e) => {
                         onChange={handleCursoChange}
                       />{' '}
                       GROWTH BARBER
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="REGALO DE LANZAMIENTO"
+                        checked={cursos.includes('REGALO DE LANZAMIENTO')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      REGALO DE LANZAMIENTO
                     </label>
                   </div>
                 </label>
