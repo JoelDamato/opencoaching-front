@@ -137,7 +137,12 @@ function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full shadow-1xl">
           {courses.map((course, index) => (
             <div key={index} className="bg-black/90  rounded-lg shadow-lg p-6 flex flex-col items-center">
-              <img src={course.image} alt={course.courseTitle} className="w-30 h-30 rounded-lg shadow-md mb-4" />
+<img
+  src={course.image}
+  alt={course.courseTitle}
+  className="w-full h-full max-w-[320px] max-h-[320px] rounded-lg shadow-md mb-4"
+/>
+
               <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
               <p className="text-white font-bold mb-4">{course.courseDescription}</p>
               {hasCourse(course.courseTitle) ? (
@@ -145,17 +150,17 @@ function Dashboard() {
                   onClick={() => navigate(`/${sanitizeCourseTitle(course.courseTitle)}`)}
                   className="bg-blue-600 text-white py-2 px-4 rounded-lg"
                 >
-                  Ver Capítulo
+                  Ver Curso
                 </button>
               ) : (
                 <a
-                  href={`https://wa.me/59891640623?text=Quiero%20adquirir%20el%20curso%20${encodeURIComponent(course.courseTitle)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-green-600 text-white py-2 px-4 rounded-lg"
-                >
-                  Adquirir
-                </a>
+                href="#"
+                className="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed"
+                disabled
+              >
+                Bloqueado por lanzamiento
+              </a>
+              
               )}
             </div>
           ))}

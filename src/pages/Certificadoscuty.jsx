@@ -85,7 +85,7 @@ function Certificados() {
     
     axios.post(`${API_BASE_URL}/api/certificado/generate-image`, {
       name: userName,
-      imageUrl: 'https://i.ibb.co/wCWc3Vs/f524d28a-a7ff-4c86-a90c-4d384ea7e20a.jpg'
+      imageUrl: 'https://i.ibb.co/qgTCbFH/Diploma-Cutting-Mastery.png'
     }, {
       responseType: 'blob',
     })
@@ -111,7 +111,7 @@ function Certificados() {
 
 
   return (
-    <div className=" w-screen  flex flex-col items-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
+    <div className="w-screen  flex flex-col items-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
       {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}

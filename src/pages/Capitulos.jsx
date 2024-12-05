@@ -221,8 +221,23 @@ function Capitulos() {
           {chapterId < course.chapters.length ? (
             <button onClick={goToNextChapter} className="bg-black text-white py-2 px-4 rounded-lg">Siguiente</button>
           ) : (
-            <button onClick={() => window.location.href = "/certificados"} className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 px-4 rounded-lg">Finalizar</button>
-          )}
+              <button
+                onClick={() => {
+                  if (course.courseTitle === "Master Fade") {
+                    window.location.href = "/certificados";
+                  } else if (course.courseTitle === "Focus") {
+                    window.location.href = "/dashboard";
+                  } else if (course.courseTitle === "Cutting Mastery") {
+                    window.location.href = "/certificadoscuty";
+                  } else {
+                    console.warn("Ruta no definida para este curso");
+                  }
+                }}
+                className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 px-4 rounded-lg"
+              >
+                Finalizar
+              </button>
+            )}          
         </div>
       </div>
     </div>

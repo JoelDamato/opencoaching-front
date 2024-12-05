@@ -193,11 +193,11 @@ function PanelControl() {
                   <label>
                     <input
                       type="checkbox"
-                      value="Master Fade 2.0"
-                      checked={cursos.includes('Master Fade 2.0')}
+                      value="Master Fade"
+                      checked={cursos.includes('Master Fade')}
                       onChange={handleCursoChange}
                     />{' '}
-                    Master Fade 2.0
+                    Master Fade
                   </label>
                   <label>
                     <input
@@ -266,11 +266,11 @@ function PanelControl() {
                   <label>
                     <input
                       type="checkbox"
-                      value="Master Fade 2.0"
-                      checked={cursos.includes('Master Fade 2.0')}
+                      value="Master Fade"
+                      checked={cursos.includes('Master Fade')}
                       onChange={handleCursoChange}
                     />{' '}
-                    Master Fade 2.0
+                    Master Fade
                   </label>
                   <label>
                     <input

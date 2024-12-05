@@ -2,10 +2,9 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import Navbar from '../components/Navbar';
-import useUserStore from '../store/users'; // Ajusta la ruta según la ubicación del archivo userStore
+import useUserStore from '../store/users';
 
 function Cursos() {
-
   const API_BASE_URL = process.env.NODE_ENV === 'production'
     ? 'https://back-cursos.onrender.com'
     : 'http://localhost:5000';
@@ -26,14 +25,14 @@ function Cursos() {
   const sanitizeTitle = (title) => {
     return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
   };
-  
+
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
         // Fetch para obtener todos los cursos desde la API
         const response = await fetch(`${API_BASE_URL}/api/courses/getcourses`);
         const data = await response.json();
-        // Filtrar el curso especifico según el cursoId recibido desde la URL
+        // Filtrar el curso específico según el cursoId recibido desde la URL
         const selectedCourse = data.find(course => sanitizeTitle(course.courseTitle) === cursoId);
         setCourse(selectedCourse);
       } catch (error) {
@@ -89,29 +88,30 @@ function Cursos() {
       />
 
       <div className="h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-                      <img src={course.image} alt={course.courseTitle} className="w-40 h-40 rounded-lg shadow-md mb-4 pb-5" />
+        <img src={course.image} alt={course.courseTitle} className="w-40 h-40 rounded-lg  mb-4 pb-5" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
           {course.chapters.map((chapter, index) => (
-            <div key={index} className="bg-gradient-to-r from-blue-950/50 to-black rounded-lg shadow-lg p-6 flex flex-col items-center">
-              <h3 className="text-2xl text-white font-bold mb-4">{chapter.title}</h3>
-              
+            <div
+              key={index}
+              className="bg-gradient-to-r from-blue-950/50 to-black rounded-lg shadow-lg p-6 flex flex-col items-center justify-between h-96"
+            >
+              <h3 className="text-2xl text-white font-bold mb-4 text-center">{chapter.title}</h3>
+
               <ReactPlayer
-                url="https://www.youtube.com/watch?v=he_dPEEWeLY"
+                url={chapter.video}
                 width="100%"
-                height="160px"
+                height="150px"
                 muted={true}
                 controls={false}
                 playing={false}
                 className="mb-4 rounded-lg"
-                onMouseEnter={(e) => e.target.play()}
-                onMouseLeave={(e) => e.target.pause()}
               />
 
-              <p className="text-gray-700 mb-4 text-white">{chapter.description}</p>
-              <button 
+<p className="text-gray-300 text-sm text-center mb-4 flex-grow">{chapter.description}</p>
+              <button
                 onClick={() => navigate(`/cursos/${sanitizeTitle(course.courseTitle)}/${index + 1}`)}
-                className="bg-black text-white py-2 px-4 rounded-lg"
+                className="bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-800"
               >
                 Ver Capítulo
               </button>
@@ -121,7 +121,9 @@ function Cursos() {
 
         <div className="mt-6">
           <Link to="/Dashboard">
-            <button className="bg-black text-white py-2 px-4 rounded-lg">Regresar al Dashboard</button>
+            <button className="bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-800">
+              Regresar al Dashboard
+            </button>
           </Link>
         </div>
       </div>
