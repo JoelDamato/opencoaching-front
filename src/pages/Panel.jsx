@@ -2,7 +2,6 @@ import '../App.css';
 import { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
-import useUserStore from '../store/users'; // Importar el store de Zustand
 import Modal from '../components/Modal'; // Importar el componente Modal
 
 function PanelControl() {
@@ -10,41 +9,17 @@ function PanelControl() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cursos, setCursos] = useState([]);
+  const [successMessage, setSuccessMessage] = useState(''); // Mensaje de éxito
+  const [createdUser, setCreatedUser] = useState(null); // Guardar datos del usuario creado
   const [modalMessage, setModalMessage] = useState('');
-  const [messageTimeout, setMessageTimeout] = useState(null);
   const [activeSection, setActiveSection] = useState('crear');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Obtener el estado `showProfile` y las funciones de Zustand
-  const showProfile = useUserStore((state) => state.showProfile);
-  const setShowProfile = useUserStore((state) => state.setShowProfile);
-  const clearUserData = useUserStore((state) => state.clearUserData);
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
     ? 'https://back-cursos.onrender.com'
     : 'http://localhost:5000';
 
-  // Función para cerrar sesión
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    clearUserData(); // Limpiar los datos del usuario en Zustand
-    navigate('/');
-  };
-
-  // Función para mostrar/ocultar el perfil del usuario usando Zustand
-  const toggleProfile = () => {
-    setShowProfile(!showProfile);
-    setIsMenuOpen(false);
-  };
-
-  // Función para mostrar/ocultar el menú de navegación en dispositivos móviles
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Función para crear un usuario
+  // Función para manejar la creación de usuarios
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -57,27 +32,23 @@ function PanelControl() {
       });
 
       if (response.status === 201) {
-        setModalMessage('Usuario creado exitosamente.');
-        setIsModalOpen(true);
-        clearTimeout(messageTimeout);
-        setMessageTimeout(setTimeout(() => {
-          setIsModalOpen(false);
-          setModalMessage('');
-        }, 3000));
+        setSuccessMessage('Usuario creado exitosamente.');
+        setCreatedUser({ email, password }); // Guardar los datos del usuario creado
+        setNombre('');
+        setEmail('');
+        setPassword('');
+        setCursos([]);
       }
     } catch (error) {
-      setModalMessage(error.response?.data?.message || 'Error al registrar usuario: ' + error.message);
+      setSuccessMessage('');
+      setModalMessage(
+        error.response?.data?.message || 'Error al registrar usuario: ' + error.message
+      );
       setIsModalOpen(true);
-      clearTimeout(messageTimeout);
-      setMessageTimeout(setTimeout(() => {
-        setIsModalOpen(false);
-        setModalMessage('');
-      }, 3000));
-      console.error('Error al registrar usuario:', error);
     }
   };
 
-  // Función para manejar la selección de cursos
+  // Función para manejar cambios en los checkboxes de cursos
   const handleCursoChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
@@ -94,54 +65,62 @@ function PanelControl() {
       const dataToSend = { cursos };
       if (nombre) dataToSend.nombre = nombre;
       const response = await axios.put(`${API_BASE_URL}/api/update/users/${email}`, dataToSend);
+
       if (response.status === 200) {
-        setModalMessage('Usuario actualizado exitosamente.');
-        setIsModalOpen(true);
-        clearTimeout(messageTimeout);
-        setMessageTimeout(setTimeout(() => {
-          setIsModalOpen(false);
-          setModalMessage('');
-        }, 3000));
+        setSuccessMessage('Usuario actualizado exitosamente.');
+        setModalMessage('');
+        setNombre('');
+        setCursos([]);
       }
     } catch (error) {
-      setModalMessage(error.response?.data?.message || 'Error al actualizar usuario: ' + error.message);
+      setSuccessMessage('');
+      setModalMessage(
+        error.response?.data?.message || 'Error al actualizar usuario: ' + error.message
+      );
       setIsModalOpen(true);
-      clearTimeout(messageTimeout);
-      setMessageTimeout(setTimeout(() => {
-        setIsModalOpen(false);
-        setModalMessage('');
-      }, 3000));
-      console.error('Error al actualizar usuario:', error);
     }
+  };
+
+  // Función para copiar al portapapeles
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    alert('Copiado al portapapeles');
   };
 
   return (
     <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
       {/* Navbar */}
-      <Navbar
-        toggleProfile={toggleProfile}
-        handleLogout={handleLogout}
-        toggleMenu={toggleMenu}
-        isMenuOpen={isMenuOpen}
-      />
+      <Navbar />
 
-      {/* Panel de Control Title */}
+      {/* Título del Panel */}
       <h1 className="text-4xl font-bold mb-6 text-white text-shadow-xl mt-6">Panel de Control</h1>
 
-      {/* Mini navegador */}
+      {/* Navegación entre secciones */}
       <div className="bg-black w-50% sm:w-11/12 rounded-xl sm:rounded-2xl flex justify-center p-4 shadow-lg mb-1">
-        <button className={`mx-4 px-4 py-2 rounded ${activeSection === 'crear' ? 'bg-blue-700 text-white' : 'bg-gray-200'}`} onClick={() => setActiveSection('crear')}>Crear</button>
-        <button className={`mx-4 px-4 py-2 rounded ${activeSection === 'editar' ? 'bg-blue-700 text-white' : 'bg-gray-200'}`} onClick={() => setActiveSection('editar')}>Editar</button>
+        <button
+          className={`mx-4 px-4 py-2 rounded ${
+            activeSection === 'crear' ? 'bg-blue-700 text-white' : 'bg-gray-200'
+          }`}
+          onClick={() => setActiveSection('crear')}
+        >
+          Crear Usuario
+        </button>
+        <button
+          className={`mx-4 px-4 py-2 rounded ${
+            activeSection === 'editar' ? 'bg-blue-700 text-white' : 'bg-gray-200'
+          }`}
+          onClick={() => setActiveSection('editar')}
+        >
+          Editar Usuario
+        </button>
       </div>
 
-      {/* Sección activa */}
+      {/* Sección para crear usuario */}
       {activeSection === 'crear' && (
-        <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-4 shadow-lg">
-             <h2 className="text-2xl font-bold  text-white">Crear Usuario</h2>
+        <div className="h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-4 shadow-lg">
+          <h2 className="text-2xl font-bold text-white">Crear Usuario</h2>
           <form className="flex flex-col w-full items-center gap-5" onSubmit={handleSubmit}>
-            {/* Formulario de creación de usuario */}
             <div className="w-4/5">
-              
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Nombre:
                 <input
@@ -157,7 +136,7 @@ function PanelControl() {
               <label className="block text-white font-semibold tracking-wide mb-2">
                 Email:
                 <input
-                  className="w-full  text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -174,79 +153,6 @@ function PanelControl() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                />
-              </label>
-            </div>
-            <div className="w-4/5">
-              <label className="block text-white font-semibold tracking-wide mb-2">
-                Cursos:
-                <div className="flex  flex-col mt-2">
-                  <label>
-                    <input
-                      type="checkbox"
-                      value="Focus"
-                      checked={cursos.includes('Focus')}
-                      onChange={handleCursoChange}
-                    />{' '}
-                    Focus
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value="Master Fade"
-                      checked={cursos.includes('Master Fade')}
-                      onChange={handleCursoChange}
-                    />{' '}
-                    Master Fade
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value="Cutting Mastery"
-                      checked={cursos.includes('Cutting Mastery')}
-                      onChange={handleCursoChange}
-                    />{' '}
-                    Cutting Mastery
-                  </label>
-                </div>
-              </label>
-            </div>
-
-            <button
-              className="bg-white rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-black"
-              type="submit"
-            >
-              Crear Usuario
-            </button>
-          </form>
-        </div>
-      )}
-
-      {activeSection === 'editar' && (
-        <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-          <h2 className="text-2xl font-bold mb-4 text-white">Editar Usuario</h2>
-          <form className="flex flex-col w-full items-center gap-5" onSubmit={handleEditUser}>
-            {/* Formulario de edición de usuario */}
-            <div className="w-4/5">
-              <label className="block text-white font-semibold tracking-wide mb-2">
-                Email del usuario a editar:
-                <input
-                  className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </label>
-            </div>
-            <div className="w-4/5">
-              <label className="block text-white font-semibold tracking-wide mb-2">
-                Nombre:
-                <input
-                  className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
-                  type="text"
-                  value={nombre}
-                  onChange={(e) => setNombre(e.target.value)}
                 />
               </label>
             </div>
@@ -286,24 +192,143 @@ function PanelControl() {
             </div>
 
             <button
-              className="bg-white rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-black px-2"
+              className="bg-white rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-black"
               type="submit"
             >
-              Actualizar
+              Crear Usuario
             </button>
           </form>
+
+          {successMessage && (
+            <div className="mt-6 bg-gray-900 p-4 rounded-xl shadow-lg text-white">
+              <p className="text-xl font-bold mb-2">{successMessage}</p>
+              {createdUser && (
+                <>
+                  <p>
+                    Plataforma:{' '}
+                    <a
+                      href="https://plataforma.erickgomezacademy.com/"
+                      className="text-blue-400 underline"
+                    >
+                      plataforma.erickgomezacademy.com
+                    </a>
+                  </p>
+                  <p>Usuario: {createdUser.email}</p>
+                  <p>Contraseña: {createdUser.password}</p>
+                  <button
+                    className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                    onClick={() =>
+                      copyToClipboard(
+                        `Usuario: ${createdUser.email}\nContraseña: ${createdUser.password}`
+                      )
+                    }
+                  >
+                    Copiar
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
       )}
 
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <div className="text-black text-center">
-            {modalMessage}
+      {/* Sección para editar usuario */}
+      {activeSection === 'editar' && (
+        <div className="h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-4 shadow-lg">
+          <h2 className="text-2xl font-bold mb-4 text-white">Editar Usuario</h2>
+          <form className="flex flex-col w-full items-center gap-5" onSubmit={handleEditUser}>
+            <div className="w-4/5">
+              <label className="block text-white font-semibold tracking-wide mb-2">
+                Email del usuario a editar:
+                <input
+                  className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                  type="email"
+                  value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="w-4/5">
+                <label className="block text-white font-semibold tracking-wide mb-2">
+                  Nombre:
+                  <input
+                    className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                </label>
+              </div>
+              <div className="w-4/5">
+                <label className="block text-white font-semibold tracking-wide mb-2">
+                  Cursos:
+                  <div className="flex flex-col mt-2">
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="Focus"
+                        checked={cursos.includes('Focus')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      Focus
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="Master Fade"
+                        checked={cursos.includes('Master Fade')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      Master Fade
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="Cutting Mastery"
+                        checked={cursos.includes('Cutting Mastery')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      Cutting Mastery
+                    </label>
+                  </div>
+                </label>
+              </div>
+  
+              <button
+                className="bg-white rounded-2xl w-4/5 sm:h-20 sm:w-3/5 h-16 tracking-wide text-3xl text-black px-2"
+                type="submit"
+              >
+                Actualizar Usuario
+              </button>
+            </form>
+  
+            {/* Mostrar mensaje en caso de éxito */}
+            {successMessage && (
+              <div className="mt-6 bg-gray-900 p-4 rounded-xl shadow-lg text-white">
+                <p className="text-xl font-bold mb-2">{successMessage}</p>
+              </div>
+            )}
+  
+            {/* Mostrar errores en caso de problemas */}
+            {modalMessage && (
+              <div className="mt-6 bg-red-900 p-4 rounded-xl shadow-lg text-white">
+                <p className="text-xl font-bold mb-2">Error:</p>
+                <p>{modalMessage}</p>
+              </div>
+            )}
           </div>
-        </Modal>
-      )}
-    </div>
-  );
-}
-
-export default PanelControl;
+        )}
+  
+        {/* Modal para errores */}
+        {isModalOpen && (
+          <Modal onClose={() => setIsModalOpen(false)}>
+            <div className="text-black text-center">{modalMessage}</div>
+          </Modal>
+        )}
+      </div>
+    );
+  }
+  
+  export default PanelControl;
+  

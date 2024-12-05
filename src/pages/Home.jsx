@@ -56,7 +56,7 @@ function Home() {
 
   return (
     <div
-      className="h-screen w-screen flex flex-col items-center justify-center bg-cover bg-center"
+      className="w-screen flex flex-col items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}
     >
       {/* Logo de la web */}
@@ -123,7 +123,7 @@ function Home() {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? 'Cargando...' : 'SIGN IN'}
+            {isLoading ? 'Cargando...' : 'INGRESAR'}
           </button>
         </form>
       </div>
