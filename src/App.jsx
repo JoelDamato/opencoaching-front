@@ -7,6 +7,7 @@ import Capitulos from './pages/Capitulos.jsx';
 import Certificados from './pages/Certificados.jsx';
 import Certificadoscuty from './pages/Certificadoscuty.jsx';
 import Perfil from './pages/Perfil.jsx';
+import Regalo from './pages/Regalo.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/Certificados" element={<Certificados />} />
         <Route path="/Certificadoscuty" element={<Certificadoscuty />} />
         <Route path="/Perfil" element={<Perfil />} />
+        <Route path="/Regalo" element={<Regalo />} />
       </Routes>
     </Router>
   );

@@ -187,6 +187,25 @@ function PanelControl() {
                     />{' '}
                     Cutting Mastery
                   </label>
+
+                  <label>
+                      <input
+                        type="checkbox"
+                        value="Colorimetria"
+                        checked={cursos.includes('Colorimetria')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      Colorimetria
+                    </label>
+                      <label>
+                      <input
+                        type="checkbox"
+                        value="GROWTH BARBER"
+                        checked={cursos.includes('GROWTH BARBER')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      GROWTH BARBER
+                    </label>
                 </div>
               </label>
             </div>
@@ -290,6 +309,24 @@ function PanelControl() {
                         onChange={handleCursoChange}
                       />{' '}
                       Cutting Mastery
+                    </label>
+                      <label>
+                      <input
+                        type="checkbox"
+                        value="Colorimetria"
+                        checked={cursos.includes('Colorimetria')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      Colorimetria
+                    </label>
+                      <label>
+                      <input
+                        type="checkbox"
+                        value="GROWTH BARBER"
+                        checked={cursos.includes('GROWTH BARBER')}
+                        onChange={handleCursoChange}
+                      />{' '}
+                      GROWTH BARBER
                     </label>
                   </div>
                 </label>
