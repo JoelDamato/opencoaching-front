@@ -48,7 +48,6 @@ function Dashboard() {
       })
       .catch(error => {
         console.error('Error fetching user data:', error);
-        navigate('/'); // Opcional: redirigir si hay error
       });
     } else {
       console.error('No email found in localStorage');
@@ -135,7 +134,7 @@ function Dashboard() {
         {/* Tarjetas de los cursos */}
         
 
-      <div className="bg-gradient-to-r from-blue-950/50 to-black h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+      <div className="bg-gradient-to-r from-blue-900/50 to-blue-900/20 h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         {/* Tarjetas de los cursos */}
      
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full shadow-1xl">

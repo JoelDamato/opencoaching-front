@@ -1,19 +1,31 @@
 import '../App.css';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Modal from '../components/Modal'; // Importar el componente Modal
+import useUserStore from '../store/users';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+
 
 function PanelControl() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cursos, setCursos] = useState([]);
-  const [successMessage, setSuccessMessage] = useState(''); // Mensaje de éxito
-  const [createdUser, setCreatedUser] = useState(null); // Guardar datos del usuario creado
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [activeSection, setActiveSection] = useState('crear');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const user = useUserStore((state) => state.user);
+  const setUserData = useUserStore((state) => state.setUserData);
+  const clearUserData = useUserStore((state) => state.clearUserData);
+  const showProfile = useUserStore((state) => state.showProfile);
+  const setShowProfile = useUserStore((state) => state.setShowProfile);
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
     ? 'https://back-cursos.onrender.com'
@@ -87,10 +99,86 @@ function PanelControl() {
     alert('Copiado al portapapeles');
   };
 
+
+// Función para manejar el cambio de contraseña
+const handlePasswordChange = async (e) => {
+  e.preventDefault();
+
+  if (!newPassword || !confirmPassword) {
+    setModalMessage('Por favor, completa todos los campos');
+    setIsModalOpen(true);
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    setModalMessage('Las contraseñas no coinciden');
+    setIsModalOpen(true);
+    return;
+  }
+
+  if (newPassword.length < 8) {
+    setModalMessage('La contraseña debe tener al menos 8 caracteres');
+    setIsModalOpen(true);
+    return;
+  }
+
+  try {
+    const response = await axios.put(`${API_BASE_URL}/api/update/password/${email}`, {
+      password: newPassword,
+    });
+
+    if (response.status === 200) {
+      setSuccessMessage('Contraseña actualizada exitosamente.');
+      setModalMessage('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } else {
+      throw new Error(response.data.message || 'Error al actualizar la contraseña');
+    }
+  } catch (error) {
+    setSuccessMessage('');
+    setModalMessage(error.response?.data?.message || 'Error al actualizar la contraseña.');
+    setIsModalOpen(true);
+  }
+};
+
+  // Restablecer el estado del perfil al montar el componente
+  useEffect(() => {
+    setShowProfile(false);
+  }, [setShowProfile]);
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    clearUserData(); // Limpiar los datos del usuario en Zustand
+    navigate('/');
+  };
+
+  // Función para verificar si el usuario tiene un curso específico
+  const hasCourse = (courseName) => {
+    return user?.cursos?.includes(courseName);
+  };
+
+  // Función para mostrar/ocultar el perfil
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+    setIsMenuOpen(false);
+  };
+
+  // Función para mostrar/ocultar el menú (en móvil)
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="h-full w-screen bg-gradient-to-r from-blue-950 to-blue-800 flex flex-col items-center">
-      {/* Navbar */}
-      <Navbar />
+          <Navbar
+        toggleProfile={toggleProfile}
+        handleLogout={handleLogout}
+        toggleMenu={toggleMenu}
+        isMenuOpen={isMenuOpen}
+      />
 
       {/* Título del Panel */}
       <h1 className="text-4xl font-bold mb-6 text-white text-shadow-xl mt-6">Panel de Control</h1>
@@ -112,6 +200,14 @@ function PanelControl() {
           onClick={() => setActiveSection('editar')}
         >
           Editar Usuario
+        </button>
+        <button
+          className={`mx-4 px-4 py-2 rounded ${
+            activeSection === 'cambiarContraseña' ? 'bg-blue-700 text-white' : 'bg-gray-200'
+          }`}
+          onClick={() => setActiveSection('cambiarContraseña')}
+        >
+          Cambiar Contraseña
         </button>
       </div>
 
@@ -356,13 +452,71 @@ function PanelControl() {
             )}
           </div>
         )}
-  
+{activeSection === 'cambiarContraseña' && (
+  <div className="h-auto w-full sm:w-11/12 rounded-xl flex flex-col items-center p-4 shadow-lg">
+    <h2 className="text-2xl font-bold text-white">Cambiar Contraseña</h2>
+
+    {successMessage && (
+      <div className="w-4/5 bg-green-700 text-white text-center rounded-lg p-2 mb-4">
+        {successMessage}
+      </div>
+    )}
+
+    <form className="flex flex-col w-full items-center gap-5" onSubmit={handlePasswordChange}>
+      <div className="w-4/5">
+        <label className="block text-white font-semibold mb-2">Email del Usuario:</label>
+        <input
+          className="w-full h-12 bg-gray-200 rounded-lg px-4"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div className="w-4/5">
+        <label className="block text-white font-semibold mb-2">Nueva Contraseña:</label>
+        <input
+          className="w-full h-12 bg-gray-200 rounded-lg px-4"
+          type="password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          required
+        />
+      </div>
+      <div className="w-4/5">
+        <label className="block text-white font-semibold mb-2">Confirmar Contraseña:</label>
+        <input
+          className="w-full h-12 bg-gray-200 rounded-lg px-4"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button
+        className="bg-white rounded-2xl w-4/5 h-16 text-3xl text-black"
+        type="submit"
+      >
+        Cambiar Contraseña
+      </button>
+    </form>
+  </div>
+)}
+
         {/* Modal para errores */}
         {isModalOpen && (
-          <Modal onClose={() => setIsModalOpen(false)}>
-            <div className="text-black text-center">{modalMessage}</div>
-          </Modal>
-        )}
+  <Modal onClose={() => setIsModalOpen(false)}>
+    <div className="text-black text-center">
+      <p>{modalMessage}</p>
+      <button
+        onClick={() => setIsModalOpen(false)}
+        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Cerrar
+      </button>
+    </div>
+  </Modal>
+)}
       </div>
     );
   }

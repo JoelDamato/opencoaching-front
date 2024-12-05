@@ -28,18 +28,25 @@ function Regalo() {
             }
           }}
         />
-          <p className="text-white mb-4 mt-5 text-center">
-          Hoy estamos escribiendo historia juntos. Después de más de 10 años de trabajo, aprendizaje, viajes y muchas amistades cultivadas en el mundo a lo largo de estos años, finalmente hemos llegado a este momento que soñé desde el primer día: mi propia plataforma educativa. Una plataforma creada por barberos y para barberos, con el único propósito de ayudar a los barberos de todas partes del mundo a educarse con contenido de nivel elite
+          <p className="text-white mb-4 mt-5 p-5 text-center">
+          <b>
+          Después de más de 10 años de trabajo, aprendizaje, viajes y muchas amistades cultivadas en el mundo a lo largo de estos años, finalmente hemos llegado a este momento que soñé desde el primer día: mi propia plataforma educativa.</b>
+           Una plataforma creada por barberos y para barberos, con el único propósito de ayudar a los barberos de todas partes del mundo a educarse con contenido de nivel elite
 Este no es solo un curso más, ni una simple escuela online. Es un sistema revolucionario, diseñado con la visión de brindarles lo mejor, sin intermediarios ni limitaciones. Con Erick Gómez Academy, rompemos todas las barreras para ofrecerles la plataforma más completa y avanzada de habla hispana en educación de barbería y creamos un hibrido que incluye todo y más…
+</p>
+
+<p className="text-lg text-white mb-1 mt-1 p-5 text-center">
 Cada detalle ha sido pensado meticulosamente:
-Técnicas de barbería de nivel internacional, enseñadas paso a paso.
-Clases de marketing para barberos, porque sabemos que no basta con cortar bien; también deben aprender a atraer más clientes y exponerse en las redes para crecer como verdaderos profesionales.
-Diplomas certificados al completar cada formación, para que lleven con orgullo el respaldo de Erick Gómez Academy.
+<li>Técnicas de barbería de nivel internacional, enseñadas paso a paso.</li>
+<li>Clases de marketing para barberos, porque sabemos que no basta con cortar bien; también deben aprender a atraer más clientes y exponerse en las redes para crecer como verdaderos profesionales.</li>
+<li>Diplomas certificados al completar cada formación, para que lleven con orgullo el respaldo de Erick Gómez Academy.</li>
+</p>
+<p className="text-lg text-white mb-1 mt-1 p-5 text-center">
 Para mí, Erick, y para todo el equipo, este es un momento muy especial. Verlos ingresar a nuestra academia es la confirmación de que todo el esfuerzo, las noches largas y los días intensos han valido la pena. Hoy damos un paso juntos hacia un futuro donde la educación en barbería no tiene límites.
 A todos los que forman parte de este inicio histórico, gracias.
 Estamos seguros de que esta plataforma será un antes y un después en sus carreras, y es un honor que me permitas ser parte de tu camino.
-
-          </p>
+</p>
+         
           <button
   onClick={() => navigate('/Dashboard')}
   className="mt-6 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
