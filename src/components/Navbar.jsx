@@ -21,8 +21,7 @@ function Navbar({ toggleMenu, isMenuOpen, handleLogout }) {
     const email = localStorage.getItem('email');
 
     if (!token) {
-      // Si no hay token, redirigir a la página de login
-      navigate('/');
+
     } else if (email) {
       // Fetch user data from API enviando el email en la solicitud POST
       axios.post(`${API_BASE_URL}/api/search/users`, { email: email }, {
@@ -31,8 +30,7 @@ function Navbar({ toggleMenu, isMenuOpen, handleLogout }) {
         }
       })
       .then(response => {
-        // Guardar los datos del usuario en el estado local
-        console.log('Datos del usuario obtenidos desde la API:', response.data);
+
         setUser(response.data);
       })
       .catch(error => {

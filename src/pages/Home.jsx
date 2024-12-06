@@ -31,10 +31,11 @@ function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email,
+          email: email.toLowerCase(), // Convertir a minúsculas al enviar
           password,
         }),
       });
+
 
       const data = await response.json();
       console.log(data); // Verificar la respuesta del servidor
@@ -83,7 +84,7 @@ function Home() {
                   type="email"
                   autoComplete="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.toLowerCase())}
                   required
                 />
                 <img
