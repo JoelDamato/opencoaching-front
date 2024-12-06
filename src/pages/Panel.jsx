@@ -235,7 +235,7 @@ const handlePasswordChange = async (e) => {
                   className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.toLowerCase())}
                   required
                 />
               </label>
@@ -371,7 +371,7 @@ const handlePasswordChange = async (e) => {
                   className="w-full text-black h-12 sm:h-16 bg-gray-200 rounded-lg px-4"
                   type="email"
                   value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.toLowerCase())}
                     required
                   />
                 </label>
@@ -490,8 +490,8 @@ const handlePasswordChange = async (e) => {
           className="w-full h-12 bg-gray-200 rounded-lg px-4"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                    required
         />
       </div>
       <div className="w-4/5">

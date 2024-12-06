@@ -35,7 +35,6 @@ function Navbar({ toggleMenu, isMenuOpen, handleLogout }) {
       })
       .catch(error => {
         console.error('Error fetching user data:', error);
-        navigate('/'); // Opcional: redirigir si hay error
       });
     } else {
       console.error('No email found in localStorage');

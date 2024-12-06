@@ -28,8 +28,7 @@ function Dashboard() {
     const email = localStorage.getItem('email');
 
     if (!token) {
-      // Si no hay token, redirigir a la página de login
-      navigate('/');
+     
     } else if (email) {
       // Fetch user data from API enviando el email en la solicitud POST
       axios.post(`${API_BASE_URL}/api/search/users`, { email: email }, {
