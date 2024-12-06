@@ -19,6 +19,8 @@ function PanelControl() {
   const [activeSection, setActiveSection] = useState('crear');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [createdUser,setCreatedUser] = useState('');
+  
   const navigate = useNavigate();
 
   const user = useUserStore((state) => state.user);
