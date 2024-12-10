@@ -156,7 +156,7 @@ function Dashboard() {
             </div>
             {courses.map((course, index) => (
   // Solo muestra el curso si no es "Bonus" o si es "Bonus" pero el usuario tiene acceso
-  (course.courseTitle !== 'REGALO DE LANZAMIENTO' || hasCourse(course.courseTitle)) && (
+  (course.courseTitle !== 'REGALO DE LANZAMIENTO' || hasCourse(course.courseTitle))    && (
     <div key={index} className="bg-black/90 rounded-lg shadow-lg p-6 flex flex-col items-center">
       <img
         src={course.image}
@@ -165,9 +165,16 @@ function Dashboard() {
       />
 
       <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
+  
       <p className="text-white font-bold mb-4">{course.courseDescription}</p>
+      {course.courseTitle == 'Cutting Mastery'? (
+        <p className="text-green-400 font-bold "> Felicidades ganaste el Sorteo!</p> ) : (" ")}
+      {course.courseTitle == 'Cutting Mastery'? (
+        <p className="text-green-400 font-bold mb-4">Disponible hasta el 10 de enero. </p> ) : (" ")}
 
-      {hasCourse(course.courseTitle) ? (
+      
+      {hasCourse(course.courseTitle) || course.courseTitle == 'Cutting Mastery'? (
+
   <button
     onClick={() => {
       if (course.courseTitle === "Colorimetria") {

@@ -78,7 +78,7 @@ function Navbar({ toggleMenu, isMenuOpen, handleLogout }) {
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
       
       // Format time string in Spanish
-      setTimeLeft(`Lanzamiento: ${days} días, ${hours} horas, ${minutes} minutos, ${seconds} segundos`);
+      setTimeLeft(`Inscripciones abiertas en: ${days} días, ${hours} horas, ${minutes} minutos, ${seconds} segundos`);
       return true;
     };
 

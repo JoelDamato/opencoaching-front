@@ -165,56 +165,58 @@ function Capitulos() {
       {
   course.courseTitle === "Colorimetria" ? (
     <Worker workerUrl={workerUrl}>
-
-            <div
-              style={{
-                width: "100%",
-                height: "100vh",
-                margin: "0",
-                padding: "0",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "transparent",
-                overflow: "hidden"
-              }}
-            >
-              <div 
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  position: "relative"
-                }}
-              >
-                <Viewer
-                  fileUrl="/EBOOKCOLORIMETRIAERICKGOMEZACADEMY.pdf"
-                  initialScale={1.0}
-                  theme={customTheme}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    background: "transparent",
-                  }}
-                />
-                <style>
-                  {`
-                    .rpv-core__viewer {
-                      background: transparent !important;
-                    }
-                    .rpv-core__page-layer {
-                      background: transparent !important;
-                    }
-                    .rpv-core__page {
-                      background: transparent !important;
-                    }
-                    .rpv-core__canvas-layer {
-                      background: transparent !important;
-                    }
-                  `}
-                </style>
-              </div>
-            </div>
-          </Worker>
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        margin: "0",
+        padding: "0",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "transparent",
+        overflow: "hidden",
+        perspective: "1500px",  // Añade perspectiva para un efecto 3D
+      }}
+    >
+      <div 
+        style={{
+          width: "80%",  // Puedes ajustar el ancho según prefieras
+          height: "100%",
+          display: "flex",
+          flexDirection: "row",  // Modo de dos columnas
+          justifyContent: "space-between",  // Alinea las páginas
+          position: "relative",
+        }}
+      >
+        <Viewer
+          fileUrl="/EBOOKCOLORIMETRIAERICKGOMEZACADEMY.pdf"
+          initialScale={1.0}
+          theme={customTheme}
+          style={{
+            width: "48%",  // Ajusta el tamaño para simular dos páginas
+            height: "100%",
+            background: "transparent",
+            transform: "rotateY(0deg)",  // Simula un efecto de libro
+            transition: "transform 0.5s ease-in-out",  // Transición suave
+          }}
+        />
+        <Viewer
+          fileUrl="/EBOOKCOLORIMETRIAERICKGOMEZACADEMY.pdf"
+          initialScale={1.0}
+          theme={customTheme}
+          style={{
+            width: "48%",  // Ajusta el tamaño para simular dos páginas
+            height: "100%",
+            background: "transparent",
+            transform: "rotateY(0deg)",  // Simula un efecto de libro
+            transition: "transform 0.5s ease-in-out",  // Transición suave
+          }}
+        />
+      </div>
+    </div>
+  </Worker>
+  
   ) : (
     chapter.video && (
       <ReactPlayer
@@ -308,7 +310,6 @@ function Capitulos() {
 </button>
 
           
-          <button onClick={goToMainPage} className="bg-black shadow-2xl text-white py-2 px-4 ">Regresar a {course.courseTitle}</button>
 
 
           {chapterId < course.chapters.length ? (
@@ -321,8 +322,9 @@ function Capitulos() {
                   } else if (course.courseTitle === "Focus") {
                     window.location.href = "/dashboard";
                   } else if (course.courseTitle === "Cutting Mastery") {
-                    window.location.href = "/certificadoscuty";
-                  } else {
+                    window.location.href = "/dashboard";
+                  }
+                   else {
                     console.warn("Ruta no definida para este curso");
                   }
                 }}

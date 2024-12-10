@@ -11,7 +11,7 @@ function Regalo() {
       <div className="bg-gradient-to-b from-blue-900 to-black h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         
           <ReactPlayer
-          url="https://youtu.be/IOUWtHAIBDM"
+          url="https://youtu.be/mO8gIqe-efE"
           width="100%"
           height="480px"
           controls
