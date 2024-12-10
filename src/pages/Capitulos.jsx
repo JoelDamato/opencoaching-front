@@ -1,4 +1,5 @@
-// Frontend Component
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player';
@@ -12,12 +13,23 @@ function Capitulos() {
   const { cursoId, chapterId } = useParams(); // Obtener cursoId y chapterId de la URL
   const navigate = useNavigate();
   const commentsEndRef = useRef(null);
-
+  const workerUrl = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [userName, setUserName] = useState(localStorage.getItem("nombre") || ""); 
   const [showComments, setShowComments] = useState(false); // Estado para manejar el toggle de comentarios
   const [course, setCourse] = useState(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Guardar el capítulo actual en el localStorage
   useEffect(() => {
@@ -133,33 +145,99 @@ function Capitulos() {
 
   const chapter = course.chapters[parseInt(chapterId, 10) - 1] || { title: 'Capítulo no encontrado', description: '', video: '' };
 
-  
+  const customTheme = {
+    viewer: {
+      background: 'transparent',
+    },
+    page: {
+      background: 'transparent',
+      padding: '0',
+    },
+  };
+
   return (
     <div className="py-2 h-full w-screen overflow-y-auto bg-gradient-to-r from-blue-800 to-black flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-6 text-white text-center">{chapter.title}</h1>
       <p className="text-white mb-4 text-center">{chapter.description}</p>
 
       <div className="bg-gradient-to-b from-blue-900 to-black h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-        {chapter.video && (
-          <ReactPlayer
-          url={chapter.video}
-          width="100%"
-          height="480px"
-          controls
-          config={{
-            file: {
-              attributes: {
-                crossOrigin: "anonymous"  // Necesario para cargar subtítulos externos
-              },
-              tracks: [
-                { kind: "subtitles", src: "/subtitles/english.vtt", srcLang: "en", label: "English" },
-                { kind: "subtitles", src: "/subtitles/spanish.vtt", srcLang: "es", label: "Español" },
-                { kind: "subtitles", src: "/subtitles/french.vtt", srcLang: "fr", label: "Français" }
-              ]
-            }
-          }}
-        />
-        )}
+        
+      {
+  course.courseTitle === "Colorimetria" ? (
+    <Worker workerUrl={workerUrl}>
+
+            <div
+              style={{
+                width: "100%",
+                height: "100vh",
+                margin: "0",
+                padding: "0",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "transparent",
+                overflow: "hidden"
+              }}
+            >
+              <div 
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "relative"
+                }}
+              >
+                <Viewer
+                  fileUrl="/EBOOKCOLORIMETRIAERICKGOMEZACADEMY.pdf"
+                  initialScale={1.0}
+                  theme={customTheme}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "transparent",
+                  }}
+                />
+                <style>
+                  {`
+                    .rpv-core__viewer {
+                      background: transparent !important;
+                    }
+                    .rpv-core__page-layer {
+                      background: transparent !important;
+                    }
+                    .rpv-core__page {
+                      background: transparent !important;
+                    }
+                    .rpv-core__canvas-layer {
+                      background: transparent !important;
+                    }
+                  `}
+                </style>
+              </div>
+            </div>
+          </Worker>
+  ) : (
+    chapter.video && (
+      <ReactPlayer
+        url={chapter.video}
+        width="100%"
+        height="480px"
+        controls
+        config={{
+          file: {
+            attributes: {
+              crossOrigin: "anonymous" // Necesario para cargar subtítulos externos
+            },
+            tracks: [
+              { kind: "subtitles", src: "/subtitles/english.vtt", srcLang: "en", label: "English" },
+              { kind: "subtitles", src: "/subtitles/spanish.vtt", srcLang: "es", label: "Español" },
+              { kind: "subtitles", src: "/subtitles/french.vtt", srcLang: "fr", label: "Français" }
+            ]
+          }
+        }}
+      />
+    )
+  )
+}
 
         {/* Toggle de Comentarios */}
         <button 
@@ -215,6 +293,21 @@ function Capitulos() {
           {chapterId > 1 && (
             <button onClick={goToPreviousChapter} className="bg-black text-white py-2 px-4 rounded-lg">Anterior</button>
           )}
+
+<button
+  onClick={() => {
+    if (course.courseTitle === "Colorimetria") {
+      navigate("/dashboard");
+    } else {
+      goToMainPage();
+    }
+  }}
+  className="bg-black shadow-2xl text-white py-2 px-4"
+>
+  Regresar 
+</button>
+
+          
           <button onClick={goToMainPage} className="bg-black shadow-2xl text-white py-2 px-4 ">Regresar a {course.courseTitle}</button>
 
 

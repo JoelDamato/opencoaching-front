@@ -168,21 +168,28 @@ function Dashboard() {
       <p className="text-white font-bold mb-4">{course.courseDescription}</p>
 
       {hasCourse(course.courseTitle) ? (
-        <button
-          onClick={() => navigate(`/${sanitizeCourseTitle(course.courseTitle)}`)}
-          className="bg-blue-600 text-white py-2 px-4 rounded-lg"
-        >
-          Ver Curso
-        </button>
-      ) : (
-        <a
-          href="#"
-          className="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed"
-          disabled
-        >
-          Bloqueado por lanzamiento
-        </a>
-      )}
+  <button
+    onClick={() => {
+      if (course.courseTitle === "Colorimetria") {
+        navigate("/cursos/colorimetria/1");
+      } else {
+        navigate(`/${sanitizeCourseTitle(course.courseTitle)}`);
+      }
+    }}
+    className="bg-blue-600 text-white py-2 px-4 rounded-lg"
+  >
+    Ver Curso
+  </button>
+) : (
+  <a
+    href="#"
+    className="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed"
+    disabled
+  >
+    Bloqueado por lanzamiento
+  </a>
+)}
+
     </div>
   )
 ))}
