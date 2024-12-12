@@ -2,7 +2,9 @@ import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import Navbar from '../components/Navbar';
 import ReactPlayer from 'react-player';
+import useUserStore from '../store/users'; // Importar el store de Zustand
 
 function Capitulos() {
 
@@ -22,6 +24,18 @@ function Capitulos() {
 
   const [isMobile, setIsMobile] = useState(false);
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [courses, setCourses] = useState([]); // Estado para almacenar los cursos
+  const [rol, setRol] = useState([]); // Estado para almacenar los cursos
+ 
+
+  // Obtener el estado del usuario y el perfil desde Zustand
+  const user = useUserStore((state) => state.user);
+  const setUserData = useUserStore((state) => state.setUserData);
+  const clearUserData = useUserStore((state) => state.clearUserData);
+  const showProfile = useUserStore((state) => state.showProfile);
+  const setShowProfile = useUserStore((state) => state.setShowProfile);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -35,6 +49,8 @@ function Capitulos() {
   useEffect(() => {
     if (chapterId) {
       localStorage.setItem("lastChapter", chapterId);
+      const rol = localStorage.getItem('rol');
+      setRol(rol);
     }
   }, [chapterId]);
 
@@ -155,12 +171,48 @@ function Capitulos() {
     },
   };
 
+  const hasCourse = (courseTitle) => {
+    return user?.cursos?.includes(courseTitle);
+  };
+
+  // Función para mostrar/ocultar el perfil
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+    setIsMenuOpen(false);
+  };
+
+  // Función para mostrar/ocultar el menú (en móvil)
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('nombre'); // Limpiar el nombre del usuario
+    clearUserData(); // Limpiar los datos del usuario en Zustand
+    navigate('/');
+  };
+
+
+
+
+
   return (
-    <div className="py-2 h-full w-screen overflow-y-auto bg-gradient-to-r from-blue-800 to-black flex flex-col items-center justify-center">
+    <>
+ 
+    <div className=" py-2 min-h-screen w-screen overflow-y-auto bg-gradient-to-r from-black/80 to-black flex flex-col items-center justify-center">
+    <Navbar
+    toggleProfile={toggleProfile}
+    toggleMenu={toggleMenu}
+    handleLogout={handleLogout}
+    isMenuOpen={isMenuOpen}
+  />
+      
       <h1 className="text-4xl font-bold mb-6 text-white text-center">{chapter.title}</h1>
       <p className="text-white mb-4 text-center">{chapter.description}</p>
 
-      <div className="bg-gradient-to-b from-blue-900 to-black h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+      <div className="bg-gradient-to-b from-black/80 to-black  w-full   sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         
       {
   course.courseTitle === "Colorimetria" ? (
@@ -219,10 +271,11 @@ function Capitulos() {
   
   ) : (
     chapter.video && (
+      <div className="w-full h-[180px] md:h-[580px]">
       <ReactPlayer
         url={chapter.video}
         width="100%"
-        height="480px"
+        height="100%"
         controls
         config={{
           file: {
@@ -237,6 +290,7 @@ function Capitulos() {
           }
         }}
       />
+       </div>
     )
   )
 }
@@ -263,7 +317,7 @@ function Capitulos() {
                     <p className="text-white">{comment.content}</p>
                     <p className="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleString()}</p>
                   </div>
-                  {comment.userEmail === userName && (
+                  {comment.userEmail === userName || rol === "admin"  && (
                     <button 
                       onClick={() => handleDeleteComment(comment._id)} 
                       className="bg-red-600 text-white py-1 px-2 rounded ml-4"
@@ -336,6 +390,7 @@ function Capitulos() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
