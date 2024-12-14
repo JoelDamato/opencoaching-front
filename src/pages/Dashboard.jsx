@@ -99,25 +99,12 @@ function Dashboard() {
     return title.replace(/\s+/g, '-').toLowerCase();
   };
 
-  function StickyCallbell() {
-    useEffect(() => {
-      if (window.CallbellLoaded) return; // Evita cargar el script si ya existe
-      window.CallbellLoaded = true;
-  
-      window.callbellSettings = window.callbellSettings || {};
-      window.callbellSettings["token"] = "pfufnHMsQgXo5pL6ZhLi7Z6d";
-  
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.async = true;
-      script.src = `https://dash.callbell.eu/include/${window.callbellSettings.token}.js`;
-  
-      const firstScript = document.getElementsByTagName("script")[0];
-      firstScript.parentNode.insertBefore(script, firstScript);
-    }, []);
-  
-    return null; // No renderiza nada
-  }
+  const phoneNumber = "+59891640623"; // Reemplaza con tu número de WhatsApp en formato internacional
+  const message = "Hola, tengo una consulta!."; // Mensaje predefinido opcional
+
+  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    message
+  )}`;
   
 
   return (
@@ -129,7 +116,37 @@ function Dashboard() {
         toggleMenu={toggleMenu}
         isMenuOpen={isMenuOpen}
       />
-  <StickyCallbell />
+
+      <a
+        href={whatsappLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          backgroundColor: "black", // Color de WhatsApp
+          color: "#fff",
+          padding: "10px 15px",
+          borderRadius: "50px",
+          textDecoration: "none",
+          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          fontWeight: "bold",
+          fontSize: "16px",
+          zIndex: 1000,
+        }}
+      >
+        <img
+          src="https://i.ibb.co/y6jwQqn/customer-service-support-svgrepo-com.png"
+          alt="WhatsApp"
+          style={{ width: "28px", height: "28px" }}
+        />
+        Soporte
+      </a>
+   
       {/* Modal para mostrar el perfil del usuario */}
       {showProfile && user && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
