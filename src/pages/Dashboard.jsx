@@ -99,6 +99,27 @@ function Dashboard() {
     return title.replace(/\s+/g, '-').toLowerCase();
   };
 
+  function StickyCallbell() {
+    useEffect(() => {
+      if (window.CallbellLoaded) return; // Evita cargar el script si ya existe
+      window.CallbellLoaded = true;
+  
+      window.callbellSettings = window.callbellSettings || {};
+      window.callbellSettings["token"] = "pfufnHMsQgXo5pL6ZhLi7Z6d";
+  
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.async = true;
+      script.src = `https://dash.callbell.eu/include/${window.callbellSettings.token}.js`;
+  
+      const firstScript = document.getElementsByTagName("script")[0];
+      firstScript.parentNode.insertBefore(script, firstScript);
+    }, []);
+  
+    return null; // No renderiza nada
+  }
+  
+
   return (
     <div className="h-full w-screen flex flex-col items-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
       {/* Navbar */}
@@ -108,7 +129,7 @@ function Dashboard() {
         toggleMenu={toggleMenu}
         isMenuOpen={isMenuOpen}
       />
-
+  <StickyCallbell />
       {/* Modal para mostrar el perfil del usuario */}
       {showProfile && user && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
