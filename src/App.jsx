@@ -8,20 +8,21 @@ import Certificados from './pages/Certificados.jsx';
 import Certificadoscuty from './pages/Certificadoscuty.jsx';
 import Perfil from './pages/Perfil.jsx';
 import Regalo from './pages/Regalo.jsx';
+import VerificarIPs from './components/VerificarIP'; 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/PanelControl" element={<PanelControl />} />
-        <Route path="/:cursoId" element={<Cursos />} />
-        <Route path="/cursos/:cursoId/:chapterId" element={<Capitulos />} />
-        <Route path="/Certificados" element={<Certificados />} />
-        <Route path="/Certificadoscuty" element={<Certificadoscuty />} />
-        <Route path="/Perfil" element={<Perfil />} />
-        <Route path="/Regalo" element={<Regalo />} />
+        <Route path="/" element={<><VerificarIPs /><Home /></>} />
+        <Route path="/Dashboard" element={<><VerificarIPs /><Dashboard /></>} />
+        <Route path="/PanelControl" element={<><VerificarIPs /><PanelControl /></>} />
+        <Route path="/:cursoId" element={<><VerificarIPs /><Cursos /></>} />
+        <Route path="/cursos/:cursoId/:chapterId" element={<><VerificarIPs /><Capitulos /></>} />
+        <Route path="/Certificados" element={<><VerificarIPs /><Certificados /></>} />
+        <Route path="/Certificadoscuty" element={<><VerificarIPs /><Certificadoscuty /></>} />
+        <Route path="/Perfil" element={<><VerificarIPs /><Perfil /></>} />
+        <Route path="/Regalo" element={<><VerificarIPs /><Regalo /></>} />
       </Routes>
     </Router>
   );

@@ -17,6 +17,7 @@ function Dashboard() {
   const showProfile = useUserStore((state) => state.showProfile);
   const setShowProfile = useUserStore((state) => state.setShowProfile);
 
+
   // Determinar la URL base en función del entorno
   const API_BASE_URL = process.env.NODE_ENV === 'production'
     ? 'https://back-cursos.onrender.com'
