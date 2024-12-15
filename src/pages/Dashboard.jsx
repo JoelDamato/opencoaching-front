@@ -205,8 +205,7 @@ function Dashboard() {
       <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
   
       <p className="text-white font-bold mb-4">{course.courseDescription}</p>
-      {course.courseTitle == 'Cutting Mastery'? (
-        <p className="text-green-400 font-bold "> Felicidades ganaste el Sorteo!</p> ) : (" ")}
+     
       {course.courseTitle == 'Cutting Mastery'? (
         <p className="text-green-400 font-bold mb-4">Disponible hasta el 10 de enero. </p> ) : (" ")}
 
@@ -227,12 +226,15 @@ function Dashboard() {
   </button>
 ) : (
   <a
-    href="#"
-    className="bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed"
-    disabled
-  >
-    Bloqueado por lanzamiento
-  </a>
+  href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    "Hola, me interesa más información sobre el curso: " + course.courseTitle
+  )}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition"
+>
+  Obtener ahora
+</a>
 )}
 
     </div>
