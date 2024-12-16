@@ -27,11 +27,7 @@ function Home() {
     
      
     
-        // Validar longitud de la contraseña
-        if (password.length < 6) {
-          setError('La contraseña debe tener al menos 6 caracteres.');
-          return;
-        }
+        
     
         // Validar confirmación de contraseña en registro
         if (!isLogin && password !== confirmPassword) {
