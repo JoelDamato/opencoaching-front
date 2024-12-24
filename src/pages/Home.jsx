@@ -81,11 +81,11 @@ function Home() {
   return (
     <div
       className="w-screen min-h-screen pb-5 flex flex-col items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}
+      style={{ backgroundImage: "url('https://i.postimg.cc/6qyNLL8Y/FONDO-BARBER.jpg')" }}
     >
       {/* Logo */}
       <img
-        src="https://i.ibb.co/GpQ6Lkw/cold-smooth-tasty-removebg-preview.png"
+        src="https://i.postimg.cc/NF4pMWsn/cold-smooth-tasty-removebg-preview.png"
         alt="Logo"
         className="w-48 sm:w-64 mb-6"
       />
@@ -112,7 +112,7 @@ function Home() {
         }}
       >
         <img
-          src="https://i.ibb.co/y6jwQqn/customer-service-support-svgrepo-com.png"
+          src="https://i.postimg.cc/7hnwLYTy/customer-service-support-svgrepo-com.png"
           alt="WhatsApp"
           style={{ width: "28px", height: "28px" }}
         />
