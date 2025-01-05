@@ -9,6 +9,7 @@ import Certificadoscuty from './pages/Certificadoscuty.jsx';
 import Perfil from './pages/Perfil.jsx';
 import Regalo from './pages/Regalo.jsx';
 import VerificarIPs from './components/VerificarIP'; 
+import Curses from './pages/Curses.jsx';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/Certificadoscuty" element={<><VerificarIPs /><Certificadoscuty /></>} />
         <Route path="/Perfil" element={<><VerificarIPs /><Perfil /></>} />
         <Route path="/Regalo" element={<><VerificarIPs /><Regalo /></>} />
+        <Route path="/Curses" element={<><Curses /></>} />
       </Routes>
     </Router>
   );
