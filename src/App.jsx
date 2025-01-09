@@ -19,7 +19,7 @@ function App() {
         <Route path="/Dashboard" element={<><VerificarIPs /><Dashboard /></>} />
         <Route path="/PanelControl" element={<><VerificarIPs /><PanelControl /></>} />
         <Route path="/:cursoId" element={<><VerificarIPs /><Cursos /></>} />
-        <Route path="/cursos/:cursoId/:chapterId" element={<><VerificarIPs /><Capitulos /></>} />
+        <Route path="/cursos/:cursoId/:moduleName/:chapterId" element={<><VerificarIPs /><Capitulos /></>} />
         <Route path="/Certificados" element={<><VerificarIPs /><Certificados /></>} />
         <Route path="/Certificadoscuty" element={<><VerificarIPs /><Certificadoscuty /></>} />
         <Route path="/Perfil" element={<><VerificarIPs /><Perfil /></>} />
