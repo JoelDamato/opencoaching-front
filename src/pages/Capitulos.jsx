@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import ReactPlayer from "react-player";
 import useUserStore from "../store/users"; // Importar el store de Zustand
+import Ebook from "../components/Colorimetria.jsx";
 
 function Capitulos() {
   const API_BASE_URL = process.env.NODE_ENV === "production"
@@ -170,7 +171,16 @@ function Capitulos() {
       <div className="bg-gradient-to-b from-black/80 to-black w-full sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         {currentChapter.video ? (
           <div className="w-full h-[180px] md:h-[580px]">
-            <ReactPlayer url={currentChapter.video} width="100%" height="100%" controls />
+
+
+  <ReactPlayer
+    url={currentChapter.video}
+    width="100%"
+    height="100%"
+    controls
+  />
+
+
           </div>
         ) : (
           <p className="text-white">No hay video disponible para este capítulo.</p>

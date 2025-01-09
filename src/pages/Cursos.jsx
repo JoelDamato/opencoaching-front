@@ -79,8 +79,12 @@ function Cursos() {
   }
 
   return (
-    <div className="h-full w-screen  flex flex-col items-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
-      <Navbar
+<div
+  className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center"
+  style={{
+    backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')",
+  }}
+>      <Navbar
         toggleProfile={() => setShowProfile(!showProfile)}
         handleLogout={handleLogout}
         toggleMenu={() => setIsMenuOpen(!isMenuOpen)}
@@ -92,42 +96,64 @@ function Cursos() {
 
         {Object.entries(course.modules).map(([moduleName, chapters], moduleIndex) => (
           <div key={moduleIndex} className="mb-8 w-full">
-           <h2 className="text-4xl font-extrabold text-black bg-white shadow-lg mb-6 text-center rounded-lg tracking-wider">
+<h2
+  className="text-4xl font-extrabold text-white shadow-lg mb-6 text-center rounded-lg tracking-wider bg-gradient-to-r from-black/0 via-black to-black/0"
+>
+
   Módulo: {moduleName}
 </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-              {chapters.map((chapter, chapterIndex) => (
-                <div
-                  key={chapterIndex}
-                  className="bg-gradient-to-r from-black/80 to-black rounded-lg shadow-lg p-6 flex flex-col items-center justify-between h-96"
-                >
-                  <h3 className="text-2xl text-white font-bold mb-4 text-center">{chapter.title}</h3>
+<div className="flex flex-wrap justify-center gap-6">
+{chapters.map((chapter, chapterIndex) => (
+  <div
+    key={chapterIndex}
+    className="bg-gradient-to-r from-black/80 to-black rounded-lg shadow-lg p-6 flex flex-col items-center justify-between h-96 w-72"
+    style={{ minHeight: "26rem", maxHeight: "30rem" }} // Fija el tamaño de la tarjeta
+  >
+    <h3
+      className="text-xl text-white font-bold mb-2 text-center"
+      style={{ minHeight: "6rem", maxHeight: "6rem", overflow: "hidden" }} // Ajusta la altura del título
+    >
+      {chapter.title}
+    </h3>
 
-                  <ReactPlayer
-                    url={chapter.video}
-                    width="100%"
-                    height="150px"
-                    muted={true}
-                    controls={false}
-                    playing={false}
-                    className="mb-4 rounded-lg"
-                  />
+    <ReactPlayer
+      url={chapter.video}
+      width="100%"
+      height="150px"
+      muted={true}
+      controls={false}
+      playing={false}
+      className="mb-2 rounded-lg"
+    />
 
-                  <p className="text-gray-300 text-sm text-center mb-4 flex-grow">{chapter.description}</p>
-                  <button
-                  onClick={() =>
-                    navigate(
-                      `/cursos/${sanitizeTitle(course.courseTitle)}/${moduleName}/${chapterIndex + 1}`
-                    )
-                  }
-                      className="bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-800"
-                  >
-                    Ver Capítulo
-                  </button>
-                </div>
-              ))}
-            </div>
+    <div
+      className="flex-grow flex items-center justify-center"
+      style={{
+        minHeight: "4rem",
+        maxHeight: "4rem",
+        overflow: "hidden", // Oculta texto que exceda el límite
+      }}
+    >
+      <p className="text-gray-300 text-sm text-center mb-4 line-clamp-3">
+        {chapter.description}
+      </p>
+    </div>
+
+    <button
+      onClick={() =>
+        navigate(
+          `/cursos/${sanitizeTitle(course.courseTitle)}/${moduleName}/${chapterIndex + 1}`
+        )
+      }
+      className="bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-800"
+    >
+      Ver Capítulo
+    </button>
+  </div>
+))}
+
+</div>
           </div>
         ))}
 
