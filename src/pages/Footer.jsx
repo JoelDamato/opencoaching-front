@@ -5,15 +5,10 @@ const ComponentName = () => {
     <footer className="bg-black text-white py-6">
     <div className="container mx-auto flex flex-col items-center gap-4">
       {/* Logo */}
-      <img
-        src="https://i.postimg.cc/NF4pMWsn/cold-smooth-tasty-removebg-preview.png"
-        alt="Erick Gómez Logo"
-        className="w-16 h-16"
-      />
       
       {/* Texto principal */}
       <p className="text-center text-lg font-bold">
-        Erick Gómez Academy 2019®️ | Todos los derechos reservados ©️
+        Open Coaching 2024®️ | Todos los derechos reservados ©️
       </p>
       
       {/* Términos */}

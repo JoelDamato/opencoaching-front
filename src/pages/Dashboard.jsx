@@ -109,7 +109,7 @@ function Dashboard() {
   
 
   return (
-    <div className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center" style={{ backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')" }}>
+    <div className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center">
       {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}
@@ -171,31 +171,15 @@ function Dashboard() {
       {/* Contenedor de los cursos */}
         {/* Tarjetas de los cursos */}
         
-
+<h1>hola</h1>
       <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
         {/* Tarjetas de los cursos */}
      
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full shadow-1xl">
-        <div className="bg-gradient-to-r from-black/40 via-white/20 to-black/40 rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-xl">
-<img
-  src="https://i.ibb.co/098whDQ/SDCSD.png"
-  className="w-full h-full max-w-[320px] max-h-[320px] rounded-lg shadow-md mb-4"
-/>
 
-              <h3 className="text-white text-2xl font-bold mb-4">REGALO ESPECIAL PARA TÍ</h3>
-              <p className="text-white font-bold mb-4 text-shadow">Estamos haciendo historia juntos, tenemos la primer plataforma de educación para barbería propia en hablahispana, por esta razón quiero regalarte una clase gratis como agradecimiento por ser parte para que puedas comenzar a educarte antes del lanzamiento!</p>
-             
-                <button
-                onClick={() => navigate(`/Regalo`)}
-                  className="bg-black text-white py-2 px-4 rounded-lg"
-                >
-                  Ver Clase
-                </button>
-           
-            </div>
             {courses.map((course, index) => (
   // Solo muestra el curso si no es "Bonus" o si es "Bonus" pero el usuario tiene acceso
-  (course.courseTitle !== 'REGALO DE LANZAMIENTO' || hasCourse(course.courseTitle))    && (
+  (course.courseTitle )    && (
     <div key={index} className="bg-black/90 rounded-lg shadow-lg p-6 flex flex-col items-center justify-between items-center"
     style={{ minHeight: "40rem", maxHeight: "50rem" }}
     >
