@@ -86,7 +86,7 @@ export default function WorkshopLanding() {
 
 
       {/* Header */}
-      <h1 className="text-white text-6xl md:text-9xl font-bold drop-shadow-lg">Open Coaching</h1>
+      <h1 className="text-white text-5xl md:text-9xl font-bold drop-shadow-lg mb-1 mt-4">Open Coaching</h1>
         <h2  className="text-center text-white text-2xl md:text-4xl font-bold drop-shadow-lg mt-2 mb-2" >La plataforma que escucha tu mundo</h2>
    
       <div className="bg-white rounded-2xl max-w-4xl w-[96%] p-2 md:p-6 md:w-full mx-5 shadow-lg mt-2 md:mt-7">
@@ -142,7 +142,7 @@ export default function WorkshopLanding() {
       <svg className="w-10 h-10 sm:w-12 sm:h-12 text-blue-900  flex-shrink-0" viewBox="0 0 24 24">
         <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
       </svg>
-      <span className="leading-relaxed">Ya tienes conocimientos y experiencia, pero te falta una estrategia clara para atraer clientes y vender sin sentir que “estás rogando”.</span>
+      <span className="leading-relaxed">Te interesa formar parte de una comunidad que te apoye y te impulse al éxito.</span>
     </li>
     <li className="flex items-start gap-4">
       <svg className="w-10 h-10 sm:w-12 sm:h-12 text-blue-900  flex-shrink-0" viewBox="0 0 24 24">
@@ -162,50 +162,46 @@ export default function WorkshopLanding() {
          
           </div>
         </section>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 text-blue-900  overflow-hidden border-b-4 border-blue-900  whitespace-nowrap animate-typing max-w-full mx-auto">
-        Beneficios de pertenecer a OpenCoaching
-</h2>
-
-
         <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 text-blue-900 border-b-4 border-blue-900 max-w-full mx-auto">
+                Beneficios de pertenecer a OpenCoaching
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {benefits.map((benefit, index) => (
-                    <div key={index} className="p-6 bg-blue-100 rounded-lg shadow-lg text-lg">
+                    <div key={index} className="p-6 bg-blue-200 rounded-lg shadow-lg text-2xl">
                         <p className="text-gray-700">{benefit}</p>
                     </div>
                 ))}
             </div>
         </div>
-
-
-
-
-              <div className="flex flex-col items-center ">
-        <h3 className="text-sm py-1 rounded-lg text-center leading-none mt-2">
-          <span className="text-black block leading-none m-0">PRECIO REGULAR: <span className="line-through">$40.000 por mes</span></span>
-        </h3>
-        <h3 className="text-sm py-1 rounded-lg text-center leading-none m-0">
-          <strong>
-            <span className="text-[#f9bc66] text-3xl leading-none m-0">AHORA: $19.500 por mes</span>
-          </strong>
-        </h3>
-      </div>
-
-
-          
           </div>
   
+          <div className="flex flex-col items-center mt-4 mb-5 space-y-3">
+  {/* Precio regular tachado */}
+  <img src="/mockup.png" className='' />
+  <h3 className="text-base font-semibold text-gray-600">
+    PRECIO REGULAR: <span className="line-through text-gray-400">$40.000 por mes</span>
+  </h3>
 
-          {/* CTA Button */}         <button
-            onClick={() => window.open("https://pay.hotmart.com/O94296249S?checkoutMode=10&bid=1725551295569", "_blank")}
-  className="bg-gradient-to-r from-black via-[#013557] to-black text-white text-xl md:text-2xl font-medium py-4 px-8 rounded-lg w-full max-w-2xl mx-auto block mb-16 transition-all duration-300 hover:translate-x-1 hover:translate-x-[-5px]"
-  style={{
-    backgroundSize: "200%",
-    backgroundPosition: "center",
-  }}
->
-¡Sí! Quiero Acceso Inmediato
-</button>
+  {/* Precio actual destacado */}
+  <h3 className="text-3xl  text-black">
+    AHORA: <span className="text-black font-bold">$19.500</span> por mes
+  </h3>
+
+  {/* Botón CTA mejorado */}
+  <button
+    onClick={() => window.open("https://pay.hotmart.com/O94296249S?checkoutMode=10&bid=1725551295569", "_blank")}
+    className=" bg-gradient-to-r from-black via-blue-900 to-black text-white text-xl md:text-2xl font-semibold py-4 px-10 rounded-lg w-full max-w-2xl mx-auto mt-4 mb-10 transition-transform transform hover:scale-105 shadow-lg"
+    style={{
+      backgroundSize: "200%",
+      backgroundPosition: "center",
+    }}
+  >
+    ¡Sí! Quiero Acceso Inmediato
+  </button>
+</div>
+
+
 
 
         
