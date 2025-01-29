@@ -86,17 +86,17 @@ export default function WorkshopLanding() {
 
 
       {/* Header */}
-      <h1 className="text-white text-9xl font-bold drop-shadow-lg">Open Coaching</h1>
-        <h2  className="text-white text-4xl font-bold drop-shadow-lg mt-2" >La plataforma que escucha tu mundo</h2>
+      <h1 className="text-white text-5xl md:text-9xl font-bold drop-shadow-lg">Open Coaching</h1>
+        <h2  className="text-center text-white text-2xl md:text-4xl font-bold drop-shadow-lg mt-2" >La plataforma que escucha tu mundo</h2>
    
-      <div className="bg-white rounded-2xl max-w-4xl w-[96%] p-2 md:p-6 md:w-full mx-5 shadow-lg mt-7">
+      <div className="bg-white rounded-2xl max-w-4xl w-[96%] p-2 md:p-6 md:w-full mx-5 shadow-lg mt-2 md:mt-7">
         <header className="text-center">
          
 
-          <h1 className="text-blue-950 text-5xl font-bold drop-shadow-lg mb-2">
-          Tu camino comienza con una decisión: ¿Estás listo?          </h1>
+          <h1 className="text-blue-950 text-3xl md:text-5xl font-bold drop-shadow-lg mt-2 mb-2">
+          Tu camino comienza con una decisión: ¿Estás listo?</h1>
 
-          <p className="text-xl text-gray-700 mb-3">
+          <p className="text-1xl text-gray-700 mb-3">
           <span className="text-black font-bold">
           Convierte tu visión en resultados concretos{" "}
             </span>
@@ -104,7 +104,7 @@ export default function WorkshopLanding() {
         </header>
 
         <div className="text-center flex justify-center items-center w-full mb-5 bg-black">
-  <div className="relative w-full max-w-4xl aspect-video">
+  <div className="relative w-full max-w-4xl aspect-video mt-5">
     <iframe
       src="https://player.vimeo.com/video/1051695808?h=4211e0dbc5"
       className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
@@ -122,14 +122,9 @@ export default function WorkshopLanding() {
 
       <div>
         <section className="w-full max-w-4xl  px-4 mt-2 bg-white">
-          <h1  className="bg-gradient-to-r from-black via-blue-900 to-black text-white font-bold text-center text-3xl md:text-2xl font-medium py-4 px-8 rounded-lg w-full max-w-2xl mx-auto block mb-16 transition-all duration-300 hover:translate-x-1 hover:translate-x-[-5px]"
->
-
-El momento de actuar es ahora. Reserva tu lugar.
-          </h1>
-
+        
           <div >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 text-blue-900  overflow-hidden border-b-4 border-blue-900  whitespace-nowrap animate-typing max-w-full mx-auto">
+          <h2 className="mt-10 text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 text-blue-900  overflow-hidden border-b-4 border-blue-900  whitespace-nowrap animate-typing max-w-full mx-auto">
   Esta membresia es para ti si ...
 </h2>
 
