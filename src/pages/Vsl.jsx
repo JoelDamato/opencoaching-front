@@ -86,8 +86,8 @@ export default function WorkshopLanding() {
 
 
       {/* Header */}
-      <h1 className="text-white text-5xl md:text-9xl font-bold drop-shadow-lg">Open Coaching</h1>
-        <h2  className="text-center text-white text-2xl md:text-4xl font-bold drop-shadow-lg mt-2" >La plataforma que escucha tu mundo</h2>
+      <h1 className="text-white text-6xl md:text-9xl font-bold drop-shadow-lg">Open Coaching</h1>
+        <h2  className="text-center text-white text-2xl md:text-4xl font-bold drop-shadow-lg mt-2 mb-2" >La plataforma que escucha tu mundo</h2>
    
       <div className="bg-white rounded-2xl max-w-4xl w-[96%] p-2 md:p-6 md:w-full mx-5 shadow-lg mt-2 md:mt-7">
         <header className="text-center">
