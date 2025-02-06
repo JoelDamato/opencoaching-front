@@ -8,7 +8,7 @@ const ComponentName = () => {
       
       {/* Texto principal */}
       <p className="text-center text-lg font-bold">
-        Open Coaching 2024®️ | Todos los derechos reservados ©️
+        Open Coaching 2025®️ | Todos los derechos reservados ©️
       </p>
       
       {/* Términos */}
