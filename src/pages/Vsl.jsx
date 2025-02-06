@@ -176,9 +176,9 @@ const benefits = [
 
 
       <div>
-        <section className="w-full max-w-4xl  px-4 mt-2 bg-white">
+        <section className="w-full max-w-4xl  px-4 mt-2 bg-white ">
         
-          <div >
+          <div className='flex flex-col items-center' >
           <h2 className="mt-10 text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 text-[#09886d] overflow-hidden border-b-4 border-[#09886d]  whitespace-nowrap animate-typing max-w-full mx-auto">
   Esta membresia es para ti si ...
 </h2>
@@ -254,10 +254,10 @@ const benefits = [
    
           <div className="relative flex flex-col items-center mt-3 mb-4 space-y-2">
   {/* Imagen */}
-  <div className="relative">
+  <div className="flex flex-col items-center">
     <img src="/mockup.png" className="w-full max-w-md" />
     {/* Contenedor del texto, que se mete sobre la imagen en mobile */}
-    <div className="bottom-0 transform -translate-y-10 md:translate-y-0 text-center">
+    <div className="flex flex-col items-center transform -translate-y-10 md:translate-y-0 text-center">
       {/* Precio regular tachado */}
       <h3 className="text-base font-semibold text-gray-600 bg-white bg-opacity-80 px-2 py-1 rounded-md inline-block">
         PRECIO REGULAR: <span className="line-through text-gray-400">$40.000 por mes</span>
