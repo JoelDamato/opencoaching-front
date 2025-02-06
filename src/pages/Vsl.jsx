@@ -277,15 +277,15 @@ const benefits = [
 
   {/* Botón CTA mejorado */}
   <button
-    onClick={() => window.open("https://pay.hotmart.com/O94296249S?checkoutMode=10&bid=1725551295569", "_blank")}
-    className="bg-gradient-to-r from-black via-[#09886d] to-black text-white text-xl md:text-2xl font-semibold py-4 px-10 rounded-lg w-full max-w-2xl mx-auto mt-3 mb-8 transition-transform transform hover:scale-105 shadow-lg"
-    style={{
-      backgroundSize: "200%",
-      backgroundPosition: "center",
-    }}
-  >
-    ¡Sí! Quiero mi prueba gratuita de 7 dias
-  </button>
+  onClick={() => window.open("https://wa.me/+5493512153675?text=¡Hola!%20Quiero%20mi%20prueba%20gratuita%20de%207%20días.", "_blank")}
+  className="bg-gradient-to-r from-black via-[#09886d] to-black text-white text-xl md:text-2xl font-semibold py-4 px-10 rounded-lg w-full max-w-2xl mx-auto mt-3 mb-8 transition-transform transform hover:scale-105 shadow-lg"
+  style={{
+    backgroundSize: "200%",
+    backgroundPosition: "center",
+  }}
+>
+  ¡Sí! Quiero mi prueba gratuita de 7 días
+</button>
 </div>
 
 
