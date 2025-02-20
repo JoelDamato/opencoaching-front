@@ -5,7 +5,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar';
 import useUserStore from '../store/users'; // Importar el store de Zustand
 
-function Dashboard() {
+function Coaches() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [courses, setCourses] = useState([]); // Estado para almacenar los cursos
   const navigate = useNavigate();
@@ -109,92 +109,103 @@ function Dashboard() {
   
 
   return (
-<div className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center">
-  {/* Navbar */}
-  <Navbar
-    toggleProfile={toggleProfile}
-    handleLogout={handleLogout}
-    toggleMenu={toggleMenu}
-    isMenuOpen={isMenuOpen}
-  />
+    <div className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center">
+      {/* Navbar */}
+      <Navbar
+        toggleProfile={toggleProfile}
+        handleLogout={handleLogout}
+        toggleMenu={toggleMenu}
+        isMenuOpen={isMenuOpen}
+      />
 
-  {/* Botón de soporte WhatsApp */}
-  <a
-    href={whatsappLink}
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      position: "fixed",
-      bottom: "20px",
-      right: "20px",
-      backgroundColor: "black",
-      color: "#fff",
-      padding: "10px 15px",
-      borderRadius: "50px",
-      textDecoration: "none",
-      boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-      display: "flex",
-      alignItems: "center",
-      gap: "8px",
-      fontWeight: "bold",
-      fontSize: "16px",
-      zIndex: 1000,
-    }}
-  >
-    <img
-      src="https://i.postimg.cc/7hnwLYTy/customer-service-support-svgrepo-com.png"
-      alt="WhatsApp"
-      style={{ width: "28px", height: "28px" }}
-    />
-    Soporte
-  </a>
+      <a
+        href={whatsappLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          backgroundColor: "black", // Color de WhatsApp
+          color: "#fff",
+          padding: "10px 15px",
+          borderRadius: "50px",
+          textDecoration: "none",
+          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          fontWeight: "bold",
+          fontSize: "16px",
+          zIndex: 1000,
+        }}
+      >
+        <img
+          src="https://i.postimg.cc/7hnwLYTy/customer-service-support-svgrepo-com.png"
+          alt="WhatsApp"
+          style={{ width: "28px", height: "28px" }}
+        />
+        Soporte
+      </a>
+   
+      {/* Modal para mostrar el perfil del usuario */}
+      {showProfile && user && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 sm:w-1/2 relative z-60">
+            <button onClick={toggleProfile} className="absolute top-2 right-2 text-black text-2xl font-bold">
+              &times;
+            </button>
+            <h2 className="text-2xl font-bold mb-4">Mi Perfil</h2>
+            <p><strong>Nombre:</strong> {user.nombre}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Cursos Adquiridos:</strong></p>
+            <ul className="list-disc list-inside">
+              {user.cursos.map((curso, index) => (
+                <li key={index}>{curso}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
-  {/* Modal para mostrar el perfil del usuario */}
-  {showProfile && user && (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 sm:w-1/2 relative z-60">
-        <button onClick={toggleProfile} className="absolute top-2 right-2 text-black text-2xl font-bold">
-          &times;
-        </button>
-        <h2 className="text-2xl font-bold mb-4">Mi Perfil</h2>
-        <p><strong>Nombre:</strong> {user.nombre}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Cursos Adquiridos:</strong></p>
-        <ul className="list-disc list-inside">
-          {user.cursos.map((curso, index) => (
-            <li key={index}>{curso}</li>
-          ))}
-        </ul>
+      {/* Contenedor de los cursos */}
+        {/* Tarjetas de los cursos */}
+        
+<h1>hola</h1>
+      <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
+        {/* Tarjetas de los cursos */}
+     
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full shadow-1xl">
+
+            {courses.map((course, index) => (
+  // Solo muestra el curso si no es "Bonus" o si es "Bonus" pero el usuario tiene acceso
+  (course.courseTitle )    && (
+    <div key={index} className="bg-black/90 rounded-lg shadow-lg p-6 flex flex-col items-center justify-between items-center"
+    style={{ minHeight: "40rem", maxHeight: "50rem" }}
+    >
+      <img
+        src={course.image}
+        alt={course.courseTitle}
+        className="w-full h-full max-w-[320px] max-h-[320px] rounded-lg shadow-md mb-4"
+      />
+
+      <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
+  
+      <p className="text-white font-bold mb-4">{course.courseDescription}</p>
+
+     
+
+
+
+    </div>
+  )
+))}
+
+
+        </div>
       </div>
     </div>
-  )}
-
-  {/* Onboarding de Open Coaching */}
-  <div className="w-full max-w-lg bg-white p-6 mt-10 rounded-lg shadow-md text-center">
-    <h1 className="text-5xl font-bold text-gray-800 mt-15">¡Bienvenido a Open Coaching! 🚀</h1>
-    <p className="text-gray-600 mt-2">
-      Estamos emocionados de tenerte aquí. Antes de comenzar, sigue estos pasos para aprovechar al máximo la plataforma.
-    </p>
-
-    <div className="mt-5 text-left ">
-      <ul className="list-decimal list-inside text-gray-700">
-        <li>Explora tu perfil y actualiza tu información.</li>
-        <li>Accede a tu primer curso en la sección de "Mis Cursos".</li>
-        <li>Únete a nuestra comunidad de aprendizaje en vivo.</li>
-        <li>Descubre recursos exclusivos para potenciar tu formación.</li>
-      </ul>
-    </div>
-
-    <button
-      onClick={() => console.log("Onboarding completado")} // Aquí puedes redirigir a otra página
-      className="mt-6 px-6 py-2 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition"
-    >
-      ¡Empezar ahora!
-    </button>
-  </div>
-</div>
-
   );
 }
 
-export default Dashboard;
+export default Coaches;

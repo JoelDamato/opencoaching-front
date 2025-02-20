@@ -79,9 +79,9 @@ function Home() {
 
   return (
     <div
-      className=" mb-5 w-screen min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-white"
+      className=" mb-5 w-screen min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#09886d] via-white bg-center bg-white"
     >
-<h1 className='text-[5rem] font-bold text-blue-600 mb-[2rem]'>Open Coaching</h1>
+<img src="/logo.png" className='w-full md:w-1/2 mb-5' alt="" />
       <a
         href={whatsappLink}
         target="_blank"

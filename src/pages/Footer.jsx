@@ -2,7 +2,7 @@ import React from 'react';
 
 const ComponentName = () => {
   return (
-    <footer className="bg-black text-white py-6">
+    <footer className="bg-white text-black py-6">
     <div className="container mx-auto flex flex-col items-center gap-4">
       {/* Logo */}
       

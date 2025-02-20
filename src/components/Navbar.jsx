@@ -8,260 +8,132 @@ function Navbar({ toggleMenu, isMenuOpen, handleLogout }) {
   const Dashboard = location.pathname === '/Dashboard';
   const PanelControl = location.pathname === '/PanelControl';
 
-  const [user, setUser] = useState(null); // Estado local para almacenar los datos del usuario
-  const [showProfile, setShowProfile] = useState(false); // Estado local para manejar la visibilidad del modal de perfil
-
-
+  const [user, setUser] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
     ? 'https://back-cursos.onrender.com'
     : 'http://localhost:5000';
 
-  // Llamada a la API para obtener los datos del usuario al montar el Navbar
   useEffect(() => {
     const token = localStorage.getItem('token');
     const email = localStorage.getItem('email');
 
-    if (!token) {
-
-    } else if (email) {
-      // Fetch user data from API enviando el email en la solicitud POST
+    if (token && email) {
       axios.post(`${API_BASE_URL}/api/search/users`, { email: email }, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Enviar el token si es necesario
-        }
+        headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-
         setUser(response.data);
         localStorage.setItem('rol', response.data.rol);
       })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-    } else {
-      console.error('No email found in localStorage');
+      .catch(error => console.error('Error fetching user data:', error));
     }
   }, [navigate, API_BASE_URL]);
 
-  // Manejar la navegación y cerrar el menú si está abierto
   const handleNavigation = (path) => {
     navigate(path);
-    if (isMenuOpen && toggleMenu) {
-      toggleMenu();
-    }
+    setMenuOpen(false);
   };
 
- 
-
-  const [timeLeft, setTimeLeft] = useState('');
-  const [isLaunched, setIsLaunched] = useState(false);
-
-  useEffect(() => {
-    // Function to calculate remaining time
-    const calculateTimeRemaining = () => {
-      const targetDate = new Date('2024-12-13T09:00:00-03:00');
-      const now = new Date();
-      
-      // Get time difference in milliseconds
-      const difference = targetDate.getTime() - now.getTime();
-      
-      if (difference <= 0 ) {
-        setTimeLeft('DISPONIBLE GROWTH BARBER');
-        setIsLaunched(true);
-        return false;
-      }
-      
-      // Calculate time units
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      
-      // Format time string in Spanish
-      setTimeLeft(`Inscripciones abiertas en: ${days} días, ${hours} horas, ${minutes} minutos, ${seconds} segundos`);
-      return true;
-    };
-
-    // Calculate immediately
-    const shouldContinue = calculateTimeRemaining();
-    
-    // Only set up interval if countdown should continue
-    let interval;
-    if (shouldContinue) {
-      interval = setInterval(calculateTimeRemaining, 1000);
-    }
-
-    // Cleanup function
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, []);
-
-
-const handleWhatsAppClick = () => {
-  // Número de teléfono y mensaje predefinido (reemplaza con tu número real)
-  const phoneNumber = "59891640623";
-  const message = "Quiero obtener el **GROWTH BARBER**";
-  
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-  // Abrir WhatsApp en una nueva pestaña
-  window.open(whatsappUrl, '_blank');
-};
-
-  
-
-
-
-// Función para mostrar/ocultar el perfil del usuario
-const handleToggleProfile = () => {
-  if (isMenuOpen && toggleMenu) {
-    toggleMenu(); // Cerrar el menú si está abierto
-  }
-  setShowProfile(!showProfile); // Cambiar la visibilidad del modal del perfil
-};
-
+  const handleToggleProfile = () => {
+    setShowProfile(!showProfile);
+  };
 
   return (
     <>
-  
-  <nav className="w-full bg-black text-white flex items-center justify-between px-6 py-4 mb-4 shadow-2xl border-b border-gray-500 sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-        <img src="https://i.postimg.cc/NF4pMWsn/cold-smooth-tasty-removebg-preview.png" alt="Logo Erick Gomez Academy" style={{ width: '6rem', height: '6rem' }} className="h-auto" />
-
-
-
-         
+      {/* Navbar */}
+      <nav className={`text-white fixed top-0 left-0 w-auto h-auto px-4 py-2 z-50 transition-all duration-300 ${menuOpen ? 'bg-[#09886d] md:h-full md:w-64' : 'bg-transparent'}`}>
+        {/* Logo con botón de despliegue */}
+        <div className="flex items-center cursor-pointer " onClick={() => setMenuOpen(!menuOpen)}>
+          <img src="/nav.png" alt="Logo OPCH" className="w-16 h-auto md:w-[10rem]" />
+          <span className={`text-xl  transform transition-transform duration-300  ${menuOpen ? 'rotate-180' : 'rotate-0'}`}>     <svg className="animate-pulse "xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+</svg>
+</span>
         </div>
-        <div className="hidden sm:flex gap-4">
-      
-          <button onClick={handleToggleProfile} className="text-white py-2 px-4 rounded-lg hover:bg-blue-800 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-              </svg>
-            
-            Mi Perfil
-          </button>
+
+        {/* Menú (oculto por defecto) */}
+        <ul className={`transition-all  duration-300 flex flex-col items-start w-full overflow-hidden ${menuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 hidden'}`}>          
           {!Dashboard && (
-            <button onClick={() => handleNavigation('/Dashboard')} className="text-white py-2 px-4 rounded-lg hover:bg-blue-800 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-              </svg>
-              
-              Dashboard
-            </button>
-          )}
-          {user?.rol === 'admin' && !PanelControl && (
-            <button onClick={() => handleNavigation('/PanelControl')} className="text-white py-2 px-4 rounded-lg hover:bg-blue-800 flex items-center gap-2">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-            </svg>
-              
-              Panel de Control
-            </button>
-          )}
-          <button onClick={handleLogout} className="text-white py-2 px-4 rounded-lg hover:bg-blue-800 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-            </svg>
-            Cerrar Sesión
-          </button>
-        </div>
-        {/* Menú hamburguesa para móviles */}
-        <div className="sm:hidden">
-          <button onClick={toggleMenu} className="text-white focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
-            </svg>
-          </button>
-        </div>
-        {/* Menú desplegable para móviles */}
-        {isMenuOpen && (
-          <div className="fixed top-0 right-0 w-2/3 h-full bg-black bg-opacity-95 z-40 flex flex-col items-start p-6">
-       
-            <button onClick={toggleMenu} className="self-end mb-4 text-white focus:outline-none">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <div className="flex flex-col w-full gap-4">
-               <div>
-            {/* Contador del lanzamiento */}
-            
-          </div>
-              <button onClick={handleToggleProfile} className="text-white text-lg hover:bg-blue-800 flex items-center gap-2 border-b border-white pb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                </svg>
-                Mi Perfil
-                
+            <li className="my-1 ">
+              <button onClick={() => handleNavigation('/Dashboard')} className="text-white text-2xl py-2 px-4 w-full hover:bg-[#39ac71] rounded-2xl flex items-center">
+                Dashboard
               </button>
-              {!Dashboard && (
-                <button onClick={() => handleNavigation('/Dashboard')} className="text-white text-lg hover:bg-blue-800 flex items-center gap-2 border-b border-white pb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                  </svg>
-                  Dashboard
-                </button>
-              )}
-              {user?.rol === 'admin' && !PanelControl && (
-                <button onClick={() => handleNavigation('/PanelControl')} className="text-white text-lg hover:bg-blue-800 flex items-center gap-2 border-b border-white pb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-                  </svg>
-                  Panel de Control
-                </button>
-              )}
-              <button onClick={handleLogout} className="text-white text-lg hover:bg-blue-800 flex items-center gap-2 border-b border-white pb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                </svg>
-                Cerrar Sesión
+            </li>
+          )}
+          <li className="my-1">
+            <button onClick={() => handleNavigation('/Coaches')} className="text-white text-2xl py-2 px-4 w-full hover:bg-[#39ac71] rounded-2xl flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+</svg>
+  Coaches
+            </button>
+          </li>
+          
+          <li className="my-1">
+            <button onClick={() => handleNavigation('/cursostotals')} className="text-white text-2xl py-2 px-4 w-full hover:bg-[#39ac71] rounded-2xl flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+</svg>
+ Cursos
+            </button>
+          </li>
+          {user?.rol === 'admin' && !PanelControl && (
+            <li className="my-1">
+              <button onClick={() => handleNavigation('/PanelControl')} className="text-white text-2xl py-2 px-4 w-full hover:bg-[#39ac71] rounded-2xl flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+</svg>
+Panel de Control
+              </button>
+            </li>
+          )}
+          <li className="my-1">
+            <button onClick={handleToggleProfile} className="text-white text-2xl py-2 px-4 w-full hover:bg-[#39ac71] rounded-2xl flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+</svg>
+ Mi Perfil
+            </button>
+          </li>
+          <li className="my-1">
+            <button onClick={handleLogout} className="text-white text-2xl py-2 px-4 w-full hover:bg-[#39ac71] rounded-2xl flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+ Cerrar Sesión
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Espaciado del contenido */}
+      <div className="md:ml-64 p-6 w-full">
+        {/* Modal del Perfil del Usuario */}
+        {showProfile && user && (
+          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+            <div className="bg-black/95 w-11/12 sm:w-2/3 md:w-1/2 lg:w-1/3 p-6 rounded-lg shadow-lg relative">
+              <button onClick={handleToggleProfile} className="absolute top-3 right-3 text-white focus:outline-none">
+                &times;
+              </button>
+              <h2 className="text-2xl font-bold mb-4 text-white">Perfil del Usuario</h2>
+              <p className="text-white"><strong>Nombre:</strong> {user?.nombre ?? 'No especificado'}</p>
+              <p className="text-white"><strong>Email:</strong> {user?.email ?? 'No especificado'}</p>
+              <p className="text-white"><strong>Cursos Adquiridos:</strong></p>
+              <ul className="list-disc list-inside text-white">
+                {user?.cursos?.length > 0 ? user.cursos.map((curso, index) => (
+                  <li key={index}>{curso}</li>
+                )) : <li>Ninguno</li>}
+              </ul>
+              <button onClick={() => handleNavigation('/Perfil')} className="text-blue-500 text-sm mt-4 hover:text-blue-800">
+                Cambiar Contraseña
               </button>
             </div>
           </div>
         )}
-      </nav>
-
-      {/* Modal del Perfil del Usuario */}
-      {showProfile && user && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-black/95 w-11/12 sm:w-2/3 md:w-1/2 lg:w-1/3 p-6 rounded-lg shadow-lg relative">
-            <button onClick={handleToggleProfile} className="absolute top-3 right-3 text-white focus:outline-none">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <h2 className="text-2xl font-bold mb-4 text-white">Perfil del Usuario</h2>
-    
-            <div className="mb-2 text-white">
-              <strong>Nombre:</strong> {user?.nombre ?? 'No especificado'}
-            </div>
-            <div className="mb-2 text-white">
-              <strong>Email:</strong> {user?.email ?? 'No especificado'}
-            </div>
-            <div className="mb-2 text-white">
-              <strong>Cursos Adquiridos:</strong> {user?.cursos && user?.cursos.length > 0 ? (
-                <ul className="list-disc list-inside">
-                  {user.cursos.map((curso, index) => (
-                    <li key={index}>{curso}</li>
-                  ))}
-                </ul>
-              ) : 'Ninguno'}
-          
-            </div>
-            <button onClick={() => handleNavigation('/Perfil')} className="text-blue-500 text-s hover:text-blue-800 flex items-center gap-2 p-1 m-1 pb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-                  </svg>
-                  Cambiar Contraseña
-                </button>
-          </div>
-        </div>
-      )}
+      </div>
     </>
   );
 }

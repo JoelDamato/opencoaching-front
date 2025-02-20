@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import ReactPlayer from "react-player";
 import useUserStore from "../store/users"; // Importar el store de Zustand
-import Ebook from "../components/Colorimetria.jsx";
+
 
 function Capitulos() {
   const API_BASE_URL = process.env.NODE_ENV === "production"
