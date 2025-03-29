@@ -22,7 +22,7 @@ function Home() {
       ? 'https://opencoaching-back.onrender.com/'
       : 'http://localhost:5000';
 
-    
+  
       const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
