@@ -8,7 +8,6 @@ import Certificados from './pages/Certificados.jsx';
 import Certificadoscuty from './pages/Certificadoscuty.jsx';
 import Perfil from './pages/Perfil.jsx';
 import Regalo from './pages/Regalo.jsx';
-import Curses from './pages/Curses.jsx';
 import Vsl from './pages/Vsl.jsx';
 import Totalcursos from './pages/Cursostotals.jsx'
 import Coaches from './pages/Coaches.jsx'
@@ -26,7 +25,6 @@ function App() {
         <Route path="/Certificadoscuty" element={<><Certificadoscuty /></>} />
         <Route path="/Perfil" element={<><Perfil /></>} />
         <Route path="/Regalo" element={<><Regalo /></>} />
-        <Route path="/Curses" element={<><Curses /></>} />
         <Route path="/Vsl" element={<><Vsl /></>} />
         <Route path="/Coaches" element={<><Coaches /></>} />
         <Route path="/cursostotals" element={<><Totalcursos /></>} />
