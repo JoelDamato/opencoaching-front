@@ -20,7 +20,7 @@ const CoursesList = () => {
 
   // Determinar la URL base en función del entorno
   const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://back-cursos.onrender.com'
+    ? 'https://opencoaching-back.onrender.com/'
     : 'http://localhost:5000';
 
   useEffect(() => {
