@@ -133,7 +133,12 @@ const CoursesList = () => {
       <p className="text-white font-bold mb-4">{course.courseDescription}</p>
 
      
-
+      <button
+                    onClick={() => navigate(`/${sanitizeCourseTitle(course.courseTitle)}`)}
+                    className="bg-black text-white py-2 px-4 rounded-lg hover:bg-black/90 transition"
+                  >
+                    Ver Curso
+                  </button>
 
 
     </div>

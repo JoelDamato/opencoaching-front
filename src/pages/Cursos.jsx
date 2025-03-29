@@ -81,9 +81,7 @@ function Cursos() {
   return (
 <div
   className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center"
-  style={{
-    backgroundImage: "url('https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg')",
-  }}
+
 >      <Navbar
         toggleProfile={() => setShowProfile(!showProfile)}
         handleLogout={handleLogout}
