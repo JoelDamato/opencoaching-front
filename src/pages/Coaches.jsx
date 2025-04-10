@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import useUserStore from '../store/users'; // Importar el store de Zustand
+import SupportButton from '../components/SupportButton';
 
 function Coaches() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -118,35 +119,7 @@ function Coaches() {
         isMenuOpen={isMenuOpen}
       />
 
-      <a
-        href={whatsappLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          backgroundColor: "black", // Color de WhatsApp
-          color: "#fff",
-          padding: "10px 15px",
-          borderRadius: "50px",
-          textDecoration: "none",
-          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          fontWeight: "bold",
-          fontSize: "16px",
-          zIndex: 1000,
-        }}
-      >
-        <img
-          src="https://i.postimg.cc/7hnwLYTy/customer-service-support-svgrepo-com.png"
-          alt="WhatsApp"
-          style={{ width: "28px", height: "28px" }}
-        />
-        Soporte
-      </a>
+     <SupportButton />
    
       {/* Modal para mostrar el perfil del usuario */}
       {showProfile && user && (
@@ -168,42 +141,79 @@ function Coaches() {
         </div>
       )}
 
-      {/* Contenedor de los cursos */}
-        {/* Tarjetas de los cursos */}
-        
-<h1>hola</h1>
-      <div className=" h-auto w-full sm:w-11/12 rounded-xl sm:rounded-2xl flex flex-col items-center p-8 shadow-lg">
-        {/* Tarjetas de los cursos */}
-     
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full shadow-1xl">
+<div className="w-full sm:w-11/12 p-8">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {[
+      {
+        src: 'Alejandro.jpg',
+        nombre: 'Alejandro Ferrer',
+        link: 'https://calendly.com/alejandro-daniel-ferrer/sesion-de-coaching',
+      },
+      {
+        src: 'Andreinachaparro.jpg',
+        nombre: 'Andreina Chaparro',
+        link: 'https://calendly.com/ideasdecrochet-andreina/sesion-de-coaching-ontologico',
+      },
+      {
+        src: 'Diegotoloza.jpg',
+        nombre: 'Diego Toloza',
+        link: 'https://calendly.com/diegotoloza-coach/60min',
+      },
+      {
+        src: 'Enzo.jpg',
+        nombre: 'Enzo Chiapello',
+        link: 'https://calendly.com/enzochiapello/sesion-de-coaching-solidario',
+      },
+      {
+        src: 'Fabiana.jpg',
+        nombre: 'Fabiana',
+        link: 'https://calendly.com/faadrover/sesion-de-coaching',
+      },
+      {
+        src: 'Mariabeatriz.jpg',
+        nombre: 'María Beatriz',
+        link: 'https://calendly.com/mariabecoach10sesion/sesion-de-coaching?month=2025-02',
+      },
+      {
+        src: 'PaulaRepetto.jpg',
+        nombre: 'Paula Repetto',
+        link: 'https://calendly.com/pau-repetto1/45min',
+      },
+      {
+        src: 'SusanaGuzman.jpg',
+        nombre: 'Susana Guzmán',
+        link: 'https://calendly.com/susanaguzmancoach/30',
+      },
+    ].map((coach, idx) => (
+      <div
+        key={idx}
+        className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center p-4"
+      >
+        <img
+          src={coach.src}
+          alt={coach.nombre}
+          className="w-full h-64 object-contain rounded-md mb-4"
+        />
+        <h3 className="text-lg font-semibold text-center mb-2">{coach.nombre}</h3>
 
-            {courses.map((course, index) => (
-  // Solo muestra el curso si no es "Bonus" o si es "Bonus" pero el usuario tiene acceso
-  (course.courseTitle )    && (
-    <div key={index} className="bg-black/90 rounded-lg shadow-lg p-6 flex flex-col items-center justify-between items-center"
-    style={{ minHeight: "40rem", maxHeight: "50rem" }}
-    >
-      <img
-        src={course.image}
-        alt={course.courseTitle}
-        className="w-full h-full max-w-[320px] max-h-[320px] rounded-lg shadow-md mb-4"
-      />
-
-      <h3 className="text-white text-2xl font-bold mb-4">{course.courseTitle}</h3>
-  
-      <p className="text-white font-bold mb-4">{course.courseDescription}</p>
-
-     
-
-
-
-    </div>
-  )
-))}
-
-
-        </div>
+        {coach.link ? (
+          <a
+            href={coach.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-transform duration-300 transform hover:-translate-y-1"
+          >
+            Reservá tu sesión
+          </a>
+        ) : (
+          <span className="text-sm text-gray-400 italic mt-2">Próximamente disponible</span>
+        )}
       </div>
+    ))}
+  </div>
+</div>
+
+
     </div>
   );
 }

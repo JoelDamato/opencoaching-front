@@ -2,6 +2,8 @@ import '../App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import SupportButton from '../components/SupportButton';
+
 
 function Home() {
  
@@ -70,47 +72,14 @@ function Home() {
         }
       };
       
-  const phoneNumber = "+59891640623"; // Reemplaza con tu número de WhatsApp en formato internacional
-  const message = "Hola, tengo una consulta!."; // Mensaje predefinido opcional
 
-  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-    message
-  )}`;
 
   return (
     <div
       className=" mb-5 w-screen min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#09886d] via-white bg-center bg-white"
     >
-<img src="/logo.png" className='w-full md:w-1/2 mb-5' alt="" />
-      <a
-        href={whatsappLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          position: "fixed",
-          bottom: "2px",
-          right: "2px",
-          backgroundColor: "black", // Color de WhatsApp
-          color: "#fff",
-          padding: "10px 15px",
-          borderRadius: "50px",
-          textDecoration: "none",
-          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          fontWeight: "bold",
-          fontSize: "16px",
-          zIndex: 1000,
-        }}
-      >
-        <img
-          src="https://i.postimg.cc/7hnwLYTy/customer-service-support-svgrepo-com.png"
-          alt="WhatsApp"
-          style={{ width: "28px", height: "28px" }}
-        />
-        Soporte
-      </a>
+<SupportButton />
+          
 
       {/* Formulario */}
       <div className=" bg-black/70 p-8 rounded-lg shadow-lg w-11/12 sm:w-1/2">

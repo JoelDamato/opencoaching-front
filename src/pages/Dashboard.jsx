@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import useUserStore from '../store/users'; // Importar el store de Zustand
+import SupportButton from '../components/SupportButton';
 
 function Dashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -100,13 +101,7 @@ function Dashboard() {
     return title.replace(/\s+/g, '-').toLowerCase();
   };
 
-  const phoneNumber = "+59891640623"; // Reemplaza con tu número de WhatsApp en formato internacional
-  const message = "Hola, tengo una consulta!."; // Mensaje predefinido opcional
 
-  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-    message
-  )}`;
-  
 
   return (
 <div className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center">
@@ -118,36 +113,7 @@ function Dashboard() {
     isMenuOpen={isMenuOpen}
   />
 
-  {/* Botón de soporte WhatsApp */}
-  <a
-    href={whatsappLink}
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      position: "fixed",
-      bottom: "20px",
-      right: "20px",
-      backgroundColor: "black",
-      color: "#fff",
-      padding: "10px 15px",
-      borderRadius: "50px",
-      textDecoration: "none",
-      boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-      display: "flex",
-      alignItems: "center",
-      gap: "8px",
-      fontWeight: "bold",
-      fontSize: "16px",
-      zIndex: 1000,
-    }}
-  >
-    <img
-      src="https://i.postimg.cc/7hnwLYTy/customer-service-support-svgrepo-com.png"
-      alt="WhatsApp"
-      style={{ width: "28px", height: "28px" }}
-    />
-    Soporte
-  </a>
+<SupportButton />
 
   {/* Modal para mostrar el perfil del usuario */}
   {showProfile && user && (
@@ -170,28 +136,28 @@ function Dashboard() {
   )}
 
   {/* Onboarding de Open Coaching */}
-  <div className="w-full max-w-lg bg-white p-6 mt-10 rounded-lg shadow-md text-center">
-    <h1 className="text-5xl font-bold text-gray-800 mt-15">¡Bienvenido a Open Coaching! 🚀</h1>
-    <p className="text-gray-600 mt-2">
-      Estamos emocionados de tenerte aquí. Antes de comenzar, sigue estos pasos para aprovechar al máximo la plataforma.
-    </p>
+  
+{/* Bienvenida a Open Coaching */}
+<div className="w-full max-w-3xl bg-white p-10 mt-10 rounded-2xl shadow-xl text-center">
+  <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">
+    ¡Bienvenido a Open Coaching! 🚀
+  </h1>
+  <p className="text-gray-600 text-lg sm:text-xl mb-6">
+    Nos alegra tenerte en esta comunidad. Aquí vas a encontrar herramientas, cursos y acompañamiento para transformar tu desarrollo personal y profesional.
+  </p>
 
-    <div className="mt-5 text-left ">
-      <ul className="list-decimal list-inside text-gray-700">
-        <li>Explora tu perfil y actualiza tu información.</li>
-        <li>Accede a tu primer curso en la sección de "Mis Cursos".</li>
-        <li>Únete a nuestra comunidad de aprendizaje en vivo.</li>
-        <li>Descubre recursos exclusivos para potenciar tu formación.</li>
-      </ul>
-    </div>
-
-    <button
-      onClick={() => console.log("Onboarding completado")} // Aquí puedes redirigir a otra página
-      className="mt-6 px-6 py-2 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition"
-    >
-      ¡Empezar ahora!
-    </button>
+  <div className="text-left text-gray-700 text-base sm:text-lg space-y-4">
+    <p>✅ Actualizá tu perfil para personalizar tu experiencia.</p>
+    <p>📚 Accedé a tus cursos desde la sección <strong>“Cursos”</strong>.</p>
+    <p>🎥 Participá de sesiones en vivo y entrenamientos especiales.</p>
+    <p>🌟 Aprovechá recursos y bonus exclusivos solo por ser parte.</p>
   </div>
+
+  <p className="mt-8 text-sm text-gray-400">Estás listo para comenzar. Explorá libremente la plataforma.</p>
+</div>
+
+
+
 </div>
 
   );
