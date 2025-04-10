@@ -152,10 +152,10 @@ function Dashboard() {
     <p>🎥 Participá de sesiones en vivo y entrenamientos especiales.</p>
     <p>🌟 Aprovechá recursos y bonus exclusivos solo por ser parte.</p>
   </div>
-  
+
   <button
   onClick={() => window.open('https://chat.whatsapp.com/GGMk9DYLiowBjJWxMhdAOW', '_blank')}
-  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-2xl shadow-md transition duration-300 transform hover:scale-105"
+  className="bg-green-500 mt-2 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-2xl shadow-md transition duration-300 transform hover:scale-105"
 >
   Ingresa a la comunidad
 </button>
