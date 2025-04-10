@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../store/users"; // tu store Zustand
 import Navbar from '../components/Navbar';
@@ -17,7 +17,7 @@ export default function PerfilPage() {
       : 'http://localhost:5000';
   
   
-
+git
   
     // Función para mostrar/ocultar el perfil
     const toggleProfile = () => {
