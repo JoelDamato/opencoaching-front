@@ -13,22 +13,6 @@ const ComponentName = () => {
               </div>
   
               <div>
-                <h3 className="text-lg font-semibold mb-4">Plataforma</h3>
-                <ul className="space-y-2">
-           
-                </ul>
-              </div>
-  
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Recursos</h3>
-                <ul className="space-y-2">
-                  <li>
-                  
-                  </li>
-                </ul>
-              </div>
-  
-              <div>
                 <h3 className="text-lg font-semibold mb-4">Contacto</h3>
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2 text-gray-400">
