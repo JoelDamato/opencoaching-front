@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import SupportButton from '../components/SupportButton';
 
 
-function Home() {
+function Login() {
  
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
@@ -76,13 +76,18 @@ function Home() {
 
   return (
     <div
-      className=" mb-5 w-screen min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#09886d] via-white bg-center bg-white"
+      className=" pb-2 w-screen min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#09886d] via-white bg-center bg-white"
     >
 <SupportButton />
           
+<img
+  src="logo.png"
+  alt="Logo OpenCoaching"
+  className="mx-auto w-full max-w-[90%] sm:max-w-[70%] md:max-w-[60%] lg:max-w-[50%]"
+/>
 
       {/* Formulario */}
-      <div className=" bg-black/70 p-8 rounded-lg shadow-lg w-11/12 sm:w-1/2">
+      <div className="mt-5 bg-black/70 p-8 rounded-lg shadow-lg w-11/12 sm:w-1/2">
         <h1 className="text-white text-4xl mb-6 text-center font-bold">
           {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
         </h1>
@@ -237,4 +242,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Login;

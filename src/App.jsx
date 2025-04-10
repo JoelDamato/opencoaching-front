@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Cursos from './pages/Cursos.jsx';
 import PanelControl from './pages/Panel.jsx';
@@ -9,13 +9,15 @@ import Regalo from './pages/Regalo.jsx';
 import Vsl from './pages/Vsl.jsx';
 import Totalcursos from './pages/Cursostotals.jsx'
 import Coaches from './pages/Coaches.jsx'
-
+import HomePage from './pages/HomePage.jsx'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<><Home /></>} />
+        
+        <Route path="/" element={<><HomePage /></>} />
+        <Route path="/Login" element={<><Login /></>} />
         <Route path="/Dashboard" element={<><Dashboard /></>} />
         <Route path="/PanelControl" element={<><PanelControl /></>} />
         <Route path="/:cursoId" element={<><Cursos /></>} />
