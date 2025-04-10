@@ -17,7 +17,7 @@ export default function PerfilPage() {
       : 'http://localhost:5000';
   
   
-git
+
   
     // Función para mostrar/ocultar el perfil
     const toggleProfile = () => {
