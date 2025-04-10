@@ -45,104 +45,98 @@ export default function Navbar({ handleLogout }) {
 
   return (
     <>
-      <nav className="bg-[#0c0c0c] text-white fixed top-0 left-0 w-full z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-sm w-full">
+        <div className="flex h-20 items-center justify-between px-4 md:px-6 w-full">
           {/* Logo */}
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => navigateTo("/Dashboard")}
-          >
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo("/Dashboard")}>
             <img src="/nav.png" alt="OpenCoaching" className="h-10" />
-            <span className="font-bold text-lg">Open<span className="text-green-400">Coaching</span></span>
+            <span className="text-xl font-bold">
+              Open<span className="text-green-600">Coaching</span>
+            </span>
           </div>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-6">
+          {/* Desktop menu */}
+          <div className="hidden md:flex items-center space-x-6">
             {menuItems.map(({ name, path }) => (
               <button
                 key={name}
                 onClick={() => navigateTo(path)}
-                className={`transition px-3 py-2 rounded-md hover:bg-green-700/20 ${
-                  location.pathname === path ? "text-green-400 font-semibold" : "text-white"
+                className={`text-sm font-medium transition-colors hover:text-green-600 ${
+                  location.pathname === path ? "text-green-600 font-semibold" : "text-gray-800"
                 }`}
               >
                 {name}
               </button>
             ))}
-            <a
-              href="/perfil"
-              className="text-white hover:text-green-400 transition px-3 py-2"
+
+            <button
+              onClick={() => navigateTo("/perfil")}
+              className="text-sm font-medium text-gray-800 hover:text-green-600 transition"
             >
               Perfil
-            </a>
+            </button>
+
             <button
               onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 transition px-4 py-2 rounded-md text-sm"
+              className="bg-red-600 text-white text-sm px-5 py-2.5 rounded-full font-medium transition-all hover:bg-red-700"
             >
               Salir
             </button>
           </div>
 
-          {/* Mobile button */}
+          {/* Mobile toggle */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-green-50 text-green-600 transition hover:bg-green-100"
             onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-              />
-            </svg>
+            {menuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            )}
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden bg-[#0c0c0c] border-t border-gray-800 px-4 pb-4">
-            <ul className="flex flex-col gap-3 pt-4">
+          <div className="md:hidden w-full bg-white border-t border-gray-100 shadow-lg animate-fadeIn">
+            <nav className="flex flex-col space-y-4 p-6">
               {menuItems.map(({ name, path }) => (
-                <li key={name}>
-                  <button
-                    onClick={() => navigateTo(path)}
-                    className={`block w-full text-left px-3 py-2 rounded-md hover:bg-green-700/20 ${
-                      location.pathname === path ? "text-green-400 font-semibold" : "text-white"
-                    }`}
-                  >
-                    {name}
-                  </button>
-                </li>
+                <button
+                  key={name}
+                  onClick={() => navigateTo(path)}
+                  className={`text-sm font-medium text-left px-4 py-2 rounded-md transition hover:bg-green-50 ${
+                    location.pathname === path ? "text-green-600 font-semibold" : "text-gray-800"
+                  }`}
+                >
+                  {name}
+                </button>
               ))}
-              <li>
-                <button
-                  onClick={() => navigateTo("/perfil")}
-                  className="block w-full text-left px-3 py-2 rounded-md hover:bg-green-700/20"
-                >
-                  Perfil
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
-                >
-                  Cerrar sesión
-                </button>
-              </li>
-            </ul>
+
+              <button
+                onClick={() => navigateTo("/perfil")}
+                className="text-sm text-left px-4 py-2 text-gray-800 hover:text-green-600 transition"
+              >
+                Perfil
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium transition hover:bg-red-700"
+              >
+                Cerrar sesión
+              </button>
+            </nav>
           </div>
         )}
-      </nav>
+      </header>
 
-      <div className="pt-16" /> {/* Espacio debajo del navbar */}
+      <div className="pt-2" /> {/* Espacio para contenido debajo del navbar */}
     </>
   );
 }
