@@ -1,173 +1,140 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function Navbar({ handleLogout }) {
+export default function Navbar({ handleLogout }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [showProfile, setShowProfile] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
     ? 'https://back-cursos.onrender.com'
     : 'http://localhost:5000';
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const email = localStorage.getItem('email');
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
 
     if (token && email) {
       axios.post(`${API_BASE_URL}/api/search/users`, { email }, {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then(response => {
-        setUser(response.data);
-        localStorage.setItem('rol', response.data.rol);
+      .then(res => {
+        setUser(res.data);
+        localStorage.setItem("rol", res.data.rol);
       })
-      .catch(error => console.error('Error fetching user data:', error));
+      .catch(err => console.error("Error fetching user:", err));
     }
-  }, [navigate, API_BASE_URL]);
+  }, [API_BASE_URL]);
 
-  const handleNavigation = (path) => {
+  const navigateTo = (path) => {
     navigate(path);
+    setMenuOpen(false);
   };
+
+  const menuItems = [
+    { name: "Dashboard", path: "/Dashboard" },
+    { name: "Coaches", path: "/Coaches" },
+    { name: "Cursos", path: "/cursostotals" },
+  ];
+
+  if (user?.rol === "admin") {
+    menuItems.push({ name: "Panel de Control", path: "/PanelControl" });
+  }
 
   return (
     <>
-      {/* Navbar Horizontal */}
-      <nav className="bg-[#09886d] text-white fixed top-0 left-0 w-full z-50 shadow-md">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+      <nav className="bg-[#0c0c0c] text-white fixed top-0 left-0 w-full z-50 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* Logo */}
-          <div 
-            className="flex items-center cursor-pointer hover:opacity-80"
-            onClick={() => handleNavigation('/Dashboard')}
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => navigateTo("/Dashboard")}
           >
-            <img src="/nav.png" alt="Logo OPCH" className="h-10" />
+            <img src="/nav.png" alt="OpenCoaching" className="h-10" />
+            <span className="font-bold text-lg">Open<span className="text-green-400">Coaching</span></span>
           </div>
 
-          {/* Menú Principal (Desktop) */}
-          <ul className="hidden md:flex space-x-6">
-            <li>
-              <button 
-                onClick={() => handleNavigation('/Dashboard')}
-                className={`hover:bg-[#39ac71] px-3 py-2 rounded-lg ${location.pathname === '/Dashboard' ? 'font-bold' : ''}`}
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-6">
+            {menuItems.map(({ name, path }) => (
+              <button
+                key={name}
+                onClick={() => navigateTo(path)}
+                className={`transition px-3 py-2 rounded-md hover:bg-green-700/20 ${
+                  location.pathname === path ? "text-green-400 font-semibold" : "text-white"
+                }`}
               >
-                Dashboard
+                {name}
               </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleNavigation('/Coaches')}
-                className={`hover:bg-[#39ac71] px-3 py-2 rounded-lg ${location.pathname === '/Coaches' ? 'font-bold' : ''}`}
-              >
-                Coaches
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleNavigation('/cursostotals')}
-                className={`hover:bg-[#39ac71] px-3 py-2 rounded-lg ${location.pathname === '/cursostotals' ? 'font-bold' : ''}`}
-              >
-                Cursos
-              </button>
-            </li>
-            {user?.rol === 'admin' && (
-              <li>
-                <button 
-                  onClick={() => handleNavigation('/PanelControl')}
-                  className={`hover:bg-[#39ac71] px-3 py-2 rounded-lg ${location.pathname === '/PanelControl' ? 'font-bold' : ''}`}
-                >
-                  Panel de Control
-                </button>
-              </li>
-            )}
-          </ul>
-
-          {/* Menú de Usuario (Desktop) */}
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="/perfil"
-              className="flex items-center hover:bg-[#39ac71] px-3 py-2 rounded-lg"
+            ))}
+            <a
+              href="/perfil"
+              className="text-white hover:text-green-400 transition px-3 py-2"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
               Perfil
             </a>
-            <button 
+            <button
               onClick={handleLogout}
-              className="flex items-center hover:bg-red-600 px-3 py-2 rounded-lg"
+              className="bg-red-600 hover:bg-red-700 transition px-4 py-2 rounded-md text-sm"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
               Salir
             </button>
           </div>
 
-          {/* Botón de Menú Móvil */}
-          <button 
-            className="md:hidden text-white focus:outline-none"
-            onClick={() => setShowProfile(!showProfile)}
+          {/* Mobile button */}
+          <button
+            className="md:hidden text-white"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              />
             </svg>
           </button>
         </div>
 
-        {/* Menú Móvil (Dropdown) */}
-        {showProfile && (
-          <div className="md:hidden bg-[#09886d] py-2 px-4">
-            <ul className="space-y-2">
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="md:hidden bg-[#0c0c0c] border-t border-gray-800 px-4 pb-4">
+            <ul className="flex flex-col gap-3 pt-4">
+              {menuItems.map(({ name, path }) => (
+                <li key={name}>
+                  <button
+                    onClick={() => navigateTo(path)}
+                    className={`block w-full text-left px-3 py-2 rounded-md hover:bg-green-700/20 ${
+                      location.pathname === path ? "text-green-400 font-semibold" : "text-white"
+                    }`}
+                  >
+                    {name}
+                  </button>
+                </li>
+              ))}
               <li>
-            <button 
-                  onClick={() => handleNavigation('/Perfil')}
-                  className="w-full text-left hover:bg-[#39ac71] px-3 py-2 rounded-lg"
+                <button
+                  onClick={() => navigateTo("/perfil")}
+                  className="block w-full text-left px-3 py-2 rounded-md hover:bg-green-700/20"
                 >
                   Perfil
                 </button>
-                <button 
-                  onClick={() => handleNavigation('/Dashboard')}
-                  className="w-full text-left hover:bg-[#39ac71] px-3 py-2 rounded-lg"
-                >
-                  Dashboard
-                </button>
               </li>
               <li>
-                <button 
-                  onClick={() => handleNavigation('/Coaches')}
-                  className="w-full text-left hover:bg-[#39ac71] px-3 py-2 rounded-lg"
-                >
-                  Coaches
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => handleNavigation('/cursostotals')}
-                  className="w-full text-left hover:bg-[#39ac71] px-3 py-2 rounded-lg"
-                >
-                  Cursos
-                </button>
-              </li>
-              {user?.rol === 'admin' && (
-                <li>
-                  <button 
-                    onClick={() => handleNavigation('/PanelControl')}
-                    className="w-full text-left hover:bg-[#39ac71] px-3 py-2 rounded-lg"
-                  >
-                    Panel de Control
-                  </button>
-                </li>
-              )}
-              <li>
-                <button 
+                <button
                   onClick={handleLogout}
-                  className="w-full text-left hover:bg-red-600 px-3 py-2 rounded-lg flex items-center"
+                  className="block w-full text-left px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  Cerrar Sesión
+                  Cerrar sesión
                 </button>
               </li>
             </ul>
@@ -175,12 +142,7 @@ function Navbar({ handleLogout }) {
         )}
       </nav>
 
-   
-
-      {/* Espacio para el contenido debajo del navbar */}
-      <div className="pt-16"></div>
+      <div className="pt-16" /> {/* Espacio debajo del navbar */}
     </>
   );
 }
-
-export default Navbar;
