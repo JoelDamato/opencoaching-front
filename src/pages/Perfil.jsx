@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../store/users"; // tu store Zustand
+import Navbar from '../components/Navbar';
+import SupportButton from '../components/SupportButton';
 
 export default function PerfilPage() {
   const navigate = useNavigate();
@@ -20,6 +22,15 @@ export default function PerfilPage() {
   };
 
   return (
+<>
+    <Navbar
+    toggleProfile={toggleProfile}
+    handleLogout={handleLogout}
+    toggleMenu={toggleMenu}
+    isMenuOpen={isMenuOpen}
+  />
+
+<SupportButton />
     <div className="min-h-screen bg-black text-white py-10 px-6 flex justify-center">
       <div className="bg-neutral-900 w-full max-w-xl rounded-xl shadow-xl p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Mi Perfil</h1>
@@ -34,22 +45,10 @@ export default function PerfilPage() {
           <p className="font-semibold">{user?.email ?? "No especificado"}</p>
         </div>
 
-        <div className="mb-4">
-          <p className="text-gray-300 mb-1">Cursos Adquiridos:</p>
-          {user?.cursos?.length > 0 ? (
-            <ul className="list-disc list-inside text-sm text-white">
-              {user.cursos.map((curso, index) => (
-                <li key={index}>{curso}</li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-400">Aún no tenés cursos asignados.</p>
-          )}
-        </div>
-
+    
         <div className="mt-6 flex flex-col gap-4">
           <button
-            onClick={() => navigate("/cambiar-password")}
+            onClick={() => navigate("/Password")}
             className="text-sm text-blue-400 hover:text-blue-600 transition underline"
           >
             Cambiar Contraseña
@@ -64,5 +63,6 @@ export default function PerfilPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
