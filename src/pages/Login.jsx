@@ -76,7 +76,7 @@ function Login() {
 
   return (
     <div
-      className=" pb-2 w-screen min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#09886d] via-white bg-center bg-white"
+      className=" pb-2 w-screen min-h-screen flex flex-col items-center justify-center bg-white via-white bg-center bg-white"
     >
 <SupportButton />
           

@@ -79,13 +79,7 @@ export default function HomePage() {
         {isMenuOpen && (
           <div className="md:hidden absolute w-full bg-white border-t border-gray-100 shadow-lg animate-fadeIn">
             <nav className="container mx-auto flex flex-col space-y-4 p-6">
-              <Link
-                to="#contact"
-                className="text-gray-700 hover:text-green-600 font-medium py-2 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contacto
-              </Link>
+            
               <Link
                 to="/login"
                 className="flex items-center justify-center gap-2 bg-green-600 text-white px-5 py-3 rounded-full font-medium transition-all hover:bg-green-700"
