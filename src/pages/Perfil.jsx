@@ -5,6 +5,31 @@ import Navbar from '../components/Navbar';
 import SupportButton from '../components/SupportButton';
 
 export default function PerfilPage() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [courses, setCourses] = useState([]); // Estado para almacenar los cursos
+    const showProfile = useUserStore((state) => state.showProfile);
+    const setShowProfile = useUserStore((state) => state.setShowProfile);
+  
+  
+    // Determinar la URL base en función del entorno
+    const API_BASE_URL = process.env.NODE_ENV === 'production'
+      ? 'https://opencoaching-back.onrender.com'
+      : 'http://localhost:5000';
+  
+  
+
+  
+    // Función para mostrar/ocultar el perfil
+    const toggleProfile = () => {
+      setShowProfile(!showProfile);
+      setIsMenuOpen(false);
+    };
+  
+    // Función para mostrar/ocultar el menú (en móvil)
+    const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+    };
+
   const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
   const clearUserData = useUserStore((state) => state.clearUserData);
