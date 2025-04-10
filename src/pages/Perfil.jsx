@@ -1,148 +1,68 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/users"; // tu store Zustand
 
-function Perfil() {
-  const email = localStorage.getItem('email'); // Obtener email desde el localStorage
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+export default function PerfilPage() {
   const navigate = useNavigate();
-  const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://back-cursos.onrender.com'
-    : 'http://localhost:5000';
+  const user = useUserStore((state) => state.user);
+  const clearUserData = useUserStore((state) => state.clearUserData);
 
-  const handlePasswordChange = async (e) => {
-    e.preventDefault();
-
-    if (!newPassword || !confirmPassword) {
-      setMessage('Por favor, completa todos los campos');
-      return;
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
     }
+  }, [user, navigate]);
 
-    if (newPassword !== confirmPassword) {
-      setMessage('Las contraseñas no coinciden');
-      return;
-    }
-
-    if (newPassword.length < 8) {
-      setMessage('La contraseña debe tener al menos 8 caracteres');
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/update/password/${email}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          password: newPassword,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage('Contraseña actualizada exitosamente');
-      } else {
-        setMessage(data.message || 'Error al actualizar la contraseña');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setMessage('Hubo un error al procesar la solicitud');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getInputBorderStyle = (inputValue) => {
-    if (!inputValue) return 'border-gray-500';
-    if (newPassword === confirmPassword && newPassword.length >= 8) {
-      return 'border-green-500';
-    }
-    return 'border-red-500';
+  const handleLogout = () => {
+    localStorage.clear();
+    clearUserData();
+    navigate("/");
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-gray-900 to-black">
-      <form
-        onSubmit={handlePasswordChange}
-        className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 w-96"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">Perfil</h2>
+    <div className="min-h-screen bg-black text-white py-10 px-6 flex justify-center">
+      <div className="bg-neutral-900 w-full max-w-xl rounded-xl shadow-xl p-8">
+        <h1 className="text-3xl font-bold mb-6 text-center">Mi Perfil</h1>
 
-        {message && (
-          <p
-            className={`text-sm mb-4 text-center ${
-              message.includes('exitosamente') ? 'text-green-400' : 'text-red-400'
-            }`}
+        <div className="mb-4">
+          <p className="text-gray-300 mb-1">Nombre:</p>
+          <p className="font-semibold">{user?.nombre ?? "No especificado"}</p>
+        </div>
+
+        <div className="mb-4">
+          <p className="text-gray-300 mb-1">Email:</p>
+          <p className="font-semibold">{user?.email ?? "No especificado"}</p>
+        </div>
+
+        <div className="mb-4">
+          <p className="text-gray-300 mb-1">Cursos Adquiridos:</p>
+          {user?.cursos?.length > 0 ? (
+            <ul className="list-disc list-inside text-sm text-white">
+              {user.cursos.map((curso, index) => (
+                <li key={index}>{curso}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-400">Aún no tenés cursos asignados.</p>
+          )}
+        </div>
+
+        <div className="mt-6 flex flex-col gap-4">
+          <button
+            onClick={() => navigate("/cambiar-password")}
+            className="text-sm text-blue-400 hover:text-blue-600 transition underline"
           >
-            {message}
-          </p>
-        )}
+            Cambiar Contraseña
+          </button>
 
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-300 text-sm font-bold mb-2">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            disabled
-            className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-700 text-gray-400 cursor-not-allowed"
-          />
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
+          >
+            Cerrar Sesión
+          </button>
         </div>
-
-        <div className="mb-4">
-          <label htmlFor="newPassword" className="block text-gray-300 text-sm font-bold mb-2">
-            Nueva Contraseña
-          </label>
-          <input
-            id="newPassword"
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className={`shadow appearance-none rounded w-full py-2 px-3 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${getInputBorderStyle(newPassword)}`}
-            placeholder="Ingresa la nueva contraseña"
-          />
-        </div>
-
-        <div className="mb-6">
-          <label htmlFor="confirmPassword" className="block text-gray-300 text-sm font-bold mb-2">
-            Confirmar Contraseña
-          </label>
-          <input
-            id="confirmPassword"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={`shadow appearance-none rounded w-full py-2 px-3 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${getInputBorderStyle(confirmPassword)}`}
-            placeholder="Confirma la nueva contraseña"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-            loading ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-          disabled={loading}
-        >
-          {loading ? 'Actualizando...' : 'Guardar Cambios'}
-        </button>
-      </form>
-      <button
-  onClick={() => navigate('/Dashboard')}
-  className="mt-6 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
->
-  Volver
-</button>
-
+      </div>
     </div>
   );
 }
-
-export default Perfil;

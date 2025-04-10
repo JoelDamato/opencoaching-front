@@ -4,12 +4,13 @@ import Dashboard from './pages/Dashboard.jsx';
 import Cursos from './pages/Cursos.jsx';
 import PanelControl from './pages/Panel.jsx';
 import Capitulos from './pages/Capitulos.jsx';
-import Perfil from './pages/Perfil.jsx';
+import Password from './pages/Password.jsx';
 import Regalo from './pages/Regalo.jsx';
 import Vsl from './pages/Vsl.jsx';
 import Totalcursos from './pages/Cursostotals.jsx'
 import Coaches from './pages/Coaches.jsx'
 import HomePage from './pages/HomePage.jsx'
+import Perfil from './pages/Perfil.jsx'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/PanelControl" element={<><PanelControl /></>} />
         <Route path="/:cursoId" element={<><Cursos /></>} />
         <Route path="/cursos/:cursoId/:moduleName/:chapterId" element={<><Capitulos /></>} />
+        <Route path="/Password" element={<><Password /></>} />
         <Route path="/Perfil" element={<><Perfil /></>} />
         <Route path="/Regalo" element={<><Regalo /></>} />
         <Route path="/Vsl" element={<><Vsl /></>} />

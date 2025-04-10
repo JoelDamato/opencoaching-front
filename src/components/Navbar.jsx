@@ -85,15 +85,14 @@ function Navbar({ handleLogout }) {
 
           {/* Menú de Usuario (Desktop) */}
           <div className="hidden md:flex items-center space-x-4">
-            <button 
-              onClick={() => setShowProfile(true)}
+            <a href="/perfil"
               className="flex items-center hover:bg-[#39ac71] px-3 py-2 rounded-lg"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               Perfil
-            </button>
+            </a>
             <button 
               onClick={handleLogout}
               className="flex items-center hover:bg-red-600 px-3 py-2 rounded-lg"
@@ -121,6 +120,12 @@ function Navbar({ handleLogout }) {
           <div className="md:hidden bg-[#09886d] py-2 px-4">
             <ul className="space-y-2">
               <li>
+            <button 
+                  onClick={() => handleNavigation('/Perfil')}
+                  className="w-full text-left hover:bg-[#39ac71] px-3 py-2 rounded-lg"
+                >
+                  Perfil
+                </button>
                 <button 
                   onClick={() => handleNavigation('/Dashboard')}
                   className="w-full text-left hover:bg-[#39ac71] px-3 py-2 rounded-lg"
@@ -170,31 +175,7 @@ function Navbar({ handleLogout }) {
         )}
       </nav>
 
-      {/* Modal de Perfil (igual que tu versión original) */}
-      {showProfile && user && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-black/95 w-11/12 sm:w-2/3 md:w-1/2 lg:w-1/3 p-6 rounded-lg shadow-lg relative">
-            <button onClick={() => setShowProfile(false)} className="absolute top-3 right-3 text-white focus:outline-none">
-              &times;
-            </button>
-            <h2 className="text-2xl font-bold mb-4 text-white">Perfil del Usuario</h2>
-            <p className="text-white"><strong>Nombre:</strong> {user?.nombre ?? 'No especificado'}</p>
-            <p className="text-white"><strong>Email:</strong> {user?.email ?? 'No especificado'}</p>
-            <p className="text-white"><strong>Cursos Adquiridos:</strong></p>
-            <ul className="list-disc list-inside text-white">
-              {user?.cursos?.length > 0 ? user.cursos.map((curso, index) => (
-                <li key={index}>{curso}</li>
-              )) : <li>Ninguno</li>}
-            </ul>
-            <button 
-              onClick={() => handleNavigation('/Perfil')} 
-              className="text-blue-500 text-sm mt-4 hover:text-blue-800"
-            >
-              Cambiar Contraseña
-            </button>
-          </div>
-        </div>
-      )}
+   
 
       {/* Espacio para el contenido debajo del navbar */}
       <div className="pt-16"></div>
