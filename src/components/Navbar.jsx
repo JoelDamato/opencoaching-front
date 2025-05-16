@@ -68,7 +68,12 @@ export default function Navbar({ handleLogout }) {
                 {name}
               </button>
             ))}
-
+  <button
+              onClick={() => navigateTo("/preguntas")}
+              className="text-sm font-medium text-gray-800 hover:text-green-600 transition"
+            >
+              Preguntas Frecuentes
+            </button>
             <button
               onClick={() => navigateTo("/perfil")}
               className="text-sm font-medium text-gray-800 hover:text-green-600 transition"
