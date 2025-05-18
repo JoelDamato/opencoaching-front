@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Navbar from '../components/Navbar';
+import SupportButton from '../components/SupportButton';
 
 const PreguntasFrecuentes = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,7 +10,7 @@ const PreguntasFrecuentes = () => {
 
   const secciones = [
     {
-      titulo: "🤔 Preguntas Frecuentes",
+      titulo: "Preguntas Frecuentes",
       preguntas: [
         {
           pregunta: "¿Qué es OpenCoaching?",
@@ -92,39 +93,26 @@ const PreguntasFrecuentes = () => {
     <>
       <Navbar toggleProfile={toggleProfile} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
 
-      <a
-        href={whatsappLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-5 right-5 bg-black text-white px-4 py-2 rounded-full shadow z-50 flex items-center gap-2 font-bold text-sm"
-      >
-        <img
-          src="https://i.ibb.co/xKKJDBCS/d62368f7-f3e3-48ce-84cd-04a00024000e.png"
-          alt="Soporte"
-          className="w-6 h-6 rounded-lg"
-        /> Soporte
-      </a>
+    <SupportButton />
 
       <div className="relative w-full md:h-[30vh] h-[50vh]">
         <img
-          src="https://i.ibb.co/fGZCrFh/FONDO-BARBER.jpg"
+          src="https://i.ibb.co/DP907JGQ/Disen-o-sin-ti-tulo-3.png"
           alt="Fondo"
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
 
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <img src="https://i.ibb.co/TqkLrN2p/soporte2.png" className="md:h-[300px] md:mt-[2%]" alt="Soporte" />
-          <h1 className="text-4xl md:text-5xl -mt-20 font-bold bg-clip-text text-transparent bg-gradient-to-b from-gray-300 to-gray-200 drop-shadow-lg tracking-wide">
-            Preguntas Frecuentes
-          </h1>
+          <img src="https://i.ibb.co/MDb5WqLm/Disen-o-sin-ti-tulo-2.png" className="md:h-[400px] md:mt-[2%]" alt="Soporte" />
+       
         </div>
       </div>
 
-      <div className="min-h-screen bg-black text-white md:pt-10 px-6 md:px-16">
+      <div className="min-h-screen bg-white text-white md:pt-10 px-6 md:px-16">
         {secciones.map((seccion, i) => (
           <div key={i} className="mb-10">
-            <h2 className="p-5 text-3xl md:text-3xl font-bold text-center mb-6 text-transparent bg-gradient-to-b from-gray-400 to-gray-200 bg-clip-text drop-shadow-lg tracking-wide">
+            <h2 className="p-5 text-3xl md:text-5xl font-bold text-center mb-6 text-transparent bg-gradient-to-b from-black to-gray-500 bg-clip-text drop-shadow-lg tracking-wide">
               {seccion.titulo}
             </h2>
 
@@ -147,15 +135,20 @@ const PreguntasFrecuentes = () => {
 
                     <AnimatePresence initial={false}>
                       {abierta && (
-                        <motion.p
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="mt-2 text-zinc-300 text-sm leading-relaxed overflow-hidden"
-                        >
-                          {q.respuesta}
-                        </motion.p>
+                       <motion.div
+  initial={{ opacity: 0, height: 0 }}
+  animate={{ opacity: 1, height: "auto" }}
+  exit={{ opacity: 0, height: 0 }}
+  transition={{ duration: 0.3 }}
+  className="mt-2 text-zinc-300 text-sm leading-relaxed overflow-hidden space-y-1"
+>
+  {q.respuesta.split("\n").map((linea, i) => (
+    <p key={i} className={linea.startsWith("-") || linea.startsWith("–") ? "pl-4 list-disc" : ""}>
+      {linea}
+    </p>
+  ))}
+</motion.div>
+
                       )}
                     </AnimatePresence>
                   </div>

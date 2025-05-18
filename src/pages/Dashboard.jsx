@@ -115,28 +115,8 @@ function Dashboard() {
 
 <SupportButton />
 
-  {/* Modal para mostrar el perfil del usuario */}
-  {showProfile && user && (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 sm:w-1/2 relative z-60">
-        <button onClick={toggleProfile} className="absolute top-2 right-2 text-black text-2xl font-bold">
-          &times;
-        </button>
-        <h2 className="text-2xl font-bold mb-4">Mi Perfil</h2>
-        <p><strong>Nombre:</strong> {user.nombre}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Cursos Adquiridos:</strong></p>
-        <ul className="list-disc list-inside">
-          {user.cursos.map((curso, index) => (
-            <li key={index}>{curso}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  )}
 
-  {/* Onboarding de Open Coaching */}
-  
+
 {/* Bienvenida a Open Coaching */}
 <div className="w-full max-w-3xl bg-white p-10 mt-10 rounded-2xl shadow-xl text-center">
   <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">
