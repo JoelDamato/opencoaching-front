@@ -100,6 +100,7 @@ const ComponentName = () => {
   
             <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
               <p>© {new Date().getFullYear()} OpenCoaching. Todos los derechos reservados.</p>
+              <p>OpenCoaching es gestionado por Enzo Nicolas Chiapello (CUIT 20-39303058-6), con domicilio en Avenida Kelvin 5590, Córdoba, Córdoba, X5000, Argentina.</p>
             </div>
           </div>
         </footer>
