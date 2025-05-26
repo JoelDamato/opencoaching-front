@@ -9,7 +9,7 @@ import useUserStore from "../store/users"; // Importar el store de Zustand
 
 function Capitulos() {
   const API_BASE_URL = process.env.NODE_ENV === "production"
-    ? "https://opencoaching-back.onrender.com"
+    ? "https://opencoaching-back-tlfh.onrender.com"
     : "http://localhost:5000";
 
   const { cursoId, moduleName, chapterId } = useParams();

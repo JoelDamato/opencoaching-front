@@ -35,7 +35,7 @@ function PanelControl() {
   const setShowProfile = useUserStore((state) => state.setShowProfile);
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://back-cursos.onrender.com'
+    ? 'https://opencoaching-back-tlfh.onrender.com'
     : 'http://localhost:5000';
 
     const generateRandomPassword = (length = 12) => {
