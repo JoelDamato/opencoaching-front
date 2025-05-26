@@ -12,6 +12,9 @@ import Coaches from './pages/Coaches.jsx'
 import HomePage from './pages/HomePage.jsx'
 import Perfil from './pages/Perfil.jsx'
 import Preguntas from "./pages/Preguntas.jsx"
+import Politicas from './pages/Politicas.jsx';
+import Terminos from './pages/Terminos.jsx';
+import Triadflow from './pages/TriadFlow.jsx';
 
 function App() {
   return (
@@ -31,6 +34,10 @@ function App() {
         <Route path="/Coaches" element={<><Coaches /></>} />
         <Route path="/cursostotals" element={<><Totalcursos /></>} />
         <Route path="/preguntas" element={<><Preguntas /></>} />
+        <Route path="/triadflow" element={<Triadflow />} />
+        <Route path="/politicas" element={<Politicas />} />
+        <Route path="/terminos" element={<Terminos />} />
+        
         
       </Routes>
     </Router>

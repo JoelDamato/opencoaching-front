@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SupportButton = () => {
-  const phoneNumber = "+5491159554468";
+  const phoneNumber = "+5493512153675";
   const message = "Hola, tengo una consulta!";
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
