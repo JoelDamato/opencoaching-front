@@ -27,6 +27,16 @@ const PreguntasFrecuentes = () => {
           respuesta:
             "Depende del tipo de coach:\n\n🧑‍🎓 Coaches aprendices: las sesiones son 100% gratuitas.\n\n🎓 Coaches certificados: la primera conversación es sin costo. Si el cliente decide continuar, las sesiones tienen un valor a partir de 25 USD, dependiendo de los honorarios que establezca cada coach."
         },
+           {
+          pregunta: "¿Como cambiar mi contraseña?",
+          respuesta:
+            "Tenes que dirigirte a tu perfil, dentro del mismo encontraras la opcion para modificar tu contraseña."
+        },
+        {
+          pregunta: "¿Cómo subir mi foto de perfil?",
+          respuesta:
+            "Tenés que ir a tu perfil y tocar tu foto actual. Se va a abrir un menú desplegable donde podés insertar la URL de tu nueva foto (es decir, la dirección web de la imagen). Antes, subí la imagen a internet usando un servicio como Imgur o Google Drive (en modo público) y copiá el enlace. Pegalo ahí… ¡y listo!"
+        },
         {
           pregunta: "¿Cómo funciona TriadFlow?",
           respuesta:

@@ -120,8 +120,7 @@ function Login() {
           required
         >
           <option value="Cliente">Cliente</option>
-          <option value="Coach Certificado">Coach Certificado</option>
-          <option value="Coach Aprendiz">Coach Aprendiz</option>
+          <option value="Coach Certificado">Coach</option>
         </select>
       </div>
 {/* Membresía */}

@@ -1,28 +1,89 @@
-import '../App.css';
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Navbar from '../components/Navbar';
-import useUserStore from '../store/users'; // Importar el store de Zustand
-import SupportButton from '../components/SupportButton';
+"use client"
+
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import {
+  Sparkles,
+  Play,
+  Calendar,
+  MessageCircle,
+  Gift,
+  Users,
+  CheckCircle,
+  UserPlus,
+  BookOpen,
+  Settings,
+  ArrowRight,
+  Star,
+  Heart,
+  Zap,
+} from "lucide-react"
+import Navbar from "../components/Navbar"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+
+  const API_BASE_URL =
+    process.env.NODE_ENV === 'production'
+      ? 'https://opencoaching-back-tlfh.onrender.com'
+      : 'http://localhost:5000';
+
+// Card reutilizable
+const Card = ({ children, className = "", ...props }) => (
+  <div className={`rounded-xl border bg-white shadow-sm ${className}`} {...props}>
+    {children}
+  </div>
+);
+
+const CardContent = ({ children, className = "", ...props }) => (
+  <div className={`p-4 ${className}`} {...props}>
+    {children}
+  </div>
+);
+
+const AnimatedIcon = ({ icon: Icon, delay = 0 }) => (
+  <motion.div
+    initial={{ scale: 0, rotate: -180 }}
+    animate={{ scale: 1, rotate: 0 }}
+    transition={{
+      delay,
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+    }}
+    className="inline-block"
+  >
+    <Icon className="w-5 h-5" />
+  </motion.div>
+)
+
+const FeatureCard = ({ icon: Icon, title, description, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay, duration: 0.5 }}
+    whileHover={{ y: -5, scale: 1.02 }}
+    className="group"
+  >
+    <Card className="bg-white/90 backdrop-blur-lg border-gray-200 hover:bg-white hover:border-green-200 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/20">
+      <CardContent className="p-6">
+        <div className="flex items-start space-x-4">
+          <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <Icon className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-gray-800 mb-2 group-hover:text-green-700 transition-colors">{title}</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </motion.div>
+)
 
 function Dashboard() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [courses, setCourses] = useState([]); // Estado para almacenar los cursos
-  const navigate = useNavigate();
-
-  // Obtener el estado del usuario y el perfil desde Zustand
-  const user = useUserStore((state) => state.user);
-  const setUserData = useUserStore((state) => state.setUserData);
-  const clearUserData = useUserStore((state) => state.clearUserData);
-  const showProfile = useUserStore((state) => state.showProfile);
-  const setShowProfile = useUserStore((state) => state.setShowProfile);
-
-
-  // Determinar la URL base en función del entorno
-  const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://opencoaching-back-tlfh.onrender.com'
-    : 'http://localhost:5000';
+  const [User, SetUser] = useState("Cliente");
+ console.log(User)
+const navigate = useNavigate()
 
   useEffect(() => {
     // Verificar si hay un token almacenado
@@ -40,7 +101,7 @@ function Dashboard() {
       })
       .then(response => {
         // Guardar los datos del usuario en el estado global con Zustand
-        setUserData(response.data);
+        SetUser(response.data);
 
         // Guardar el nombre del usuario en localStorage
         if (response.data.nombre) {
@@ -53,101 +114,134 @@ function Dashboard() {
     } else {
       console.error('No email found in localStorage');
     }
-  }, [navigate, API_BASE_URL, setUserData]);
+  }, [navigate, API_BASE_URL]);
 
-  // Restablecer el estado del perfil al montar el componente
-  useEffect(() => {
-    setShowProfile(false);
-  }, [setShowProfile]);
+  
 
-  // Obtener los cursos desde la API
-  useEffect(() => {
-    axios.get(`${API_BASE_URL}/api/courses/getcourses`)
-      .then(response => {
-        setCourses(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching courses:', error);
-      });
-  }, [API_BASE_URL]);
+  const isClient = User.audiencia === "Cliente"
 
-  // Función para cerrar sesión
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    localStorage.removeItem('nombre'); // Limpiar el nombre del usuario
-    clearUserData(); // Limpiar los datos del usuario en Zustand
-    navigate('/');
-  };
-
-  // Función para verificar si el usuario tiene un curso específico
-  const hasCourse = (courseTitle) => {
-    return user?.cursos?.includes(courseTitle);
-  };
-
-  // Función para mostrar/ocultar el perfil
-  const toggleProfile = () => {
-    setShowProfile(!showProfile);
-    setIsMenuOpen(false);
-  };
-
-  // Función para mostrar/ocultar el menú (en móvil)
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Función para sanitizar el título del curso y convertirlo en un slug seguro para URL
-  const sanitizeCourseTitle = (title) => {
-    return title.replace(/\s+/g, '-').toLowerCase();
-  };
-
-
+  const features = isClient
+    ? [
+        {
+          icon: Users,
+          title: "Elegí tu coach",
+          description: "Explorá perfiles y encontrá el coach perfecto para tu proceso de transformación.",
+        },
+        {
+          icon: Calendar,
+          title: "Reservá sesiones",
+          description: "Agendá tu primera sesión individual o unite a encuentros grupales.",
+        },
+        {
+          icon: MessageCircle,
+          title: "Soporte 24/7",
+          description: "Contactanos por WhatsApp o revisá nuestras Preguntas Frecuentes.",
+        },
+        {
+          icon: Gift,
+          title: "Contenido exclusivo",
+          description: "Accedé a recursos premium para potenciar tu crecimiento personal.",
+        },
+      ]
+    : [
+        {
+          icon: CheckCircle,
+          title: "Actualizá tu perfil",
+          description: "Destacá tu experiencia y conectá con más personas en tu proceso.",
+        },
+        {
+          icon: UserPlus,
+          title: "Comunidad global",
+          description: "Conectá con coaches de todo el mundo y compartí recursos valiosos.",
+        },
+        {
+          icon: BookOpen,
+          title: "Prácticas en tríada",
+          description: "Participá en sesiones de práctica usando nuestra herramienta TriadFlow.",
+        },
+        {
+          icon: Settings,
+          title: "Gestión completa",
+          description: "Administrá tu suscripción, cursos y entrenamientos desde un solo lugar.",
+        },
+      ]
 
   return (
-<div className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center">
-  {/* Navbar */}
-  <Navbar
-    toggleProfile={toggleProfile}
-    handleLogout={handleLogout}
-    toggleMenu={toggleMenu}
-    isMenuOpen={isMenuOpen}
-  />
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 relative overflow-hidden">
+        <div className="relative z-10 container mx-auto px-4 py-12">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <div className="text-center mb-16">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+                className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-8 shadow-2xl"
+              >
+                <Sparkles className="w-10 h-10 text-white" />
+              </motion.div>
+           <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 via-green-700 to-emerald-600 bg-clip-text text-transparent mb-6">
+  ¡Bienvenid@! {User.nombre}
+</h1>
+              <h2 className="text-2xl text-gray-700 font-light mb-4">
+                {isClient ? "Tu espacio para descubrir el coaching en acción" : "Tu espacio como Coach en OpenCoaching"}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                {isClient
+                  ? "Nos alegra que quieras comenzar este camino de autoconocimiento y transformación. Desde este panel vas a poder agendar sesiones, recibir acompañamiento y explorar contenidos prácticos."
+                  : "Desde acá vas a poder acceder a todo lo necesario para desarrollarte como coach, conectarte con colegas y aprovechar al máximo tu membresía."}
+              </p>
+            </div>
 
-<SupportButton />
+            <motion.div className="mb-16">
+              <Card className="bg-white/80 backdrop-blur-lg border-gray-200 overflow-hidden shadow-xl">
+                <CardContent className="p-8">
+                  <div className="flex items-center justify-center">
+                    <motion.div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 rounded-full shadow-2xl">
+                      <Play className="w-12 h-12 text-white" />
+                    </motion.div>
+                  </div>
+                  <p className="text-center text-gray-700 mt-6 text-lg font-medium">
+                    🎥 Mirá este video donde te mostramos cómo funciona todo paso a paso
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-3">
+                <AnimatedIcon icon={isClient ? Zap : Star} />
+                <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                  {isClient ? "¿Cómo aprovechar esta experiencia?" : "¿Por dónde empezar?"}
+                </span>
+                <AnimatedIcon icon={isClient ? Heart : Zap} />
+              </h3>
+            </div>
 
+            <div className="grid md:grid-cols-2 gap-6 mb-16">
+              {features.map((feature, index) => (
+                <FeatureCard key={index} {...feature} delay={index * 0.1} />
+              ))}
+            </div>
 
-{/* Bienvenida a Open Coaching */}
-<div className="w-full max-w-3xl bg-white p-10 mt-10 rounded-2xl shadow-xl text-center">
-  <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">
-    ¡Bienvenido a Open Coaching! 🚀
-  </h1>
-  <p className="text-gray-600 text-lg sm:text-xl mb-6">
-    Nos alegra tenerte en esta comunidad. Aquí vas a encontrar herramientas, cursos y acompañamiento para transformar tu desarrollo personal y profesional.
-  </p>
-
-  <div className="text-left text-gray-700 text-base sm:text-lg space-y-4">
-    <p>✅ Actualizá tu perfil para personalizar tu experiencia.</p>
-    <p>📚 Accedé a tus cursos desde la sección <strong>“Cursos”</strong>.</p>
-    <p>🎥 Participá de sesiones en vivo y entrenamientos especiales.</p>
-    <p>🌟 Aprovechá recursos y bonus exclusivos solo por ser parte.</p>
-  </div>
-
-  <button
-  onClick={() => window.open('https://chat.whatsapp.com/GGMk9DYLiowBjJWxMhdAOW', '_blank')}
-  className="bg-green-500 mt-2 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-2xl shadow-md transition duration-300 transform hover:scale-105"
->
-  Ingresa a la comunidad
-</button>
-
-  <p className="mt-8 text-sm text-gray-400">Estás listo para comenzar. Explorá libremente la plataforma.</p>
-</div>
-
-
-
-</div>
-
-  );
+            <div className="text-center mb-12">
+              <a
+                href="https://linktr.ee/opencoaching.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-2xl"
+              >
+                <span>linktr.ee/opencoaching.io</span>
+                <ArrowRight className="w-5 h-5" />
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </>
+  )
 }
 
-export default Dashboard;
+export default Dashboard
+

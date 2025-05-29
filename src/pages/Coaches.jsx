@@ -144,21 +144,8 @@ function Coaches() {
 <div className="w-full sm:w-11/12 p-8">
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {[
-      {
-        src: 'Alejandro.jpg',
-        nombre: 'Alejandro Ferrer',
-        link: 'https://calendly.com/alejandro-daniel-ferrer/sesion-de-coaching',
-      },
-      {
-        src: 'Andreinachaparro.jpg',
-        nombre: 'Andreina Chaparro',
-        link: 'https://calendly.com/ideasdecrochet-andreina/sesion-de-coaching-ontologico',
-      },
-      {
-        src: 'Diegotoloza.jpg',
-        nombre: 'Diego Toloza',
-        link: 'https://calendly.com/diegotoloza-coach/60min',
-      },
+  
+   
       {
         src: 'Enzo.jpg',
         nombre: 'Enzo Chiapello',
@@ -179,11 +166,7 @@ function Coaches() {
         nombre: 'Paula Repetto',
         link: 'https://calendly.com/pau-repetto1/45min',
       },
-      {
-        src: 'SusanaGuzman.jpg',
-        nombre: 'Susana Guzmán',
-        link: 'https://calendly.com/susanaguzmancoach/30',
-      },
+   
     ].map((coach, idx) => (
       <div
         key={idx}
