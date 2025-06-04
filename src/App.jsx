@@ -14,6 +14,8 @@ import Preguntas from "./pages/Preguntas.jsx"
 import Politicas from './pages/Politicas.jsx';
 import Terminos from './pages/Terminos.jsx';
 import Triadflow from './pages/TriadFlow.jsx';
+import Novedades from './pages/Novedades.jsx';
+
 
 function App() {
   return (
@@ -35,8 +37,7 @@ function App() {
         <Route path="/triadflow" element={<Triadflow />} />
         <Route path="/politicas" element={<Politicas />} />
         <Route path="/terminos" element={<Terminos />} />
-        
-        
+        <Route path="/novedades" element={<Novedades />} />
       </Routes>
     </Router>
   );

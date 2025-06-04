@@ -1,17 +1,18 @@
 import { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function Navbar({ handleLogout }) {
+export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
 
-  const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://back-cursos.onrender.com'
-    : 'http://localhost:5000';
+  const API_BASE_URL =
+    process.env.NODE_ENV === 'production'
+      ? 'https://opencoaching-back-tlfh.onrender.com'
+      : 'http://localhost:5000';
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,7 +30,6 @@ export default function Navbar({ handleLogout }) {
     }
   }, [API_BASE_URL]);
 
-  // Cerrar el menú si se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -47,11 +47,18 @@ export default function Navbar({ handleLogout }) {
     setMenuOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    setUser(null);
+    setMenuOpen(false);
+    navigate("/");
+  };
+
   const menuItems = [
     { name: "Dashboard", path: "/Dashboard" },
     { name: "Coaches", path: "/Coaches" },
     { name: "Cursos", path: "/cursostotals" },
-     { name: "Triadflow", path: "/triadflow" },
+    { name: "Triadflow", path: "/triadflow" },
   ];
 
   if (user?.rol === "admin") {
@@ -74,62 +81,96 @@ export default function Navbar({ handleLogout }) {
             </span>
           </div>
 
-          {/* Botón hamburguesa */}
-          <div className="relative" ref={menuRef}>
-            <button
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-green-50 text-green-600 transition hover:bg-green-100"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-            >
-              {menuOpen ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          {/* Botón hamburguesa + Novedades o Iniciar Sesión */}
+          <div className="relative flex items-center gap-4" ref={menuRef}>
+            {location.pathname !== "/novedades" && user && (
+              <button
+                onClick={() => navigate("/novedades")}
+                className="text-sm text-green-600 font-medium hover:underline transition"
+              >
+                Novedades
+              </button>
+            )}
+
+            {user ? (
+              <>
+                <button
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-green-50 text-green-600 transition hover:bg-green-100"
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  aria-label="Toggle menu"
+                >
+                  {menuOpen ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                  )}
+                </button>
+
+                {/* Menú flotante */}
+                {menuOpen && (
+                  <div className="absolute right-0 top-[60px] w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-50 animate-fadeIn">
+                    <nav className="flex flex-col space-y-2 p-4">
+                      <button
+                        onClick={() => navigateTo("/perfil")}
+                        className="text-sm text-left px-4 py-2 text-gray-800 hover:text-green-600 transition"
+                      >
+                        Mi Perfil
+                      </button>
+
+                      {menuItems.map(({ name, path }) => (
+                        <button
+                          key={name}
+                          onClick={() => navigateTo(path)}
+                          className={`text-sm text-left px-4 py-2 rounded-md transition hover:bg-green-50 ${
+                            location.pathname === path ? "text-green-600 font-semibold" : "text-gray-800"
+                          }`}
+                        >
+                          {name}
+                        </button>
+                      ))}
+
+                      <button
+                        onClick={() => navigateTo("/preguntas")}
+                        className="text-sm text-left px-4 py-2 text-gray-800 hover:text-green-600 transition"
+                      >
+                        Preguntas Frecuentes
+                      </button>
+
+                      <button
+                        onClick={handleLogout}
+                        className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium transition hover:bg-red-700"
+                      >
+                        Cerrar sesión
+                      </button>
+                    </nav>
+                  </div>
+                )}
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center justify-center gap-2 bg-green-600 text-white px-5 py-3 rounded-full font-medium transition-all hover:bg-green-700"
+              >
+                <span>Iniciar Sesión</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19.128a9.38 9.38 0 0 0 2.625.372..."
+                  />
                 </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-              )}
-            </button>
-
-            {/* Menú flotante */}
-            {menuOpen && (
-              <div className="absolute right-0 top-[60px] w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-50 animate-fadeIn">
-                <nav className="flex flex-col space-y-2 p-4">
-                   <button
-                    onClick={() => navigateTo("/perfil")}
-                    className="text-sm text-left px-4 py-2 text-gray-800 hover:text-green-600 transition"
-                  >
-                   Mi Perfil
-                  </button>
-                  
-                  {menuItems.map(({ name, path }) => (
-                    <button
-                      key={name}
-                      onClick={() => navigateTo(path)}
-                      className={`text-sm text-left px-4 py-2 rounded-md transition hover:bg-green-50 ${
-                        location.pathname === path ? "text-green-600 font-semibold" : "text-gray-800"
-                      }`}
-                    >
-                      {name}
-                    </button>
-                  ))}
-
-                  <button
-                    onClick={() => navigateTo("/preguntas")}
-                    className="text-sm text-left px-4 py-2 text-gray-800 hover:text-green-600 transition"
-                  >
-                    Preguntas Frecuentes
-                  </button>
-
-                  <button
-                    onClick={handleLogout}
-                    className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium transition hover:bg-red-700"
-                  >
-                    Cerrar sesión
-                  </button>
-                </nav>
-              </div>
+              </Link>
             )}
           </div>
         </div>
