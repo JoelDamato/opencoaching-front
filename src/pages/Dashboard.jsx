@@ -118,7 +118,7 @@ const navigate = useNavigate()
 
   
 
-  const isClient = User.audiencia === "Cliente"
+  const isClient = User.audiencia == "Cliente"
 
   const features = isClient
     ? [
@@ -181,13 +181,13 @@ const navigate = useNavigate()
               >
                 <Sparkles className="w-10 h-10 text-white" />
               </motion.div>
-           <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 via-green-700 to-emerald-600 bg-clip-text text-transparent mb-6">
-  ¡Bienvenid@! {User.nombre}
-</h1>
-              <h2 className="text-2xl text-gray-700 font-light mb-4">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 via-green-700 to-emerald-600 bg-clip-text text-transparent mb-6">
+                ¡Bienvenid@! {User.nombre}
+              </h1>
+              <h2 className="text-2xl text-gray-700 font-light mb-2 text-center">
                 {isClient ? "Tu espacio para descubrir el coaching en acción" : "Tu espacio como Coach en OpenCoaching"}
               </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto text-center">
                 {isClient
                   ? "Nos alegra que quieras comenzar este camino de autoconocimiento y transformación. Desde este panel vas a poder agendar sesiones, recibir acompañamiento y explorar contenidos prácticos."
                   : "Desde acá vas a poder acceder a todo lo necesario para desarrollarte como coach, conectarte con colegas y aprovechar al máximo tu membresía."}
@@ -198,9 +198,19 @@ const navigate = useNavigate()
               <Card className="bg-white/80 backdrop-blur-lg border-gray-200 overflow-hidden shadow-xl">
                 <CardContent className="p-8">
                   <div className="flex items-center justify-center">
-                    <motion.div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 rounded-full shadow-2xl">
-                      <Play className="w-12 h-12 text-white" />
-                    </motion.div>
+                    <div className="w-full max-w-3xl rounded-lg shadow-2xl" style={{ overflow: "visible" }}>
+                      <iframe
+                        src="https://player.vimeo.com/video/1091954558?h=35cec3fc0b"
+                        width="100%"
+                        height="500"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        title="Video de bienvenida"
+                        className="w-full rounded-lg"
+                        style={{ minHeight: 350, height: 500, background: "#000" }}
+                      ></iframe>
+                    </div>
                   </div>
                   <p className="text-center text-gray-700 mt-6 text-lg font-medium">
                     🎥 Mirá este video donde te mostramos cómo funciona todo paso a paso
@@ -236,6 +246,7 @@ const navigate = useNavigate()
                 <ArrowRight className="w-5 h-5" />
               </a>
             </div>
+          
           </motion.div>
         </div>
       </div>

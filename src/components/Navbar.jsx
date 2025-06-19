@@ -57,6 +57,7 @@ export default function Navbar() {
   const menuItems = [
     { name: "Dashboard", path: "/Dashboard" },
     { name: "Coaches", path: "/Coaches" },
+    { name: "Aprendices", path: "/aprendices" }, 
     { name: "Cursos", path: "/cursostotals" },
     { name: "Triadflow", path: "/triadflow" },
   ];
@@ -156,20 +157,7 @@ export default function Navbar() {
                 className="flex items-center justify-center gap-2 bg-green-600 text-white px-5 py-3 rounded-full font-medium transition-all hover:bg-green-700"
               >
                 <span>Iniciar Sesión</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 19.128a9.38 9.38 0 0 0 2.625.372..."
-                  />
-                </svg>
+
               </Link>
             )}
           </div>

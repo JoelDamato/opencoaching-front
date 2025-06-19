@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import CtaSection from "../components/Ctahome"
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -33,20 +34,7 @@ export default function HomePage() {
               className="flex items-center gap-2 bg-green-600 text-white px-5 py-2.5 rounded-full font-medium transition-all hover:bg-green-700 hover:shadow-md"
             >
               <span>Iniciar Sesión</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19.128a9.38 9.38 0 0 0 2.625.372..."
-                />
-              </svg>
+       
             </Link>
           </div>
 
@@ -85,20 +73,7 @@ export default function HomePage() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 <span>Iniciar Sesión</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 19.128a9.38 9.38 0 0 0 2.625.372..."
-                  />
-                </svg>
+              
               </Link>
             </nav>
           </div>
@@ -113,12 +88,10 @@ export default function HomePage() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="text-left space-y-6">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
-                  Transforma tu carrera con <span className="text-green-600">OpenCoaching</span>
+                  Impulsamos tu transformacion.
                 </h1>
                 <p className="text-lg md:text-xl text-gray-600 max-w-xl">
-                  Conecta con coaches profesionales, compartí tus conocimientos y ayudá a otros a crecer mientras creces
-                  vos.
-                </p>
+En Open Coaching, solo encuentras coaches cuya excelencia ha sido verificada a través de la práctica constante. Tu transformación está en manos de verdaderos profesionales. Tu primera sesión es gratuita para que lo compruebes.              </p>
                
               </div>
               <div className="relative">
@@ -162,7 +135,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
-                  title: "Agenda Inteligente",
+                  title: "Triadflow",
                   description:
                     "Organiza tus sesiones de coaching con un sistema inteligente que se adapta a tu disponibilidad.",
                   icon: (
@@ -183,9 +156,9 @@ export default function HomePage() {
                   ),
                 },
                 {
-                  title: "Matching Personalizado",
+                  title: "Mentorias",
                   description:
-                    "Conecta con clientes que realmente se beneficiarán de tu experiencia y especialización.",
+                    "Un espacio para recibir experiencia de coaches con trayectoria",
                   icon: (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -204,9 +177,9 @@ export default function HomePage() {
                   ),
                 },
                 {
-                  title: "Seguimiento de Progreso",
+                  title: "Cursos",
                   description:
-                    "Herramientas para monitorear el avance de tus clientes y optimizar tus sesiones de coaching.",
+                    "Herramientas para crecer y optimizar la profesion",
                   icon: (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -225,8 +198,8 @@ export default function HomePage() {
                   ),
                 },
                 {
-                  title: "Comunicación Segura",
-                  description: "Canales de comunicación privados y seguros para mantener contacto con tus clientes.",
+                  title: "Comunidad",
+                  description: "Canales de comunicación privados y seguros para mantenernos en contacto",
                   icon: (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -258,81 +231,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        
-        {/* CTA Section */}
-        <section id="contact" className="py-20 px-4 bg-gradient-to-br from-green-50 to-white">
-          <div className="container mx-auto max-w-4xl bg-white rounded-3xl shadow-xl overflow-hidden">
-            <div className="grid md:grid-cols-2">
-              <div className="p-8 md:p-12 flex flex-col justify-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">¿Listo para transformar tu vida?</h2>
-                <p className="text-gray-600 mb-8">
-                  Únete a miles de personas que ya están alcanzando su máximo potencial con OpenCoaching.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                   <a
-                    href="/login"
-                    className="bg-green-600 text-white px-8 py-3.5 rounded-full font-medium transition-all hover:bg-green-700 hover:shadow-lg flex items-center justify-center gap-2"
-                  >
-                    <span>
-                 
-                    Comenzar
-                  
-                      </span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                    </svg>
-                  </a>
-                  <a
-                    href="https://calendly.com/enzochiapello/sesion-de-coaching-solidario"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="border-2 border-green-600 text-green-600 px-8 py-3.5 rounded-full font-medium transition-all hover:bg-green-50 hover:shadow-md flex items-center justify-center"
-                  >
-                    Quiero saber más
-                  </a>
-                </div>
-              </div>
-              <div className="bg-green-600 p-8 md:p-12 flex items-center justify-center">
-                <div className="text-white max-w-xs">
-                  <h3 className="text-2xl font-bold mb-4">Beneficios de OpenCoaching</h3>
-                  <ul className="space-y-3">
-                    {[
-                      "Conecta con coaches certificados",
-                      "Sesiones personalizadas a tu medida",
-                      "Seguimiento de tu progreso",
-                      "Comunidad de apoyo continuo",
-                      "Recursos exclusivos para tu desarrollo",
-                    ].map((item, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
-                          stroke="currentColor"
-                          className="w-5 h-5 flex-shrink-0"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                        </svg>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* CTA Section antes del footer */}
+        <CtaSection />
+
       </main>
-
-
+      {/* ...footer o cualquier otro contenido... */}
 
       {/* Add custom styles for animations */}
       <style jsx>{`
