@@ -20,6 +20,7 @@ import Aprendices from './pages/Aprendices.jsx'; // <-- ya importado
 import Pricing from './pages/pricing.jsx'; // Usa minúscula si tu archivo es pricing.jsx
 
 
+
 function App() {
   return (
     <Router>
