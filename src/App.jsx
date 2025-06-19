@@ -17,7 +17,7 @@ import Triadflow from './pages/TriadFlow.jsx';
 import Novedades from './pages/Novedades.jsx';
 import Asistente from './pages/Asistente.jsx';
 import Aprendices from './pages/Aprendices.jsx'; // <-- ya importado
-import Pricing from './pages/pricing.jsx'; // <-- agrega este import
+import Pricing from './pages/pricing.jsx'; // Usa minúscula si tu archivo es pricing.jsx
 
 
 function App() {
