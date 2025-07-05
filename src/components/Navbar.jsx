@@ -54,11 +54,15 @@ export default function Navbar() {
     navigate("/");
   };
 
+  // Obtener membresía del usuario desde localStorage
+  const membresia = Number(localStorage.getItem("membresia"));
+
   const menuItems = [
     { name: "Dashboard", path: "/Dashboard" },
     { name: "Coaches", path: "/Coaches" },
-    { name: "Aprendices", path: "/aprendices" }, 
-    { name: "Cursos", path: "/cursostotals" },
+    { name: "Aprendices", path: "/aprendices" },
+    // Solo mostrar Cursos si membresía no es 0
+    ...(membresia !== 0 ? [{ name: "Cursos", path: "/cursostotals" }] : []),
     { name: "Triadflow", path: "/triadflow" },
   ];
 

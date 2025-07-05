@@ -127,9 +127,12 @@ export default function Login() {
           setIsLogin(true)
         }
       } else if (response.status === 200) {
-        const { token } = response.data
+        const { token, nombre: nombreResp, rol, membresia: membresiaResp } = response.data
         localStorage.setItem("token", token)
         localStorage.setItem("email", email.toLowerCase())
+        localStorage.setItem("nombre", nombreResp || nombre)
+        localStorage.setItem("rol", rol || "user")
+        localStorage.setItem("membresia", typeof membresiaResp !== "undefined" ? membresiaResp : membresia)
         navigate("/Dashboard")
       }
     } catch (err) {
@@ -195,7 +198,6 @@ export default function Login() {
                     <Label htmlFor="membresia">Membresía</Label>
                     <Select value={String(membresia)} onChange={(value) => setMembresia(Number(value))}>
                       <SelectItem value="0">Gratis</SelectItem>
-                      <SelectItem value="1">Básico</SelectItem>
                     </Select>
                   </div>
                 )}

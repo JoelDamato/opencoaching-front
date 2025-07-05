@@ -16,8 +16,6 @@ import Terminos from './pages/Terminos.jsx';
 import Triadflow from './pages/TriadFlow.jsx';
 import Novedades from './pages/Novedades.jsx';
 import Asistente from './pages/Asistente.jsx';
-import Aprendices from './pages/Aprendices.jsx'; // <-- ya importado
-import Precios from './pages/Precios.jsx'; // <-- ya importado
 
 
 function App() {
@@ -42,8 +40,7 @@ function App() {
         <Route path="/terminos" element={<Terminos />} />
         <Route path="/novedades" element={<Novedades />} />
         <Route path="/asistente" element={<Asistente />} />
-        <Route path="/aprendices" element={<Aprendices />} />
-        <Route path="/pricing" element={<Precios />} /> {/* <-- Nueva ruta */}
+
       </Routes>
     </Router>
   );
