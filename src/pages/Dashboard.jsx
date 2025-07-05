@@ -194,20 +194,33 @@ const navigate = useNavigate()
               </p>
             </div>
 
-            <motion.div className="mb-16">
-              <Card className="bg-white/80 backdrop-blur-lg border-gray-200 overflow-hidden shadow-xl">
-                <CardContent className="p-8">
-                  <div className="flex items-center justify-center">
-                    <motion.div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 rounded-full shadow-2xl">
-                      <Play className="w-12 h-12 text-white" />
-                    </motion.div>
-                  </div>
-                  <p className="text-center text-gray-700 mt-6 text-lg font-medium">
-                    🎥 Mirá este video donde te mostramos cómo funciona todo paso a paso
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+            {/* Mostrar video solo si NO es cliente */}
+            {!isClient && (
+              <motion.div className="mb-16">
+                <Card className="bg-white/80 backdrop-blur-lg border-gray-200 overflow-hidden shadow-xl">
+                  <CardContent className="p-8">
+                    <div className="flex items-center justify-center">
+                      <div className="w-full max-w-3xl rounded-lg shadow-2xl" style={{ overflow: "visible" }}>
+                        <iframe
+                          src="https://player.vimeo.com/video/1091954558?h=35cec3fc0b"
+                          width="100%"
+                          height="500"
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                          title="Video de bienvenida"
+                          className="w-full rounded-lg"
+                          style={{ minHeight: 350, height: 500, background: "#000" }}
+                        ></iframe>
+                      </div>
+                    </div>
+                    <p className="text-center text-gray-700 mt-6 text-lg font-medium">
+                      🎥 Mirá este video donde te mostramos cómo funciona todo paso a paso
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
 
             <div className="text-center mb-12">
               <h3 className="text-3xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-3">
