@@ -140,6 +140,12 @@ function Perfil() {
               <div className="flex flex-col">
                 <span className="text-sm text-gray-500">Suscripción</span>
                 <span className="text-lg font-semibold">{user.audiencia} Gratuita</span>
+                <a
+                  href="/pricing"
+                  className="text-green-600 underline text-sm mt-1 hover:text-green-800 transition"
+                >
+                  Ver planes
+                </a>
               </div>
             </div>
             <button onClick={scrollToPassword} className="w-full bg-black text-white py-2 rounded font-bold hover:bg-gray-800 mt-4">

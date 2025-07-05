@@ -54,31 +54,22 @@ const Novedades = () => {
                   <div className="aspect-video bg-gradient-to-br from-green-100 to-emerald-100">
                     <iframe
                       className="w-full h-full"
-                      src="https://www.youtube.com/embed/H0m5GM8M_4M"
+                      src="https://www.youtube.com/embed/H0m5GM8M_4M?autoplay=0&rel=0"
                       title="Conexión Open"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-
                 <div className="p-6">
                   <p className="text-gray-700 leading-relaxed text-lg">
                     En este espacio compartimos las novedades más importantes de Open Coaching: visión a futuro,
                     actividades de comunidad y avances clave que transforman nuestra forma de acompañar a los coaches.
                   </p>
-
                   <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-100">
                     <div className="flex items-center space-x-4">
-                      <button
-                        onClick={() => window.open("https://www.youtube.com/watch?v=H0m5GM8M_4M", "_blank")}
-                        className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                      >
-                        <Play className="w-4 h-4" />
-                        <span>Ver Completo</span>
-                      </button>
+                      {/* Elimina el botón "Ver Completo" porque el video ya es reproducible aquí */}
                       <button
                         onClick={() => {
                           if (navigator.share) {

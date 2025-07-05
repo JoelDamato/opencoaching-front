@@ -194,6 +194,22 @@ function Coaches() {
       </div>
     ))}
   </div>
+
+  {/* Solo CTA Coach */}
+  <div className="flex flex-col items-center mt-16 mb-8">
+    <a
+      href="https://api.whatsapp.com/send/?phone=%2B5493512153675&text=Hola%2C+quiero+estar+visible+como+coach+en+OpenCoaching&type=phone_number&app_absent=0"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-block"
+    >
+      <button
+        className="px-8 py-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all"
+      >
+        Quiero estar visible como coach
+      </button>
+    </a>
+  </div>
 </div>
 
 
