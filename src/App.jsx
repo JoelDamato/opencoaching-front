@@ -6,23 +6,23 @@ import PanelControl from './pages/Panel.jsx';
 import Capitulos from './pages/Capitulos.jsx';
 import Password from './pages/Password.jsx';
 import Vsl from './pages/Vsl.jsx';
-import Totalcursos from './pages/Cursostotals.jsx'
-import Coaches from './pages/Coaches.jsx'
-import HomePage from './pages/HomePage.jsx'
-import Perfil from './pages/Perfil.jsx'
-import Preguntas from "./pages/Preguntas.jsx"
+import Totalcursos from './pages/Cursostotals.jsx';
+import Coaches from './pages/Coaches.jsx';
+import HomePage from './pages/HomePage.jsx';
+import Perfil from './pages/Perfil.jsx';
+import Preguntas from "./pages/Preguntas.jsx";
 import Politicas from './pages/Politicas.jsx';
 import Terminos from './pages/Terminos.jsx';
 import Triadflow from './pages/TriadFlow.jsx';
 import Novedades from './pages/Novedades.jsx';
 import Asistente from './pages/Asistente.jsx';
-
+import PricingPage from './pages/Precios.jsx'; // 👈 Agregado
 
 function App() {
   return (
     <Router>
       <Routes>
-        
+
         <Route path="/" element={<><HomePage /></>} />
         <Route path="/Login" element={<><Login /></>} />
         <Route path="/Dashboard" element={<><Dashboard /></>} />
@@ -40,6 +40,7 @@ function App() {
         <Route path="/terminos" element={<Terminos />} />
         <Route path="/novedades" element={<Novedades />} />
         <Route path="/asistente" element={<Asistente />} />
+        <Route path="/pricing" element={<PricingPage />} /> {/* 👈 Nueva ruta */}
 
       </Routes>
     </Router>
