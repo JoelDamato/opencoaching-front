@@ -17,6 +17,7 @@ import Triadflow from './pages/TriadFlow.jsx';
 import Novedades from './pages/Novedades.jsx';
 import Asistente from './pages/Asistente.jsx';
 import PricingPage from './pages/Precios.jsx'; // 👈 Agregado
+import Aprendices from './pages/Aprendices.jsx';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/novedades" element={<Novedades />} />
         <Route path="/asistente" element={<Asistente />} />
         <Route path="/pricing" element={<PricingPage />} /> {/* 👈 Nueva ruta */}
+        <Route path="/aprendices" element={<Aprendices />} />
 
       </Routes>
     </Router>
