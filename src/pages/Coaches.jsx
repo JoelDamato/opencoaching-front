@@ -111,16 +111,13 @@ function Coaches() {
 
   return (
     <div className="h-full w-screen flex flex-col items-center bg-fixed bg-cover bg-center">
-      {/* Navbar */}
       <Navbar
         toggleProfile={toggleProfile}
         handleLogout={handleLogout}
         toggleMenu={toggleMenu}
         isMenuOpen={isMenuOpen}
       />
-
-     <SupportButton />
-   
+      <SupportButton />
       {/* Modal para mostrar el perfil del usuario */}
       {showProfile && user && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
@@ -141,78 +138,21 @@ function Coaches() {
         </div>
       )}
 
-<div className="w-full sm:w-11/12 p-8">
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    {[
-  
-   
-      {
-        src: 'Enzo.jpg',
-        nombre: 'Enzo Chiapello',
-        link: 'https://calendly.com/enzochiapello/sesion-de-coaching-solidario',
-      },
-      {
-        src: 'Fabiana.jpg',
-        nombre: 'Fabiana',
-        link: 'https://calendly.com/faadrover/sesion-de-coaching',
-      },
-      {
-        src: 'Mariabeatriz.jpg',
-        nombre: 'María Beatriz',
-        link: 'https://calendly.com/mariabecoach10sesion/sesion-de-coaching?month=2025-02',
-      },
-      {
-        src: 'PaulaRepetto.jpg',
-        nombre: 'Paula Repetto',
-        link: 'https://calendly.com/pau-repetto1/45min',
-      },
-   
-    ].map((coach, idx) => (
-      <div
-        key={idx}
-        className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center p-4"
-      >
-        <img
-          src={coach.src}
-          alt={coach.nombre}
-          className="w-full h-64 object-contain rounded-md mb-4"
-        />
-        <h3 className="text-lg font-semibold text-center mb-2">{coach.nombre}</h3>
-
-        {coach.link ? (
-          <a
-            href={coach.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition-transform duration-300 transform hover:-translate-y-1"
+      <div className="flex flex-col items-center justify-center min-h-[60vh]">
+        <h1 className="text-3xl font-bold mt-12 mb-4">Próximamente</h1>
+        <a
+          href="https://api.whatsapp.com/send/?phone=%2B5493512153675&text=Hola%2C+quiero+estar+visible+como+coach+en+OpenCoaching&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block"
+        >
+          <button
+            className="px-8 py-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all"
           >
-            Reservá tu sesión
-          </a>
-        ) : (
-          <span className="text-sm text-gray-400 italic mt-2">Próximamente disponible</span>
-        )}
+            Quiero estar visible como Coach
+          </button>
+        </a>
       </div>
-    ))}
-  </div>
-
-  {/* Solo CTA Coach */}
-  <div className="flex flex-col items-center mt-16 mb-8">
-    <a
-      href="https://api.whatsapp.com/send/?phone=%2B5493512153675&text=Hola%2C+quiero+estar+visible+como+coach+en+OpenCoaching&type=phone_number&app_absent=0"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block"
-    >
-      <button
-        className="px-8 py-4 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all"
-      >
-        Quiero estar visible como coach
-      </button>
-    </a>
-  </div>
-</div>
-
-
     </div>
   );
 }
