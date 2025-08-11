@@ -18,7 +18,7 @@ import Novedades from './pages/Novedades.jsx';
 import Asistente from './pages/Asistente.jsx';
 import PricingPage from './pages/Precios.jsx'; // 👈 Agregado
 import Aprendices from './pages/Aprendices.jsx';
-import Landingpage from './pages/landingpages.jsx';
+import Landingpage from './pages/Landing.jsx';
 
 function App() {
   return (
