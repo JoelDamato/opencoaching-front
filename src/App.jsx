@@ -18,6 +18,7 @@ import Novedades from './pages/Novedades.jsx';
 import Asistente from './pages/Asistente.jsx';
 import PricingPage from './pages/Precios.jsx'; // 👈 Agregado
 import Aprendices from './pages/Aprendices.jsx';
+import Landingpage from './pages/landingpages.jsx';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/asistente" element={<Asistente />} />
         <Route path="/pricing" element={<PricingPage />} /> {/* 👈 Nueva ruta */}
         <Route path="/aprendices" element={<Aprendices />} />
+        <Route path="/landingpage" element={<Landingpage />} />
 
       </Routes>
     </Router>
