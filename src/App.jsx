@@ -44,7 +44,7 @@ function App() {
         <Route path="/asistente" element={<Asistente />} />
         <Route path="/pricing" element={<PricingPage />} /> {/* 👈 Nueva ruta */}
         <Route path="/aprendices" element={<Aprendices />} />
-        <Route path="/landingpage" element={<Landingpage />} />
+        <Route path="/Landingpages" element={<Landingpage />} />
 
       </Routes>
     </Router>
