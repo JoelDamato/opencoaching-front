@@ -41,9 +41,9 @@ export default function App() {
   const about =
     "Me encanta viajar y perderme en lugares nuevos, siempre con la cámara a mano para capturar momentos y personas que me inspiran. Además de mi trabajo como coach, organizo eventos de desarrollo personal donde conecto con gente increíble y compartimos aprendizajes que nos transforman. Para mí, la vida se trata de explorar, crear y disfrutar el camino.";
   const morePhotos = [
-    "https://static.wixstatic.com/media/5963df_d4a70778a36f48ce90f330103a6554ab~mv2.jpg/v1/fill/w_670,h_502,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/5963df_d4a70778a36f48ce90f330103a6554ab~mv2.jpg",
-    "https://www.blogdelfotografo.com/wp-content/uploads/2020/04/fotografo-paisajes.jpg",
-    "https://www.blogdelfotografo.com/wp-content/uploads/2020/04/fotografo-paisajes.jpg",
+    "https://iili.io/FthrU1n.jpg",
+    "https://iili.io/Fth6NVI.jpg",
+    "https://iili.io/Fthixkb.jpg",
   ];
 
   // ✅ Testimonios como objetos con imágenes (y opcionalmente texto)

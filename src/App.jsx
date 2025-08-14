@@ -16,9 +16,11 @@ import Terminos from './pages/Terminos.jsx';
 import Triadflow from './pages/TriadFlow.jsx';
 import Novedades from './pages/Novedades.jsx';
 import Asistente from './pages/Asistente.jsx';
-import PricingPage from './pages/Precios.jsx'; // 👈 Agregado
+import PricingPage from './pages/Precios.jsx'; 
 import Aprendices from './pages/Aprendices.jsx';
 import Landingpage from './pages/Landing.jsx';
+import Cliente from './pages/Clientes.jsx';
+import Lanzamiento from './pages/Lanzamiento.jsx';
 
 function App() {
   return (
@@ -45,7 +47,9 @@ function App() {
         <Route path="/pricing" element={<PricingPage />} /> {/* 👈 Nueva ruta */}
         <Route path="/aprendices" element={<Aprendices />} />
         <Route path="/Landingpages" element={<Landingpage />} />
-
+        <Route path="/cliente" element={<Cliente />} />
+        <Route path="/lanzamiento" element={<Lanzamiento/>}/>
+       
       </Routes>
     </Router>
   );
