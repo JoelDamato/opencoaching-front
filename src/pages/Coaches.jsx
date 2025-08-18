@@ -172,7 +172,10 @@ function Coaches() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {profiles.map((p) => {
+              {profiles
+  .filter((p) => p.title === "Coach Certificado") // ✅ Filtrar solo aprendices
+  .map((p) => {
+
                 const id = p.id || p._id;
                 return (
                   <div key={id} className="bg-white rounded-xl shadow p-4 flex flex-col">
