@@ -111,7 +111,7 @@ export default function Login() {
       const endpoint = isLogin ? "/api/auth/login" : "/api/create/register"
       const payload = isLogin
         ? { email: email.toLowerCase(), password }
-        : { nombre, email: email.toLowerCase(), password, rol: "user", membresia }
+        : { nombre, email: email.toLowerCase(), password, rol: "user", membresia, audiencia } // <-- audiencia agregado
 
       const response = await axios.post(`${API_BASE_URL}${endpoint}`, payload)
 
