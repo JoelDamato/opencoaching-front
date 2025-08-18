@@ -136,6 +136,19 @@ function FreeSessionLandingPage() {
           </motion.div>
         </div>
       </div>
+      {/* Sticky WhatsApp Button */}
+<a
+  href="https://wa.me/5493512153675?text=Hola%2C%20tengo%20dudas"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fixed bottom-6 right-6 z-50"
+>
+  <button className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-full shadow-lg transition transform hover:scale-110">
+    <MessageCircle className="w-5 h-5" />
+    Tengo dudas
+  </button>
+</a>
+
     </>
   )
 }
