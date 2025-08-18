@@ -52,7 +52,7 @@ function App() {
 
         {/* cursos (evitar colisión con /:handle) */}
         <Route path="/curso/:cursoId" element={<Cursos />} />
-        <Route path="/cursos/:cursoId/:moduleName/:chapterId" element={<Capitulos />} />
+        <Route path="/curso/:cursoId/:moduleName/:chapterId" element={<Capitulos />} />
         <Route path="/landing/:id" element={<Landingpage />} />
 
       </Routes>

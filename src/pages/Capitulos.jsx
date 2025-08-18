@@ -244,7 +244,7 @@ function Capitulos() {
             Anterior
           </button>
           <button
-            onClick={() => navigate(`/${cursoId}`)}
+            onClick={() => navigate(`curso/${cursoId}`)}
             className="bg-black text-white py-2 px-4 rounded-lg"
           >
             Regresar

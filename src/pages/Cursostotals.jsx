@@ -135,7 +135,7 @@ const CoursesList = () => {
 
                   <div className="flex justify-between items-center">
                     <button
-                      onClick={() => navigate(`/${sanitizeCourseTitle(course.courseTitle)}`)}
+                      onClick={() => navigate(`/curso/${sanitizeCourseTitle(course.courseTitle)}`)}
                       className="bg-[#09886d] hover:bg-[#39ac71] text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
                     >
                       Ver Curso

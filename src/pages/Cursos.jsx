@@ -104,7 +104,7 @@ function Cursos() {
       
                   <button
                     onClick={() =>
-                      navigate(`/cursos/${sanitizeTitle(course.courseTitle)}/${moduleName}/${chapterIndex + 1}`)
+                      navigate(`/curso/${sanitizeTitle(course.courseTitle)}/${moduleName}/${chapterIndex + 1}`)
                     }
                     className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded-lg mt-auto transition"
                   >
