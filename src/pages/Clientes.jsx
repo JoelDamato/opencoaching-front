@@ -52,8 +52,8 @@ function FreeSessionLandingPage() {
               Quiero conversar con un <br /> Coach Certificado
             </motion.a>
             <div className="border-t-4 border-green-500 w-full mt-3 pt-4 text-gray-700 text-lg text-center">
-              <p>√ Sesión 0 gratis</p>
-              <p>√ Primera conversación de tu proceso sin costo</p>
+              <p> Sesión 0 gratis</p>
+              <p> Primera conversación de tu proceso sin costo</p>
             </div>
           </motion.div>
 
@@ -75,8 +75,8 @@ function FreeSessionLandingPage() {
               Quiero conversar con un <br /> Aprendiz de Coaching
             </motion.a>
             <div className="border-t-4 border-emerald-500 w-full mt-3 pt-4 text-gray-700 text-lg text-center">
-              <p>√ Sesión 0 gratis</p>
-              <p>√ 100% del proceso gratis</p>
+              <p> Sesión 0 gratis</p>
+              <p> 100% del proceso gratis</p>
             </div>
           </motion.div>
 
