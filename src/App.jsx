@@ -48,7 +48,7 @@ function App() {
         <Route path="/aprendices" element={<Aprendices />} />
         <Route path="/cliente" element={<Cliente />} />
         <Route path="/lanzamiento" element={<Lanzamiento />} />
-        <Route path="/formulario" element={<Formulario />} />
+        <Route path="/formulario/:id" element={<Formulario />} />
 
         {/* cursos (evitar colisión con /:handle) */}
         <Route path="/curso/:cursoId" element={<Cursos />} />

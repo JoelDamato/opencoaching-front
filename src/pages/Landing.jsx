@@ -13,7 +13,7 @@ export default function App() {
     import.meta.env?.VITE_API_BASE ||
     (process.env.NODE_ENV === "production"
       ? "https://opencoaching-back-tlfh.onrender.com"
-      : "http://localhost:5000");
+      : "http://localhost:5001");
 
   const isObjectId = (s) => /^[a-fA-F0-9]{24}$/.test(String(s || ""));
 
@@ -98,7 +98,7 @@ export default function App() {
     <div className="bg-gray-100 min-h-screen flex justify-center py-10 px-4">
       <div className="bg-white max-w-4xl w-full shadow-lg rounded-lg p-6">
         {/* Perfil */}
-        <div className="flex flex-col md:flex-row items-start md:items-center md:space-x-6">
+        <div className="flex flex-col items-center md:flex-row md:items-center md:space-x-6">
           {photo && (
             <img
               src={photo}
@@ -108,11 +108,11 @@ export default function App() {
             />
           )}
 
-     <div>
+          <div className="text-center md:text-left">
             <h1 className="text-2xl font-bold">{name}</h1>
 
             {/* Title + tilde verificado a la derecha */}
-            <div className="inline-flex items-center gap-1 text-gray-600">
+            <div className="flex justify-center md:justify-start items-center gap-1 text-gray-600">
               <span>{title}</span>
               <svg
                 viewBox="0 0 24 24"
@@ -134,7 +134,7 @@ export default function App() {
             <p className="mt-2 text-gray-700 text-sm">{description}</p>
 
             {/* Botones */}
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-2">
               {firstSessionLink && (
                 <a
                   href={firstSessionLink}
@@ -153,7 +153,7 @@ export default function App() {
 
             {/* Redes sociales */}
             {socials.length > 0 && (
-              <div className="mt-3 flex space-x-3">
+              <div className="mt-3 flex justify-center md:justify-start space-x-3">
                 {socials.map((s, idx) => (
                   <a
                     key={idx}
@@ -175,10 +175,10 @@ export default function App() {
         {/* Certificaciones */}
         {certifications.length > 0 && (
           <>
-            <h2 className="mt-8 font-semibold border-b border-gray-300 pb-1">
+            <h2 className="mt-8 font-semibold border-b border-gray-300 pb-1 text-center md:text-left">
               Mis certificaciones
             </h2>
-            <div className="flex flex-wrap gap-4 mt-4">
+            <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
               {certifications.map((cert, idx) => (
                 <img
                   key={idx}
@@ -195,13 +195,13 @@ export default function App() {
         {/* Más sobre mi */}
         <h2
           ref={aboutSectionRef}
-          className="mt-8 font-semibold border-b border-gray-300 pb-1"
+          className="mt-8 font-semibold border-b border-gray-300 pb-1 text-center md:text-left"
         >
           Más sobre mi...
         </h2>
-        <p className="mt-2 text-gray-700">{about}</p>
+        <p className="mt-2 text-gray-700 text-center md:text-left">{about}</p>
         {morePhotos.length > 0 && (
-          <div className="flex flex-wrap gap-4 mt-4">
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
             {morePhotos.map((p, idx) => (
               <img
                 key={idx}
@@ -215,29 +215,38 @@ export default function App() {
         )}
 
         {/* Testimonios */}
-        <h2 className="mt-8 font-semibold border-b border-gray-300 pb-1">
+        <h2 className="mt-8 font-semibold border-b border-gray-300 pb-1 text-center md:text-left">
           Testimonios de clientes
         </h2>
         <div className="mt-4 space-y-6">
           {Array.isArray(testimonials) && testimonials.length > 0 ? (
             testimonials.map((testimonial, idx) => (
               <div key={idx} className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                {testimonial.text && (
-                  <p className="text-gray-700 italic mb-2">
-                    "{testimonial.text}"
-                  </p>
+                {/* Imágenes ARRIBA, completas y full width en mobile */}
+                {Array.isArray(testimonial.images) && testimonial.images.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {testimonial.images.map((img, imgIdx) => (
+                      <button
+                        key={imgIdx}
+                        type="button"
+                        onClick={() => openImage(img)}
+                        className="block w-full rounded-lg overflow-hidden bg-gray-100 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        aria-label={`Abrir imagen del testimonio ${idx + 1}-${imgIdx + 1}`}
+                      >
+                        <img
+                          src={img}
+                          alt={`Testimonio ${idx + 1} - Imagen ${imgIdx + 1}`}
+                          className="w-full h-auto object-contain transition duration-200 hover:opacity-90"
+                        />
+                      </button>
+                    ))}
+                  </div>
                 )}
-                <div className="flex flex-wrap gap-4">
-                  {(testimonial.images || []).map((img, imgIdx) => (
-                    <img
-                      key={imgIdx}
-                      src={img}
-                      alt={`Testimonio ${idx + 1} - Imagen ${imgIdx + 1}`}
-                      className="w-32 h-24 object-cover rounded-lg shadow-md cursor-pointer hover:scale-105 transition"
-                      onClick={() => openImage(img)}
-                    />
-                  ))}
-                </div>
+
+                {/* Texto DEBAJO */}
+                {testimonial.text && (
+                  <p className="mt-3 text-gray-700 italic">"{testimonial.text}"</p>
+                )}
               </div>
             ))
           ) : (
@@ -321,3 +330,4 @@ function buildSocials(urls) {
       return { name, icon, url: u };
     });
 }
+

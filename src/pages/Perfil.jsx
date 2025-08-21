@@ -139,7 +139,7 @@ function Perfil() {
               </div>
               <div className="flex flex-col">
                 <span className="text-sm text-gray-500">Suscripción</span>
-                <span className="text-lg font-semibold">{user.audiencia} Gratuita</span>
+                <span className="text-lg font-semibold">{user.audiencia}</span>
                 <a
                   href="/pricing"
                   className="text-green-600 underline text-sm mt-1 hover:text-green-800 transition"
