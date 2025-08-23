@@ -49,6 +49,7 @@ function App() {
         <Route path="/cliente" element={<Cliente />} />
         <Route path="/lanzamiento" element={<Lanzamiento />} />
         <Route path="/formulario/:id" element={<Formulario />} />
+        <Route path="/formulario" element={<Formulario />} />
 
         {/* cursos (evitar colisión con /:handle) */}
         <Route path="/curso/:cursoId" element={<Cursos />} />
