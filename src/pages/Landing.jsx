@@ -136,19 +136,18 @@ export default function App() {
             {/* Botones */}
             <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-2">
               {firstSessionLink && (
-                <a
-                  href={firstSessionLink}
-                  className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-600 transition"
-                >
-                  Quiero mi primera sesión
-                </a>
+                <>
+                  <a
+                    href={firstSessionLink}
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-600 transition"
+                  >
+                    Agendá tu primera sesion gratis ahora
+                  </a>
+                  <p className="w-full text-center md:text-left text-sm text-gray-500">
+                    Primera sesión sin costo - Reserva en menos de 1 minuto
+                  </p>
+                </>
               )}
-              <button
-                onClick={scrollToAbout}
-                className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-600 transition"
-              >
-                Más sobre mi
-              </button>
             </div>
 
             {/* Redes sociales */}
@@ -171,7 +170,45 @@ export default function App() {
             )}
           </div>
         </div>
+   {/* Testimonios */}
+        <h2 className="mt-8 font-semibold border-b border-gray-300 pb-1 text-center md:text-left">
+          Testimonios de clientes
+        </h2>
+        <div className="mt-4 space-y-6">
+          {Array.isArray(testimonials) && testimonials.length > 0 ? (
+            testimonials.map((testimonial, idx) => (
+              <div key={idx} className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                {/* Imágenes ARRIBA, completas y full width en mobile */}
+                {Array.isArray(testimonial.images) && testimonial.images.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {testimonial.images.map((img, imgIdx) => (
+                      <button
+                        key={imgIdx}
+                        type="button"
+                        onClick={() => openImage(img)}
+                        className="block w-full rounded-lg overflow-hidden bg-gray-100 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        aria-label={`Abrir imagen del testimonio ${idx + 1}-${imgIdx + 1}`}
+                      >
+                        <img
+                          src={img}
+                          alt={`Testimonio ${idx + 1} - Imagen ${imgIdx + 1}`}
+                          className="w-full h-auto object-contain transition duration-200 hover:opacity-90"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
 
+                {/* Texto DEBAJO */}
+                {testimonial.text && (
+                  <p className="mt-3 text-gray-700 italic">"{testimonial.text}"</p>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-sm">No hay testimonios aún.</p>
+          )}
+        </div>
         {/* Certificaciones */}
         {certifications.length > 0 && (
           <>
@@ -214,45 +251,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Testimonios */}
-        <h2 className="mt-8 font-semibold border-b border-gray-300 pb-1 text-center md:text-left">
-          Testimonios de clientes
-        </h2>
-        <div className="mt-4 space-y-6">
-          {Array.isArray(testimonials) && testimonials.length > 0 ? (
-            testimonials.map((testimonial, idx) => (
-              <div key={idx} className="bg-gray-50 p-4 rounded-lg shadow-sm">
-                {/* Imágenes ARRIBA, completas y full width en mobile */}
-                {Array.isArray(testimonial.images) && testimonial.images.length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {testimonial.images.map((img, imgIdx) => (
-                      <button
-                        key={imgIdx}
-                        type="button"
-                        onClick={() => openImage(img)}
-                        className="block w-full rounded-lg overflow-hidden bg-gray-100 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                        aria-label={`Abrir imagen del testimonio ${idx + 1}-${imgIdx + 1}`}
-                      >
-                        <img
-                          src={img}
-                          alt={`Testimonio ${idx + 1} - Imagen ${imgIdx + 1}`}
-                          className="w-full h-auto object-contain transition duration-200 hover:opacity-90"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Texto DEBAJO */}
-                {testimonial.text && (
-                  <p className="mt-3 text-gray-700 italic">"{testimonial.text}"</p>
-                )}
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 text-sm">No hay testimonios aún.</p>
-          )}
-        </div>
+     
       </div>
 
       {/* Pop-up de imagen */}

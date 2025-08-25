@@ -100,6 +100,12 @@ function Coaches() {
       />
       <SupportButton />
 
+      {/* Subtitle */}
+      <div className="w-full text-center px-4 py-6 bg-gray-50">
+        <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+Tu proceso de coaching es 100% gratis. Elegí el aprendiz y reservá en menos de 1 minuto.        </p>
+      </div>
+
       {/* Modal perfil de usuario */}
       {showProfile && user && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-90 z-50">
