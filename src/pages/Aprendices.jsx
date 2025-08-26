@@ -221,7 +221,7 @@ Tu proceso de coaching es 100% gratis. Elegí el aprendiz y reservá en menos de
                         to={`/landing/${id}`}
                         className="inline-block w-full text-center px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold"
                       >
-                        Ver más
+                    Agendá tu primera sesion gratis ahora
                       </Link>
                     </div>
                   </div>
