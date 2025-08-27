@@ -2,6 +2,122 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
+/** ====== Cloudinary config (desde .env de Vite) ====== **/
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+const FOLDER_BASE = import.meta.env.VITE_CLOUDINARY_FOLDER_BASE || 'opencoaching/profiles';
+
+/** Sube a Cloudinary con UNSIGNED preset y devuelve {url, public_id} */
+async function uploadToCloudinary(file, { folder }) {
+  if (!CLOUD_NAME || !UPLOAD_PRESET) {
+    throw new Error('Faltan VITE_CLOUDINARY_CLOUD_NAME o VITE_CLOUDINARY_UPLOAD_PRESET');
+  }
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', UPLOAD_PRESET);
+  if (folder) fd.append('folder', folder);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
+    method: 'POST',
+    body: fd,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.error?.message || 'Error subiendo imagen');
+  return { url: data.secure_url, public_id: data.public_id };
+}
+
+/** Campo reutilizable: URL + botón Subir + miniatura (Cloudinary) */
+function UploadUrlField({ label, value, onChange, folder, accept = 'image/*', size = 64 }) {
+  const [uploading, setUploading] = useState(false);
+  const [preview, setPreview] = useState(value || '');
+  const [err, setErr] = useState('');
+
+  // Mantener preview sincronizado con el valor externo (URL guardada)
+  useEffect(() => {
+    setPreview(value || '');
+  }, [value]);
+
+  const handleFile = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setErr('');
+
+    // Preview local instantáneo mientras sube
+    let objectUrl = '';
+    try {
+      objectUrl = URL.createObjectURL(file);
+      setPreview(objectUrl);
+
+      setUploading(true);
+      const { url } = await uploadToCloudinary(file, { folder });
+      onChange(url);        // guardamos la URL en el estado padre
+      setPreview(url);      // reemplazamos el objectURL por la URL final
+    } catch (error) {
+      setErr(error.message || 'Error subiendo archivo');
+    } finally {
+      setUploading(false);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      e.target.value = ''; // reset input file
+    }
+  };
+
+  return (
+    <div>
+      {label && <label className="block text-sm font-medium">{label}</label>}
+      <div className="mt-1 flex items-center gap-3">
+        {/* Miniatura */}
+        <div
+          className="shrink-0 rounded-lg border bg-gray-50 overflow-hidden flex items-center justify-center"
+          style={{ width: size, height: size }}
+          title={preview || 'Sin imagen'}
+        >
+          {preview ? (
+            <img
+              src={preview}
+              alt="preview"
+              className="w-full h-full object-cover"
+              onError={() => setPreview('')}
+            />
+          ) : (
+            <span className="text-[10px] text-gray-400 px-1 text-center">Sin imagen</span>
+          )}
+        </div>
+
+        {/* Input URL */}
+        <input
+          className="flex-1 border rounded-lg p-2"
+          value={value || ''}
+          onChange={(e) => {
+            setErr('');
+            onChange(e.target.value);
+          }}
+          placeholder="https://..."
+        />
+
+        {/* Botón Subir */}
+        <label className={`px-3 py-2 rounded ${uploading ? 'bg-gray-400' : 'bg-gray-900'} text-white cursor-pointer`}>
+          {uploading ? 'Subiendo…' : 'Subir'}
+          <input type="file" accept={accept} className="hidden" onChange={handleFile} disabled={uploading} />
+        </label>
+      </div>
+
+      {/* Link rápido a la imagen y errores */}
+      <div className="mt-1 flex items-center gap-3">
+        {value ? (
+          <a href={value} target="_blank" rel="noreferrer" className="text-xs text-blue-600 underline">
+            Abrir imagen
+          </a>
+        ) : null}
+        {err ? <span className="text-xs text-red-600">{err}</span> : null}
+      </div>
+
+      <p className="text-xs text-gray-500 mt-1">
+        Podés pegar una URL o subir un archivo (se guarda la URL segura de Cloudinary).
+      </p>
+    </div>
+  );
+}
+
 const INITIAL = {
   photo: 'https://iili.io/FQLmJp9.jpg',
   name: 'Enzo Chiapello',
@@ -59,6 +175,14 @@ export default function ProfileForm() {
     for (let i = 0; i < len; i++) out += chars[bytes[i] % chars.length];
     return out;
   };
+
+  // Si estoy creando y no hay publicId aún, generarlo temprano para usarlo como carpeta en Cloudinary
+  useEffect(() => {
+    if (!editingId && !form.publicId) {
+      setField('publicId', randomId(12));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editingId]);
 
   // ------- Helpers de arrays / normalización -------
   const normalizeFromDB = (doc = {}) => {
@@ -163,11 +287,11 @@ export default function ProfileForm() {
     try {
       const payload = { ...form };
 
-      // genera publicId si está vacío (solo en creación)
+      // genera publicId si está vacío (ya lo generamos arriba, esto es redundante pero seguro)
       if (!editingId) {
         if (!payload.publicId || !payload.publicId.trim()) {
-          payload.publicId = randomId(12);
-          setForm((prev) => ({ ...prev, publicId: payload.publicId }));
+          payload.publicId = Math.random().toString(36).slice(2, 14);
+          setField('publicId', payload.publicId);
         }
       }
 
@@ -190,14 +314,16 @@ export default function ProfileForm() {
       if (!res.ok) throw new Error(data.error || data.message || 'Error guardando');
 
       setResult({ ok: true, id: data.id || data._id || payload.publicId });
-      // si era creación, actualizo la URL con el id para futuras ediciones (opcional si usás react-router)
-      // window.history.replaceState(null, '', `?id=${data._id || data.id}`);
     } catch (err) {
       setResult({ ok: false, message: err.message });
     } finally {
       setSaving(false);
     }
   };
+
+  // Carpeta por perfil para Cloudinary
+  const folderFor = (sub = '') =>
+    `${FOLDER_BASE}/${form.publicId || 'tmp'}${sub ? `/${sub}` : ''}`;
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -219,10 +345,16 @@ export default function ProfileForm() {
             <section>
               <h2 className="font-semibold text-lg mb-3">Datos básicos</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium">Foto (URL)</label>
-                  <input className="mt-1 w-full border rounded-lg p-2" value={form.photo} onChange={(e) => setField('photo', e.target.value)} type="url" placeholder="https://..." />
+                <div className="md:col-span-2">
+                  <UploadUrlField
+                    label="Foto (URL o subir)"
+                    value={form.photo}
+                    onChange={(v) => setField('photo', v)}
+                    folder={folderFor('avatar')}
+                    size={96}
+                  />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium">Nombre</label>
                   <input className="mt-1 w-full border rounded-lg p-2" value={form.name} onChange={(e) => setField('name', e.target.value)} required />
@@ -245,19 +377,19 @@ export default function ProfileForm() {
                       value={form.publicId || ''}
                       onChange={(e) => setField('publicId', e.target.value.replace(/[^a-z0-9-]/gi, '').toLowerCase())}
                       placeholder="auto si lo dejás vacío"
-                      disabled={!!editingId} // si estás editando, bloqueo cambio de publicId (opcional)
+                      disabled={!!editingId}
                     />
                     {!editingId && (
                       <button
                         type="button"
                         className="mt-1 px-3 py-2 rounded bg-gray-900 text-white"
-                        onClick={() => setField('publicId', randomId(12))}
+                        onClick={() => setField('publicId', Math.random().toString(36).slice(2, 14))}
                       >
                         Generar
                       </button>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">Si lo dejás vacío, se generará automáticamente.</p>
+                  <p className="text-xs text-gray-500 mt-1">Se usa también para la carpeta en Cloudinary.</p>
                 </div>
 
                 <div>
@@ -293,13 +425,19 @@ export default function ProfileForm() {
             {/* Certificaciones */}
             <section>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="font-semibold text-lg">Certificaciones (URLs)</h2>
+                <h2 className="font-semibold text-lg">Certificaciones (URLs o subir)</h2>
                 <button type="button" onClick={addCertification} className="px-3 py-1 text-sm rounded bg-gray-900 text-white">+ Agregar</button>
               </div>
               {(form.certifications || []).map((c, i) => (
-                <div key={i} className="flex gap-3 mb-2">
-                  <input className="flex-1 border rounded-lg p-2" placeholder="https://..." value={c} onChange={(e) => setCertification(i, e.target.value)} />
-                  <button type="button" onClick={() => removeCertification(i)} className="px-3 py-2 rounded bg-red-100 text-red-700">Eliminar</button>
+                <div key={i} className="flex-1 mb-2">
+                  <UploadUrlField
+                    value={c}
+                    onChange={(v) => setCertification(i, v)}
+                    folder={folderFor('certifications')}
+                  />
+                  <div className="mt-1">
+                    <button type="button" onClick={() => removeCertification(i)} className="px-3 py-2 rounded bg-red-100 text-red-700">Eliminar</button>
+                  </div>
                 </div>
               ))}
             </section>
@@ -313,13 +451,19 @@ export default function ProfileForm() {
             {/* Más fotos */}
             <section>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="font-semibold text-lg">Más fotos (URLs)</h2>
+                <h2 className="font-semibold text-lg">Más fotos (URLs o subir)</h2>
                 <button type="button" onClick={addPhoto} className="px-3 py-1 text-sm rounded bg-gray-900 text-white">+ Agregar</button>
               </div>
               {(form.morePhotos || []).map((p, i) => (
-                <div key={i} className="flex gap-3 mb-2">
-                  <input className="flex-1 border rounded-lg p-2" placeholder="https://..." value={p} onChange={(e) => setPhoto(i, e.target.value)} />
-                  <button type="button" onClick={() => removePhoto(i)} className="px-3 py-2 rounded bg-red-100 text-red-700">Eliminar</button>
+                <div key={i} className="mb-2">
+                  <UploadUrlField
+                    value={p}
+                    onChange={(v) => setPhoto(i, v)}
+                    folder={folderFor('gallery')}
+                  />
+                  <div className="mt-1">
+                    <button type="button" onClick={() => removePhoto(i)} className="px-3 py-2 rounded bg-red-100 text-red-700">Eliminar</button>
+                  </div>
                 </div>
               ))}
             </section>
@@ -336,13 +480,19 @@ export default function ProfileForm() {
                   <textarea className="mt-1 w-full border rounded-lg p-2" rows={2} value={t.text} onChange={(e) => setTestimonialText(ti, e.target.value)} />
 
                   <div className="flex items-center justify-between mt-3">
-                    <h4 className="font-medium">Imágenes (URLs)</h4>
+                    <h4 className="font-medium">Imágenes (URL o subir)</h4>
                     <button type="button" onClick={() => addTestimonialImage(ti)} className="px-2 py-1 text-xs rounded bg-gray-900 text-white">+ Imagen</button>
                   </div>
                   {(t.images || []).map((img, ii) => (
-                    <div key={ii} className="flex gap-3 mt-2">
-                      <input className="flex-1 border rounded-lg p-2" placeholder="https://..." value={img} onChange={(e) => setTestimonialImage(ti, ii, e.target.value)} />
-                      <button type="button" onClick={() => removeTestimonialImage(ti, ii)} className="px-3 py-2 rounded bg-red-100 text-red-700">Eliminar</button>
+                    <div key={ii} className="mt-2">
+                      <UploadUrlField
+                        value={img}
+                        onChange={(v) => setTestimonialImage(ti, ii, v)}
+                        folder={folderFor(`testimonials/${ti}`)}
+                      />
+                      <div className="mt-1">
+                        <button type="button" onClick={() => removeTestimonialImage(ti, ii)} className="px-3 py-2 rounded bg-red-100 text-red-700">Eliminar</button>
+                      </div>
                     </div>
                   ))}
 
