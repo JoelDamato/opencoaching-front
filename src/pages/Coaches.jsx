@@ -180,7 +180,8 @@ function Coaches() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {profiles
-  .filter((p) => p.title === "Coach Certificado") // ✅ Filtrar solo aprendices
+  .filter((p) => p.title === "Coach Certificado") // ✅ Filtrar solo coaches certificados
+  .sort(() => Math.random() - 0.5) // Randomizar el orden de los coaches
   .map((p) => {
 
                 const id = p.id || p._id;
