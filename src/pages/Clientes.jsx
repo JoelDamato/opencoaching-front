@@ -3,8 +3,55 @@
 import { motion } from "framer-motion"
 import { MessageCircle } from "lucide-react"
 import Navbar from "../components/Navbar"
+import { useEffect, useState } from "react"
 
 function FreeSessionLandingPage() {
+  const [utmSource, setUtmSource] = useState("")
+
+  useEffect(() => {
+    // Get UTM parameters from URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const utm = urlParams.get("utm_source") || "direct"
+    setUtmSource(utm)
+  }, [])
+
+  const handleButtonClick = async (type) => {
+    try {
+      const data = {
+        type: type,
+        utm_source: utmSource,
+        timestamp: new Date().toISOString()
+      };
+      
+      console.log("Sending webhook with data:", data);
+
+      const webhookUrl = "https://opencoaching-io.app.n8n.cloud/webhook/8128fa2f-5d35-43e7-8495-1c2261570e6b";
+      
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+
+      const responseText = await response.text();
+      console.log("Webhook response:", {
+        status: response.status,
+        ok: response.ok,
+        text: responseText
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status} - ${responseText}`);
+      }
+      
+      console.log("Webhook sent successfully!");
+    } catch (error) {
+      console.error("Error sending webhook:", error.message);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -41,16 +88,17 @@ function FreeSessionLandingPage() {
             transition={{ duration: 0.8 }}
             className="flex flex-col items-center"
           >
-            <motion.a
-              href="https://www.opencoaching.io/Coaches"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.button
+              onClick={async () => {
+                await handleButtonClick("coach")
+                window.open("https://www.opencoaching.io/Coaches", "_blank")
+              }}
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-6 rounded-2xl shadow-xl font-semibold text-xl text-center transition relative w-full"
             >
               Quiero conversar con un <br /> Coach Certificado
-            </motion.a>
+            </motion.button>
             <div className="border-t-4 border-green-500 w-full mt-3 pt-4 text-gray-700 text-lg text-center">
               <p> Sesión 0 gratis</p>
               <p> Primera conversación de tu proceso sin costo</p>
@@ -64,16 +112,17 @@ function FreeSessionLandingPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-col items-center"
           >
-            <motion.a
-              href="https://www.opencoaching.io/aprendices"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.button
+              onClick={async () => {
+                await handleButtonClick("aprendiz")
+                window.open("https://www.opencoaching.io/aprendices", "_blank")
+              }}
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-8 py-6 rounded-2xl shadow-xl font-semibold text-xl text-center transition relative w-full"
             >
               Quiero conversar con un <br /> Aprendiz de Coaching
-            </motion.a>
+            </motion.button>
             <div className="border-t-4 border-emerald-500 w-full mt-3 pt-4 text-gray-700 text-lg text-center">
               <p> Sesión 0 gratis</p>
               <p> 100% del proceso gratis</p>
