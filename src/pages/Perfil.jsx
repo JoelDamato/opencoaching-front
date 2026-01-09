@@ -141,7 +141,7 @@ function Perfil() {
                 <span className="text-sm text-gray-500">Suscripción</span>
                 <span className="text-lg font-semibold">{user.audiencia}</span>
                 <a
-                  href="/pricing"
+                  href="https://membresia.opencoaching.io/miembros"
                   className="text-green-600 underline text-sm mt-1 hover:text-green-800 transition"
                 >
                   Ver planes
