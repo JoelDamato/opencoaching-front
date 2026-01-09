@@ -81,7 +81,7 @@ export default function CtaSection() {
                 ))}
               </ul>
             </div>
-            <a href="/pricing" className="w-full mt-auto">
+            <a href="https://membresia.opencoaching.io/miembros" className="w-full mt-auto">
               <Button className="w-full">Empezar como Coach</Button>
             </a>
           </div>
